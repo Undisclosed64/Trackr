@@ -1,7 +1,7 @@
-import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-dotenv.config();
+const express = require("express");
+const mongoose = require("mongoose");
+require("dotenv").config();
+const userRouter = require("./routes/user");
 
 const app = express();
 
@@ -15,8 +15,11 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.listen(4000, () => {
-  console.log("server running on port 5000");
+app.use("/server/users", userRouter);
+
+const port = process.env.PORT;
+app.listen(port, () => {
+  console.log(`server running on port ${port}`);
 });
 
-export default app;
+module.exports = app;
