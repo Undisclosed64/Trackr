@@ -2,7 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const userRouter = require("./routes/user");
-const projectRouter =  require("./routes/project");
+const projectRouter = require("./routes/project");
+const bugsRouter = require("./routes/bugs");
 const app = express();
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -15,9 +16,7 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/server", userRouter);
-app.use("/server", projectRouter);
-
+app.use("/server", userRouter, projectRouter, bugsRouter);
 
 const port = process.env.PORT;
 app.listen(port, () => {
