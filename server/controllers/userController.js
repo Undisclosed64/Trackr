@@ -41,9 +41,9 @@ exports.createUser = [
 
 exports.logUser = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
-  //if email is registered or not
+  //check if email is registered or not
   if (user == null) res.status(404).json("Email is not registered!");
-  //if password is correct or not
+  //check if password is correct or not
   if (await bcrypt.compare(req.body.password, user.password)) {
     //generate an access token
     const accessToken = jwt.sign(
@@ -78,11 +78,9 @@ const verify = (req, res, next) => {
       next();
     });
   } else {
-    res.status(401).json('You are not authorized to this route!')
+    res.status(401).json("You are not authorized to this route!");
   }
 };
-
-
 
 // exports.deleteAll = function (req, res) {
 //   User.remove({}, function(err,success){
