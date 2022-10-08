@@ -5,6 +5,8 @@ const userRouter = require("./routes/user");
 const projectRouter = require("./routes/project");
 const bugsRouter = require("./routes/bugs");
 const app = express();
+const cors = require("cors");
+app.use(cors());
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -15,7 +17,6 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 app.use("/server", userRouter, projectRouter, bugsRouter);
 
 const port = process.env.PORT;

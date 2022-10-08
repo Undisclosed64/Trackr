@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 exports.createUser = [
   //validate input fields
-  check("firstname").not().isEmpty().withMessage("First name can not be empty"),
+  check("name").not().isEmpty().withMessage("Name can not be empty"),
   check("email").isEmail().withMessage("Please enter a valid email address"),
   check("password")
     .isLength({ min: 5 })
@@ -19,8 +19,7 @@ exports.createUser = [
     } else {
       //create user object
       const user = new User({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
+        name: req.body.name,
         email: req.body.email,
         password: req.body.password,
         role: req.body.role,
