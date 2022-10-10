@@ -51,11 +51,11 @@ exports.getProject = (req, res) => {
 exports.getAllProjects = (req, res) => {
   try {
     Project.find((err, projects) => {
-      if (err) res.json(err);
+      if (err) res.status(404).json(err);
       res.json(projects);
     });
   } catch (err) {
-    res.json(err);
+    res.status(400).json(err);
   }
 };
 
@@ -101,7 +101,7 @@ exports.updateProject = [
 //delete project handler
 exports.deleteProject = (req, res) => {
   Project.findByIdAndRemove(req.params.id, (err) => {
-    if (err) resstatus(500).json(err);
+    if (err) res.status(500).json(err);
     res.status(200).json({ message: "Project deleted!" });
   });
 };
