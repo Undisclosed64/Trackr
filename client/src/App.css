@@ -1,7 +1,11 @@
 
-.signUpForm{
+.signUpForm,.logInForm{
   width:600px;
   margin: 0 auto;
+  padding: 2em;
+}
+h1{
+  text-align: center;
 }
 
 .App-link {
