@@ -10,19 +10,29 @@ const LogIn = () => {
     email: "",
     password: "",
   });
+  const [error, setError] = useState(null);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(`${baseURL}/log-in`, data);
       console.log(res.data);
+      const token = res.data.accessToken;
+      localStorage.setItem("token", token);
     } catch (err) {
-      // console.log(err);
-      console.log(err.data.msg);
+      if (err.response) {
+        setError(err.response.data.msg);
+        //console.log(error);
+      } else {
+        setError("Oops! Something went wrong!");
+        //console.log("Oops! Something went wrong!");
+      }
     }
   };
   return (
     <div>
       <h1>Log In</h1>
+      {error ? <div className="error">{error}</div> : " "}
       <Form className="logInForm" onSubmit={(e) => handleSubmit(e)}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Control
