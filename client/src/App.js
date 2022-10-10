@@ -2,13 +2,24 @@ import "./App.css";
 import CreateProject from "./components/Project";
 import SignUp from "./components/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LogIn from "./components/LogIn";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <SignUp />,
+  },
+  {
+    path: "/log-in",
+    element: <LogIn />,
+  },
+]);
 
 function App() {
-  const baseURL = "http://localhost/5000";
   return (
     <div className="App">
-      <SignUp baseURL={baseURL} />
-      <CreateProject />
+      <RouterProvider router={router} />
     </div>
   );
 }
