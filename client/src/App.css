@@ -11,4 +11,8 @@ h1{
 .App-link {
   color: #61dafb;
 }
-
+.error{
+  color:red;
+  text-align: center;
+  font-weight: 600;
+}
