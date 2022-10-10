@@ -2,6 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const { validationResult, check } = require("express-validator");
 const jwt = require("jsonwebtoken");
+const verifyToken = require("../verifyToken");
 
 exports.createUser = [
   //validate input fields
@@ -41,44 +42,25 @@ exports.createUser = [
 
 exports.logUser = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
+
   //check if email is registered or not
-  if (user == null) res.status(404).json("Email is not registered!");
+  if (user == null) res.json({ status: 404, msg: "Email is not registered!" });
+
   //check if password is correct or not
   if (await bcrypt.compare(req.body.password, user.password)) {
     //generate an access token
     const accessToken = jwt.sign(
       { email: user.email, role: user.role },
-      process.env.key
+      process.env.key,
+      { expiresIn: "10h" }
     );
     //return user info and token
     res.json({
-      firstname: user.firstname,
-      lastname: user.lastname,
-      email: user.email,
-      role: user.role,
+      user,
       accessToken,
     });
   } else {
-    res.status(404).json("Password is incorrect!");
-  }
-};
-
-const verify = (req, res, next) => {
-  //get auth header
-  const authHeader = req.headers.authorization;
-
-  //split auth header
-  if (authHeader) {
-    const token = authHeader.split(" ")[1];
-
-    //verify token
-    jwt.verify(token, process.env.key, (err, user) => {
-      if (err) res.status(403).json("Token is invalid!");
-      req.user = user;
-      next();
-    });
-  } else {
-    res.status(401).json("You are not authorized to this route!");
+    res.json({ status: 401, msg: "Password is incorrect!" });
   }
 };
 
@@ -88,3 +70,7 @@ const verify = (req, res, next) => {
 //     res.json(success)
 //   })
 // };
+
+exports.secretRoute = (req, res) => {
+  res.json("secret route");
+};
