@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const baseURL = "http://localhost:5000/server";
@@ -15,6 +16,7 @@ const SignUp = () => {
     role: "",
   });
   const [errors, setErrors] = useState([]);
+  const navigate = useNavigate();
 
   const handleErrors = (err) => {
     // console.log(err.errors[0]);
@@ -35,6 +37,7 @@ const SignUp = () => {
     try {
       const res = await axios.post(`${baseURL}/users`, newUser);
       console.log(res.data);
+      navigate("/log-in");
     } catch (error) {
       //console.log(error.response.data);
       handleErrors(error.response.data);
