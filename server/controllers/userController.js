@@ -2,7 +2,6 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const { validationResult, check } = require("express-validator");
 const jwt = require("jsonwebtoken");
-const verifyToken = require("../verifyToken");
 
 exports.createUser = [
   //validate input fields
@@ -44,7 +43,7 @@ exports.logUser = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
 
   //check if email is registered or not
-  if (user == null) res.json({ status: 404, msg: "Email is not registered!" });
+  if (user == null) res.status(404).json({ msg: "Email is not registered!" });
 
   //check if password is correct or not
   if (await bcrypt.compare(req.body.password, user.password)) {
@@ -60,7 +59,7 @@ exports.logUser = async (req, res) => {
       accessToken,
     });
   } else {
-    res.json({ status: 401, msg: "Password is incorrect!" });
+    res.status(401).json({ msg: "Password is incorrect!" });
   }
 };
 
