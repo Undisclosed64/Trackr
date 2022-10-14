@@ -4,15 +4,25 @@ import SignUp from "./components/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LogIn from "./components/LogIn";
+import Home from "./components/Home";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <SignUp />,
+    element: <LogIn />,
   },
   {
-    path: "/log-in",
-    element: <LogIn />,
+    path: "sign-up",
+    element: <SignUp />,
+  },
+
+  {
+    path: "dashboard",
+    element: <Home />,
+  },
+  {
+    path: "create-project",
+    element: <CreateProject />,
   },
 ]);
 
