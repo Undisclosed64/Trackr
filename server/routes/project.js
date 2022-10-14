@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const projectController = require("../controllers/projectController");
+const verifyToken = require("../verifyToken");
 
-router.post("/projects", projectController.createProject);
+router.post("/projects", verifyToken, projectController.createProject);
 
 router.get("/projects", projectController.getAllProjects);
 
