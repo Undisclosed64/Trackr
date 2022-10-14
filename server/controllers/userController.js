@@ -43,7 +43,10 @@ exports.logUser = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
 
   //check if email is registered or not
-  if (user == null) res.status(404).json({ msg: "Email is not registered!" });
+  if (user === null) {
+    res.status(404).json({ msg: "Email is not registered!" });
+    return;
+  }
 
   //check if password is correct or not
   if (await bcrypt.compare(req.body.password, user.password)) {
