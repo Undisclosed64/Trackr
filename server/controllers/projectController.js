@@ -27,6 +27,15 @@ exports.createProject = [
         endDate: req.body.endDate,
         description: req.body.description,
       });
+      if (req.user) {
+        console.log(req.user);
+        const email = req.user.email;
+        const username = email.substring(0, email.lastIndexOf("@"));
+        project.createdBy = username;
+      }
+      if (req.body.status) {
+        project.status = req.body.status;
+      }
       project.save((err, createdProject) => {
         if (err) res.status(500).json(err);
         res.json(createdProject);
