@@ -11,18 +11,17 @@ const verify = (req, res, next) => {
     //verify token
     jwt.verify(token, process.env.key, (err, user) => {
       if (err) {
-        res.json({
-          status: 403,
-          message: "Toekn is invalid!",
+        res.status(403).json({
+          message: "Token is invalid! Please login again!",
         });
+      } else {
+        req.user = user;
+        next();
       }
-      req.user = user;
-      next();
     });
   } else {
-    res.json({
-      status: 403,
-      message: "You are not authorized to access this route!",
+    res.status(403).json({
+      message: "You are not authorized to access this route! Please log in!",
     });
   }
 };
