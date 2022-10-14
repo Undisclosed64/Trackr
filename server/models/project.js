@@ -8,6 +8,8 @@ const projectSchema = new Schema({
   description: { type: String },
   status: { type: String, default: "Active" },
   bugs: [{ type: Schema.Types.ObjectId, ref: "Bugs" }],
+  createdBy: { type: String, required: true },
+  lastModified: { type: Date },
 });
 
 module.exports = mongoose.model("Project", projectSchema);
