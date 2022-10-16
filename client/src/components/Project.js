@@ -5,6 +5,7 @@ import Col from "react-bootstrap/Col";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CreateProject = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ const CreateProject = () => {
   });
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const baseURL = "http://localhost:5000/server";
 
@@ -31,6 +33,7 @@ const CreateProject = () => {
         },
       });
       console.log(res.data);
+      navigate(`/projects/${res.data._id}`, { state: res.data });
     } catch (err) {
       // console.log(err.response.data.message);
       if (err.response) {
