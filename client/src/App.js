@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LogIn from "./components/LogIn";
 import Home from "./components/Home";
+import ProjectDetails from "./components/ProjectDetails";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "create-project",
     element: <CreateProject />,
+  },
+  {
+    path: "projects/:projectId",
+    element: <ProjectDetails />,
   },
 ]);
 
