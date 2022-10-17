@@ -24,7 +24,7 @@ const CreateProject = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    // console.log(formData);
+    console.log(token);
 
     try {
       const res = await axios.post(`${baseURL}/projects`, formData, {
@@ -33,7 +33,7 @@ const CreateProject = () => {
         },
       });
       console.log(res.data);
-      navigate(`/projects/${res.data._id}`, { state: res.data });
+      navigate(`/projects/${res.data._id}`);
     } catch (err) {
       // console.log(err.response.data.message);
       if (err.response) {
