@@ -1,18 +1,41 @@
 
-.signUpForm,.logInForm{
+.signUpForm,.logInForm,.view-edit-form{
   width:600px;
   margin: 0 auto;
   padding: 2em;
 }
-h1{
+h1,h2{
   text-align: center;
 }
 
 .App-link {
   color: #61dafb;
 }
+/* .App{
+  text-align: center;
+} */
 .error{
   color:red;
   text-align: center;
   font-weight: 600;
 }
+#deleteProject{
+float: right;
+bottom: 30px;
+right:3em;
+position: relative;
+}
+
+.deletePopUp{
+  background-color: rgb(253, 252, 252);
+  padding: 2em;
+  
+}
+.projectDeletedPage{
+  margin: 4em 1em;
+  text-align: center;
+  line-height: 1.8;
+  background-color: gainsboro;
+} 
+
+
