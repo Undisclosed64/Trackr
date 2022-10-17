@@ -28,10 +28,10 @@ exports.createProject = [
         description: req.body.description,
       });
       if (req.user) {
-        console.log(req.user);
+        // console.log(req.user);
         const email = req.user.email;
         const username = email.substring(0, email.lastIndexOf("@"));
-        project.createdBy = username;
+        project.createdBy = { username, email };
       }
       if (req.body.status) {
         project.status = req.body.status;
@@ -48,7 +48,7 @@ exports.createProject = [
 exports.getProject = (req, res) => {
   try {
     Project.findById(req.params.id, (err, project) => {
-      if (err) res.status(404).json("Project not found!");
+      if (!project) return res.status(404).json("Project not found!");
       res.json(project);
     });
   } catch (err) {
@@ -82,6 +82,13 @@ exports.updateProject = [
     .withMessage("End date does not have a valid format!"),
 
   async (req, res) => {
+    // console.log(req.user.email);
+    // console.log(req.body.createdBy.email);
+    if (req.user.email !== req.body.createdBy.email) {
+      return res
+        .status(400)
+        .json({ message: "You are not allowed to update the project!" });
+    }
     //check for errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -109,8 +116,16 @@ exports.updateProject = [
 
 //delete project handler
 exports.deleteProject = (req, res) => {
+  console.log(req.user.email);
+  // console.log(req.body);
+
+  if (req.user.email !== req.body.projectOwnerEmail) {
+    return res
+      .status(400)
+      .json({ message: "You are not allowed to delete the project!" });
+  }
   Project.findByIdAndRemove(req.params.id, (err) => {
     if (err) res.status(500).json(err);
-    res.status(200).json({ message: "Project deleted!" });
+    res.status(200).json({ message: "Project has been deleted!" });
   });
 };
