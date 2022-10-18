@@ -7,7 +7,7 @@ router.post("/users", userController.createUser);
 
 router.post("/log-in", userController.logUser);
 
-router.get("/random", verifyToken, userController.secretRoute);
+router.get("/getUser", verifyToken, userController.verifyUser);
 
 // router.delete("/delete", userController.deleteAll);
 
