@@ -7,7 +7,6 @@ const projectSchema = new Schema({
   endDate: { type: Date },
   description: { type: String },
   status: { type: String, default: "Active" },
-  bugs: [{ type: Schema.Types.ObjectId, ref: "Bugs" }],
   createdBy: { type: Object, required: true },
   lastModified: { type: Date },
 });
