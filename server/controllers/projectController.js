@@ -1,5 +1,6 @@
 const Project = require("../models/project");
 const { validationResult, check } = require("express-validator");
+const Bugs = require("../models/bugs");
 
 //handler for project creation
 exports.createProject = [
@@ -59,12 +60,25 @@ exports.getProject = (req, res) => {
 //get all projects
 exports.getAllProjects = (req, res) => {
   try {
-    Project.find((err, projects) => {
+    Project.find({ "createdBy.email": req.query.email }, (err, projects) => {
       if (err) res.status(404).json(err);
-      res.json(projects);
+      res.json({ projects: projects });
     });
   } catch (err) {
     res.status(400).json(err);
+  }
+};
+
+//get bugs of a project
+exports.getBugs = (req, res) => {
+  console.log(req.params.id);
+  try {
+    Bugs.find({ project: req.params.id }, (err, bugs) => {
+      if (err) res.status(404).json(err);
+      res.json({ bugs: bugs });
+    });
+  } catch (err) {
+    res.status(500).json(err);
   }
 };
 
