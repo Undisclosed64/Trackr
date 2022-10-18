@@ -9,6 +9,8 @@ import "../App.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ProjectDeleted from "./ProjectDeleted";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const ProjectDetails = () => {
   const { projectId } = useParams();
@@ -25,6 +27,7 @@ const ProjectDetails = () => {
   const [projectNotFound, setProjectNotFound] = useState(false);
   const [deleteMsg, setDeleteMsg] = useState("");
   const baseURL = "http://localhost:5000/server";
+  const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
 
@@ -65,6 +68,11 @@ const ProjectDetails = () => {
       }
     }
   };
+  const showBugs = () => {
+    navigate(`/projects/${project._id}/bugs`, {
+      state: { projectId: `${project._id}` },
+    });
+  };
   const showAlert = () => {
     setDeleteAlert(true);
   };
@@ -97,6 +105,7 @@ const ProjectDetails = () => {
       }
     }
   };
+
   if (projectNotFound) return <ProjectDeleted />;
   if (!project) return <div>loading...</div>;
 
@@ -126,6 +135,8 @@ const ProjectDetails = () => {
       ) : (
         <div>
           <h2>Project Information</h2>
+
+          <h3 onClick={showBugs}>Bugs</h3>
           <Button variant="danger" id="deleteProject" onClick={showAlert}>
             Delete Project
           </Button>
