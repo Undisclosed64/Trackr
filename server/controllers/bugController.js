@@ -16,7 +16,6 @@ exports.CreateBugs = [
     //create bug and save
     else {
       const bug = new Bug({
-        project: req.body.project,
         title: req.body.title,
         description: req.body.description,
         assignedDev: req.body.assignedDev,
@@ -25,6 +24,7 @@ exports.CreateBugs = [
         severity: req.body.severity,
         dueDate: req.body.dueDate,
         createdOn: Date.now(),
+        project: req.body.project,
       });
       bug.save((err, createdBug) => {
         if (err) res.status(400).json(err);
@@ -98,4 +98,3 @@ exports.updateBug = [
     }
   },
 ];
-
