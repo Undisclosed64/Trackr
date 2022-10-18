@@ -73,6 +73,8 @@ exports.logUser = async (req, res) => {
 //   })
 // };
 
-exports.secretRoute = (req, res) => {
-  res.json("secret route");
+exports.verifyUser = (req, res) => {
+  const user = req.user;
+  // console.log(user);
+  res.json({ user: user });
 };
