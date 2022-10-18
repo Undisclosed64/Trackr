@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const bugSchema = new Schema({
-  project: { type: Schema.Types.ObjectId, ref: "Project" },
   title: { type: String, required: true },
   description: { type: String },
   assignedDev: { type: String, default: "Unassigned" },
@@ -12,6 +11,7 @@ const bugSchema = new Schema({
   status: { type: String, default: "Open" },
   dueDate: { type: Date },
   createdOn: { type: Date },
+  project: { type: Schema.Types.ObjectId, ref: "Project" },
 });
 
 module.exports = mongoose.model("Bugs", bugSchema);
