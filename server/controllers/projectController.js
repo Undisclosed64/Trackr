@@ -69,7 +69,7 @@ exports.getAllProjects = (req, res) => {
   }
 };
 
-//get bugs of a project
+//get bugs of a single project
 exports.getBugs = (req, res) => {
   console.log(req.params.id);
   try {
@@ -81,7 +81,6 @@ exports.getBugs = (req, res) => {
     res.status(500).json(err);
   }
 };
-
 //update a project
 exports.updateProject = [
   //validate the input fields
