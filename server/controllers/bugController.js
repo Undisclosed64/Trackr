@@ -1,5 +1,8 @@
 const Bug = require("../models/bugs");
 const { validationResult, check } = require("express-validator");
+const { ObjectId } = require("mongodb"); // or ObjectID
+const bugs = require("../models/bugs");
+const mongoose = require("mongoose");
 
 //bug create handler
 exports.CreateBugs = [
@@ -46,17 +49,57 @@ exports.getBug = async (req, res) => {
   }
 };
 
-//get all bugs
-exports.getAllBugs = async (req, res) => {
-  try {
-    Bug.find((err, bugs) => {
-      if (err) res.status(400).json(err);
-      res.status(200).json(bugs);
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
+//sort all bugs by projects
+exports.findBugsByProjects = async (req, res) => {
+  //convert string ids to objectid(else aggregate can't find )
+  const ids = req.body.ids;
+  let objectIdArray = ids.map((id) => mongoose.Types.ObjectId(id));
+  console.log(objectIdArray);
+
+  Bug.aggregate([
+    //get all bugs that match the project id present in array
+    { $match: { project: { $in: objectIdArray } } },
+    //group all bugs by the same project id
+    {
+      $group: { _id: "$project", records: { $push: "$$ROOT" } },
+    },
+  ]).exec(function (err, bugs) {
+    if (err) res.status(400).json(err);
+    res.json(bugs);
+  });
 };
+
+// Bug.aggregate([
+//   { $match: { project: { $in: req.body.ids } } },
+//   function (err, result) {
+//     if (err) res.status(400).json(err);
+//     res.json(result);
+//   },
+// ]);
+
+// try {
+//   Bug.find({ project: { $in: req.body.ids } })
+//     .populate("project")
+//     .exec(function (err, bugs) {
+//       if (err) res.status(400).json(err);
+//       console.log(bugs.project);
+//       res.json(bugs);
+//     });
+// } catch (err) {
+//   res.status(500).json(err);
+// }
+
+// //get all bugs
+// exports.getAllBugs = async (req, res) => {
+//   try {
+//     Bug.find((err, bugs) => {
+//       if (err) res.status(400).json(err);
+//       res.status(200).json(bugs);
+//     });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// };
 
 //update a bug
 exports.updateBug = [
