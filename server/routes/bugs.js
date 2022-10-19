@@ -4,7 +4,9 @@ const bugController = require("../controllers/bugController");
 
 router.post("/bugs", bugController.CreateBugs);
 
-router.get("/bugs", bugController.getAllBugs);
+// router.get("/bugs", bugController.getAllBugs);
+
+router.get("/bugs", bugController.findBugsByProjects);
 
 router.get("/bugs/:id", bugController.getBug);
 
