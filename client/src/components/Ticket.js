@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const Ticket = () => {
+const Ticket = (props) => {
   const [projects, setProjects] = useState([]);
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState(null);
@@ -25,12 +25,21 @@ const Ticket = () => {
     createdOn: "",
     project: "",
   });
+  const [tickets, setTickets] = useState([]);
+  const email = props.user.email;
+  console.log(props.user);
 
   useEffect(() => {
-    axios.get(`${baseURL}/projects`).then((response) => {
-      console.log(response.data);
-      setProjects(response.data.projects);
-    });
+    axios
+      .get(`${baseURL}/projects`, {
+        params: {
+          email: email,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setProjects(response.data.projects);
+      });
   }, []);
 
   const handleSubmit = async (e) => {
@@ -38,6 +47,7 @@ const Ticket = () => {
     try {
       const res = await axios.post(`${baseURL}/bugs`, formData);
       console.log(res.data);
+      setTickets(res.data.bugs);
     } catch (err) {
       // console.log(err.response.data.message);
       if (err.response) {
