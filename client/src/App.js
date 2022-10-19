@@ -7,7 +7,7 @@ import LogIn from "./components/LogIn";
 import Home from "./components/Home";
 import ProjectDetails from "./components/ProjectDetails";
 import Ticket from "./components/Ticket";
-import GetBugs from "./components/GetBugs";
+import GetTickets from "./components/GetTickets";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -50,16 +50,14 @@ function App() {
       element: <ProjectDetails />,
     },
     {
-      path: "projects/:projectId/bugs",
-      element: <GetBugs user={user} />,
+      path: "tickets",
+      element: <GetTickets user={user} />,
     },
     {
-      path: "tickets",
-      element: <Ticket />,
+      path: "add-ticket",
+      element: <Ticket user={user} />,
     },
   ]);
-
-  if (!user) return <div>loading...</div>;
 
   return (
     <div className="App">
