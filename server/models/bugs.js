@@ -11,7 +11,7 @@ const bugSchema = new Schema({
   status: { type: String, default: "Open" },
   dueDate: { type: Date },
   createdOn: { type: Date },
-  project: { type: Schema.Types.ObjectId, ref: "Project" },
+  project: { type: String },
 });
 
 module.exports = mongoose.model("Bugs", bugSchema);
