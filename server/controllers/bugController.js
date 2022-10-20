@@ -50,23 +50,35 @@ exports.getBug = async (req, res) => {
 };
 
 //sort all bugs by projects
-exports.findBugsByProjects = async (req, res) => {
+exports.findBugsByProjects = (req, res) => {
   //convert string ids to objectid(else aggregate can't find )
-  const ids = req.body.ids;
-  let objectIdArray = ids.map((id) => mongoose.Types.ObjectId(id));
-  console.log(objectIdArray);
+  const ids = req.query.ids;
+  console.log(req.query);
+  if (ids) {
+    // let objectIdArray = ids.map((id) => mongoose.Types.ObjectId(id));
+    // console.log(objectIdArray);
 
-  Bug.aggregate([
-    //get all bugs that match the project id present in array
-    { $match: { project: { $in: objectIdArray } } },
-    //group all bugs by the same project id
-    {
-      $group: { _id: "$project", records: { $push: "$$ROOT" } },
-    },
-  ]).exec(function (err, bugs) {
-    if (err) res.status(400).json(err);
-    res.json(bugs);
-  });
+    Bug.aggregate([
+      //get all bugs that match the project id present in array
+      { $match: { project: { $in: ids } } },
+      //group all bugs by the same project id
+      {
+        $group: { _id: "$project", records: { $push: "$$ROOT" } },
+      },
+
+      {
+        $lookup: {
+          from: "project",
+          localField: "project",
+          foreignField: "_id",
+          as: "project_info",
+        },
+      },
+    ]).exec(function (err, bugs) {
+      if (err) res.status(400).json(err);
+      res.json(bugs);
+    });
+  }
 };
 
 // Bug.aggregate([
