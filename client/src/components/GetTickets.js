@@ -1,52 +1,94 @@
-import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
 const GetTickets = (props) => {
-  const location = useLocation();
   const [projects, setProjects] = useState([]);
+  const [ids, setIds] = useState([]);
+  const [bugs, setBugs] = useState([]);
   const baseURL = "http://localhost:5000/server";
   const email = props.user.email;
 
+  //get projects data and update projects arr
   useEffect(() => {
-    axios
-      .get(`${baseURL}/projects`, {
-        params: {
-          email: email,
-        },
-      })
-      .then((response) => {
-        // console.log(response.data);
-        setProjects(response.data.projects);
-      });
-  }, []);
+    const updateProjects = async () => {
+      try {
+        const res = await axios.get(`${baseURL}/projects`, {
+          params: {
+            email: email,
+          },
+        });
+        return setProjects(res.data.projects);
+      } catch {
+        return null;
+      }
+    };
+    updateProjects();
+  }, [email]);
 
+  //update ids
   useEffect(() => {
-    const ids = [];
-    for (let i = 0; i < projects.length; i++) {
-      ids.push(projects[i]._id);
+    if (null === projects) {
+      return;
     }
-    console.log(ids);
-    axios
-      .get(`${baseURL}/bugs`, {
-        params: {
-          a: ids,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-      });
-  }, []);
 
+    updateIds();
+    console.log(ids);
+  }, [projects]);
+
+  //get bugs of all projects
+  useEffect(() => {
+    console.log(ids);
+
+    const getBugs = async () => {
+      try {
+        await axios
+          .get(`${baseURL}/bugs`, {
+            params: {
+              ids: ids,
+            },
+          })
+          .then((response) => {
+            console.log(response.data);
+            setBugs(response.data);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getBugs();
+  }, [ids]);
+
+  //set ids to project ids
+  const updateIds = async () => {
+    for (let i = 0; i < projects.length; i++) {
+      setIds((ids) => [...ids, projects[i]._id]);
+    }
+  };
+
+  console.log(bugs);
   if (!projects) return <div>Loading..</div>;
-  if (!email) return <div>Loading..</div>;
 
   return (
     <div>
-      {projects.map((project) => {
+      {bugs.map((project) => {
         return (
           <div key={project._id}>
-            <h1>{project.title}</h1>
+            <h1>{project._id}</h1>
+
+            {/* second loop */}
+            {project.records.map((ticket) => {
+              return (
+                <div key={ticket._id}>
+                  <h3>{ticket.title}</h3>
+                  <div>{ticket.createdOn}</div>
+                  <div>{ticket.assignedDev}</div>
+                  <div>{ticket.dueDate}</div>
+                  <div>{ticket.status}</div>
+                  <div>{ticket.severity}</div>
+                  <div>{ticket.project}</div>
+                </div>
+              );
+            })}
           </div>
         );
       })}
