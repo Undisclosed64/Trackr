@@ -39,3 +39,18 @@ position: relative;
 } 
 
 
+.bugsHeaderProject{
+  text-align: center;
+}
+.ticket{
+  margin: 30px;
+}
+.project-title{
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+.ticket-title:hover{
+  cursor: pointer;
+  color: #FF6400;
+}
