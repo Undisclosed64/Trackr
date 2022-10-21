@@ -142,3 +142,10 @@ exports.deleteProject = (req, res) => {
     res.status(200).json({ message: "Project has been deleted!" });
   });
 };
+
+// exports.deleteProjects = (req, res) => {
+//   Project.deleteMany({}, (err, succes) => {
+//     if (err) res.json(err);
+//     res.json("sucess");
+//   });
+// };
