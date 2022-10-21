@@ -55,27 +55,28 @@ exports.findBugsByProjects = (req, res) => {
   const ids = req.query.ids;
   console.log(req.query);
   if (ids) {
-    // let objectIdArray = ids.map((id) => mongoose.Types.ObjectId(id));
-    // console.log(objectIdArray);
+    let objectIdArray = ids.map((id) => mongoose.Types.ObjectId(id));
+    console.log(objectIdArray);
 
     Bug.aggregate([
       //get all bugs that match the project id present in array
-      { $match: { project: { $in: ids } } },
-      //group all bugs by the same project id
+      { $match: { project: { $in: objectIdArray } } },
+      // //group all bugs by the same project id
       {
         $group: { _id: "$project", records: { $push: "$$ROOT" } },
       },
 
       {
         $lookup: {
-          from: "project",
-          localField: "project",
+          from: "projects",
+          localField: "_id",
           foreignField: "_id",
           as: "project_info",
         },
       },
     ]).exec(function (err, bugs) {
       if (err) res.status(400).json(err);
+
       res.json(bugs);
     });
   }
@@ -153,3 +154,10 @@ exports.updateBug = [
     }
   },
 ];
+
+// exports.deleteBugs = (req, res) => {
+//   Bug.deleteMany({}, (err, succes) => {
+//     if (err) res.json(err);
+//     res.json("sucess");
+//   });
+// };
