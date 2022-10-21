@@ -15,4 +15,6 @@ router.put("/projects/:id", verifyToken, projectController.updateProject);
 
 router.delete("/projects/:id", verifyToken, projectController.deleteProject);
 
+// router.delete("/projects", projectController.deleteProjects);
+
 module.exports = router;
