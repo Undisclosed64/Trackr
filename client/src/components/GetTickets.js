@@ -72,20 +72,28 @@ const GetTickets = (props) => {
     <div>
       {bugs.map((project) => {
         return (
-          <div key={project._id}>
-            <h1>{project._id}</h1>
+          <div key={project._id} className="bugsHeaderProject">
+            {project.project_info.map((pr) => {
+              return (
+                <h3 key={pr._id} className="project-title">
+                  {pr.title}
+                </h3>
+              );
+            })}
 
             {/* second loop */}
             {project.records.map((ticket) => {
               return (
-                <div key={ticket._id}>
-                  <h3>{ticket.title}</h3>
-                  <div>{ticket.createdOn}</div>
+                <div key={ticket._id} className="ticket">
+                  <h3 className="ticket-title" onClick={getTicketDetail}>
+                    {ticket.title}
+                  </h3>
+                  <div>{new Date(ticket.createdOn).toDateString()}</div>
                   <div>{ticket.assignedDev}</div>
-                  <div>{ticket.dueDate}</div>
+                  <div>{new Date(ticket.dueDate).toDateString()}</div>
                   <div>{ticket.status}</div>
                   <div>{ticket.severity}</div>
-                  <div>{ticket.project}</div>
+                  <div>{ticket.flag}</div>
                 </div>
               );
             })}
