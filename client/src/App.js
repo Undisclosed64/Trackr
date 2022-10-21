@@ -54,6 +54,10 @@ function App() {
       element: <GetTickets user={user} />,
     },
     {
+      path: "tickets/:id",
+      element: <GetTickets user={user} />,
+    },
+    {
       path: "add-ticket",
       element: <Ticket user={user} />,
     },
