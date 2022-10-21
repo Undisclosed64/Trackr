@@ -64,7 +64,7 @@ const GetTickets = (props) => {
       setIds((ids) => [...ids, projects[i]._id]);
     }
   };
-
+  const getTicketDetail = () => {};
   console.log(bugs);
   if (!projects) return <div>Loading..</div>;
 
