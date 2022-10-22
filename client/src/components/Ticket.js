@@ -109,14 +109,60 @@ const Ticket = (props) => {
         <Form.Group className="mb-3">
           <Row>
             <Col>
+              <Form.Label>Status</Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value })
+                }
+              >
+                <option value="open">Open</option>
+                <option value="in-progress">In-progress</option>
+                <option value="to be tested">To be tested</option>
+                <option value="closed">Closed</option>
+              </Form.Select>
+            </Col>
+
+            <Col>
+              <Form.Label>Due Date</Form.Label>
               <Form.Control
                 type="date"
-                placeholder="Due date"
+                name="dueDate"
                 onChange={(e) =>
                   setFormData({ ...formData, dueDate: e.target.value })
                 }
-                name="dueDate"
               />
+            </Col>
+          </Row>
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Row>
+            <Col>
+              <Form.Label>Flag</Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                onChange={(e) =>
+                  setFormData({ ...formData, flag: e.target.value })
+                }
+              >
+                <option value="internal">Internal</option>
+                <option value="external">External</option>
+              </Form.Select>
+            </Col>
+
+            <Col>
+              <Form.Label>Severity</Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                onChange={(e) =>
+                  setFormData({ ...formData, severity: e.target.value })
+                }
+              >
+                <option value="critical">Critical</option>
+                <option value="major">Major</option>
+                <option value="minor">Minor</option>
+              </Form.Select>
             </Col>
           </Row>
         </Form.Group>

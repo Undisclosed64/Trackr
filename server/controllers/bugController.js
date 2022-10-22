@@ -155,6 +155,21 @@ exports.updateBug = [
   },
 ];
 
+//delete ticket
+exports.deleteTicket = (req, res) => {
+  // console.log(req.user.email);
+  // console.log(req.body);
+
+  if (req.user.email !== req.body.tickeRaiser) {
+    return res
+      .status(400)
+      .json({ message: "You are not allowed to delete this ticket!" });
+  }
+  Bug.findByIdAndRemove(req.params.id, (err) => {
+    if (err) res.status(500).json(err);
+    res.status(200).json({ message: "Ticket has been deleted!" });
+  });
+};
 // exports.deleteBugs = (req, res) => {
 //   Bug.deleteMany({}, (err, succes) => {
 //     if (err) res.json(err);

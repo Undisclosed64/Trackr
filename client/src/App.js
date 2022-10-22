@@ -10,6 +10,7 @@ import Ticket from "./components/Ticket";
 import GetTickets from "./components/GetTickets";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import SingleTicket from "./components/SingleTicket";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -55,7 +56,7 @@ function App() {
     },
     {
       path: "tickets/:id",
-      element: <GetTickets user={user} />,
+      element: <SingleTicket user={user} />,
     },
     {
       path: "add-ticket",

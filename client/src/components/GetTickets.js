@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const GetTickets = (props) => {
   const [projects, setProjects] = useState([]);
@@ -7,6 +8,7 @@ const GetTickets = (props) => {
   const [bugs, setBugs] = useState([]);
   const baseURL = "http://localhost:5000/server";
   const email = props.user.email;
+  const navigate = useNavigate();
 
   //get projects data and update projects arr
   useEffect(() => {
@@ -38,7 +40,6 @@ const GetTickets = (props) => {
   //get bugs of all projects
   useEffect(() => {
     console.log(ids);
-
     const getBugs = async () => {
       try {
         await axios
@@ -64,8 +65,11 @@ const GetTickets = (props) => {
       setIds((ids) => [...ids, projects[i]._id]);
     }
   };
-  const getTicketDetail = () => {};
-  console.log(bugs);
+  const getTicketDetail = (id) => {
+    navigate(`/tickets/${id}`, {
+      state: { ticketId: `${id}` },
+    });
+  };
   if (!projects) return <div>Loading..</div>;
 
   return (
@@ -85,7 +89,10 @@ const GetTickets = (props) => {
             {project.records.map((ticket) => {
               return (
                 <div key={ticket._id} className="ticket">
-                  <h3 className="ticket-title" onClick={getTicketDetail}>
+                  <h3
+                    className="ticket-title"
+                    onClick={() => getTicketDetail(ticket._id)}
+                  >
                     {ticket.title}
                   </h3>
                   <div>{new Date(ticket.createdOn).toDateString()}</div>
