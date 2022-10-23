@@ -11,6 +11,7 @@ const Ticket = (props) => {
   const [projects, setProjects] = useState([]);
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState(null);
+  const token = localStorage.getItem("token");
   const baseURL = "http://localhost:5000/server";
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -25,7 +26,7 @@ const Ticket = (props) => {
     createdOn: "",
     project: "",
   });
-  const [tickets, setTickets] = useState([]);
+  const [ticket, setTicket] = useState();
   const email = props.user.email;
   console.log(props.user);
 
@@ -45,9 +46,17 @@ const Ticket = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${baseURL}/bugs`, formData);
+      const res = await axios.post(`${baseURL}/bugs`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(res.data);
-      setTickets(res.data.bugs);
+      setTicket(res.data);
+      // console.log(ticket._id);
+      navigate(`/tickets/${ticket._id}`, {
+        state: { ticketId: `${ticket._id}` },
+      });
     } catch (err) {
       // console.log(err.response.data.message);
       if (err.response) {
@@ -180,19 +189,7 @@ const Ticket = (props) => {
             );
           })}
         </Form.Select>
-        {/* <Form.Select
-          aria-label="Default select example"
-          onChange={(e) =>
-            setFormData({ ...formData, project: e.target.value })
-          }
-        >
-          <option value="Active">Active</option>
-          <option value="In-progress">In-progress</option>
-          <option value="To be tested">To be tested</option>
-          <option value="Delayed">Delayed</option>
-          <option value="Completed">Completed</option>
-          <option value="Cancelled">Cancelled</option>
-        </Form.Select> */}
+
         <Button variant="primary" type="submit">
           Submit
         </Button>
