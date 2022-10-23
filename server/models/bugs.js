@@ -11,6 +11,7 @@ const bugSchema = new Schema({
   status: { type: String, default: "Open" },
   dueDate: { type: Date },
   createdOn: { type: Date },
+  createdBy: { type: Object, required: true },
   project: { type: Schema.Types.ObjectId, ref: "Project" },
 });
 
