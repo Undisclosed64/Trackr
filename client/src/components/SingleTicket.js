@@ -49,28 +49,28 @@ const SingleTicket = () => {
   const deleteTicket = async () => {
     console.log(ticket.createdBy.email);
 
-    // try {
-    //   await axios
-    //     .delete(`${baseURL}/projects/${projectId}`, {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //       data: {
-    //         projectOwnerEmail: project.createdBy.email,
-    //       },
-    //     })
-    //     .then((response) => {
-    //       console.log(response.data);
-    //       // setDeleteMsg(response.data.message);
-    //     });
-    // } catch (err) {
-    //   if (err.response) {
-    //     console.log(err);
-    //     setError(err.response.data.message);
-    //   } else {
-    //     setError("Oops! Something went wrong!");
-    //   }
-    // }
+    try {
+      await axios
+        .delete(`${baseURL}/bugs/${ticket._id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          data: {
+            tickeRaiser: ticket.createdBy.email,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          // setDeleteMsg(response.data.message);
+        });
+    } catch (err) {
+      if (err.response) {
+        console.log(err);
+        setError(err.response.data.message);
+      } else {
+        setError("Oops! Something went wrong!");
+      }
+    }
   };
   const onKeyDown = (event) => {
     if (event.key === "Enter" || event.key === "Escape") {
