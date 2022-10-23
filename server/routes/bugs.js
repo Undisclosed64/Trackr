@@ -3,7 +3,7 @@ const router = express.Router();
 const bugController = require("../controllers/bugController");
 const verifyToken = require("../verifyToken");
 
-router.post("/bugs", bugController.CreateBugs);
+router.post("/bugs", verifyToken, bugController.CreateBugs);
 
 router.get("/bugs", bugController.findBugsByProjects);
 
