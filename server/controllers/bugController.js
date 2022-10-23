@@ -29,6 +29,13 @@ exports.CreateBugs = [
         createdOn: Date.now(),
         project: req.body.project,
       });
+
+      if (req.user) {
+        // console.log(req.user);
+        const email = req.user.email;
+        const username = email.substring(0, email.lastIndexOf("@"));
+        bug.createdBy = { username, email };
+      }
       bug.save((err, createdBug) => {
         if (err) res.status(400).json(err);
         res.status(200).json(createdBug);
