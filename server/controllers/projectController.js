@@ -37,6 +37,9 @@ exports.createProject = [
       if (req.body.status) {
         project.status = req.body.status;
       }
+      project.trackActivities.push(
+        `${req.user.email} has added project ${project.title}`
+      );
       project.save((err, createdProject) => {
         if (err) res.status(500).json(err);
         res.json(createdProject);
@@ -84,15 +87,15 @@ exports.getBugs = (req, res) => {
 //update a project
 exports.updateProject = [
   //validate the input fields
-  check("title").not().isEmpty().withMessage("Project title can not be empty!"),
-  check("startDate")
-    .isISO8601()
-    .toDate()
-    .withMessage("Start date does not have a valid format!"),
-  check("endDate")
-    .isISO8601()
-    .toDate()
-    .withMessage("End date does not have a valid format!"),
+  // check("title").not().isEmpty().withMessage("Project title can not be empty!"),
+  // check("startDate")
+  //   .isISO8601()
+  //   .toDate()
+  //   .withMessage("Start date does not have a valid format!"),
+  // check("endDate")
+  //   .isISO8601()
+  //   .toDate()
+  //   .withMessage("End date does not have a valid format!"),
 
   async (req, res) => {
     // console.log(req.user.email);
@@ -102,28 +105,44 @@ exports.updateProject = [
         .status(400)
         .json({ message: "You are not allowed to update the project!" });
     }
-    //check for errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-    } else {
-      //define project object
-      const projectToUpdate = new Project({
-        title: req.body.title,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate,
-        description: req.body.description,
-        status: req.body.status,
-        _id: req.params.id,
-      });
-      //find the project and update
-      Project.findByIdAndUpdate(req.params.id, projectToUpdate, {
-        new: true,
-      }).exec((err, updatedProject) => {
-        if (err) res.status(400).json(err);
-        res.status(200).json(updatedProject);
-      });
-    }
+    // //check for errors
+    // const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //   res.status(400).json({ errors: errors.array() });
+    // } else {
+    //   //define project object
+    //   const projectToUpdate = new Project({
+    //     // title: req.body.title,
+    //     // startDate: req.body.startDate,
+    //     // endDate: req.body.endDate,
+    //     // description: req.body.description,
+    //     // status: req.body.status,
+    //     _id: req.params.id,
+    //   });
+    let updateField = {};
+    updateField[req.body.fieldName] = req.body.value;
+
+    console.log(updateField);
+    //find the project and update
+    Project.updateOne(
+      { _id: req.params.id },
+      {
+        $set: updateField,
+      },
+      { new: true },
+      // {
+      //   new: true,
+      // }
+      // ).exec((err, updatedProject) => {
+      //   if (err) res.status(400).json(err);
+      //   res.status(200).json(updatedProject);
+      // });
+
+      function (err, count) {
+        if (err) res.json(err);
+        res.json(count);
+      }
+    );
   },
 ];
 
