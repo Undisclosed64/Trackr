@@ -22,6 +22,13 @@ const ProjectDetails = () => {
     description: "",
     status: "",
   });
+  const [title, setTitle] = useState("");
+  const [createdBy, setCreatedBy] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("");
+
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [error, setError] = useState(null);
   const [projectNotFound, setProjectNotFound] = useState(false);
@@ -36,6 +43,12 @@ const ProjectDetails = () => {
     axios
       .get(`${baseURL}/projects/${projectId}`)
       .then((response) => {
+        setTitle(response.data.title);
+        setStartDate(response.data.startDate);
+        setEndDate(response.data.endDate);
+        setDescription(response.data.description);
+        setCreatedBy(response.data.createdBy);
+        setStatus(response.data.status);
         setProject(response.data);
       })
       .catch((error) => {
@@ -50,14 +63,43 @@ const ProjectDetails = () => {
     }
   };
   const onBlur = async (event) => {
-    // console.log(event.target.value);
-    // console.log(token);
+    const fieldName = event.target.name;
+    let value = "";
+    switch (fieldName) {
+      case "title":
+        value = event.target.value;
+        break;
+      case "createdBy":
+        value = event.target.value;
+        break;
+      case "startDate":
+        value = event.target.value;
+        break;
+      case "endDate":
+        value = event.target.value;
+        break;
+      case "description":
+        value = event.target.value;
+        break;
+      case "status":
+        value = event.target.value;
+        break;
+      default:
+        value = "";
+    }
+    console.log(fieldName);
+    console.log(value);
     try {
-      const res = await axios.put(`${baseURL}/projects/${projectId}`, project, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.put(
+        `${baseURL}/projects/${projectId}`,
+        { fieldName, value, createdBy: project.createdBy },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(res.data);
     } catch (err) {
       if (err.response) {
@@ -150,10 +192,8 @@ const ProjectDetails = () => {
                 name="title"
                 onKeyDown={onKeyDown}
                 onBlur={onBlur}
-                value={project.title}
-                onChange={(e) =>
-                  setProject({ ...project, title: e.target.value })
-                }
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -173,31 +213,27 @@ const ProjectDetails = () => {
               <Row>
                 <Col>
                   <Form.Label>Start date</Form.Label>
-                  <div>{new Date(project.startDate).toDateString()} </div>
+                  <div>{new Date(startDate).toDateString()} </div>
                   <Form.Control
                     type="date"
                     name="startDate"
                     onKeyDown={onKeyDown}
                     onBlur={onBlur}
-                    value={project.startDate}
-                    onChange={(e) =>
-                      setProject({ ...project, startDate: e.target.value })
-                    }
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
                   />
                 </Col>
                 <Col>
                   <Form.Label>End date</Form.Label>
-                  <div>{new Date(project.endDate).toDateString()} </div>
+                  <div>{new Date(endDate).toDateString()} </div>
 
                   <Form.Control
                     type="date"
                     name="endDate"
                     onKeyDown={onKeyDown}
                     onBlur={onBlur}
-                    value={project.endDate}
-                    onChange={(e) =>
-                      setProject({ ...project, endDate: e.target.value })
-                    }
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
                   />
                 </Col>
               </Row>
@@ -209,22 +245,19 @@ const ProjectDetails = () => {
                 name="description"
                 onKeyDown={onKeyDown}
                 onBlur={onBlur}
-                value={project.description}
-                onChange={(e) =>
-                  setProject({ ...project, description: e.target.value })
-                }
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
 
             <Form.Label>Status</Form.Label>
             <Form.Select
               aria-label="Default select example"
+              name="status"
               onKeyDown={onKeyDown}
               onBlur={onBlur}
-              value={project.status}
-              onChange={(e) =>
-                setProject({ ...project, status: e.target.value })
-              }
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
             >
               <option value="Active">Active</option>
               <option value="In-progress">In-progress</option>
