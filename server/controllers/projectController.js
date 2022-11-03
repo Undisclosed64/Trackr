@@ -1,6 +1,8 @@
 const Project = require("../models/project");
 const { validationResult, check } = require("express-validator");
 const Bugs = require("../models/bugs");
+const async = require("async");
+const project = require("../models/project");
 
 //handler for project creation
 exports.createProject = [
@@ -85,66 +87,89 @@ exports.getBugs = (req, res) => {
   }
 };
 //update a project
-exports.updateProject = [
-  //validate the input fields
-  // check("title").not().isEmpty().withMessage("Project title can not be empty!"),
-  // check("startDate")
-  //   .isISO8601()
-  //   .toDate()
-  //   .withMessage("Start date does not have a valid format!"),
-  // check("endDate")
-  //   .isISO8601()
-  //   .toDate()
-  //   .withMessage("End date does not have a valid format!"),
+exports.updateProject = async function (req, res, next) {
+  // let oldVal = "";
+  // function getPrevVal() {
+  //   Project.findById(req.params.id).exec((err, project) => {
+  //     if (err) console.log(err);
+  //     console.log(req.body.fieldName);
+  //     oldVal = project[`${req.body.fieldName}`];
+  //   });
+  // }
+  // await getPrevVal();
 
-  async (req, res) => {
-    // console.log(req.user.email);
-    // console.log(req.body.createdBy.email);
-    if (req.user.email !== req.body.createdBy.email) {
-      return res
-        .status(400)
-        .json({ message: "You are not allowed to update the project!" });
-    }
-    // //check for errors
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //   res.status(400).json({ errors: errors.array() });
-    // } else {
-    //   //define project object
-    //   const projectToUpdate = new Project({
-    //     // title: req.body.title,
-    //     // startDate: req.body.startDate,
-    //     // endDate: req.body.endDate,
-    //     // description: req.body.description,
-    //     // status: req.body.status,
-    //     _id: req.params.id,
-    //   });
-    let updateField = {};
-    updateField[req.body.fieldName] = req.body.value;
+  if (req.user.email !== req.body.createdBy.email) {
+    res
+      .status(400)
+      .json({ message: "You are not allowed to update the project!" });
+  }
 
-    console.log(updateField);
-    //find the project and update
-    Project.updateOne(
-      { _id: req.params.id },
-      {
-        $set: updateField,
+  async.parallel(
+    {
+      project: function (callback) {
+        Project.findById(req.params.id).exec(callback);
       },
-      { new: true },
-      // {
-      //   new: true,
-      // }
-      // ).exec((err, updatedProject) => {
-      //   if (err) res.status(400).json(err);
-      //   res.status(200).json(updatedProject);
-      // });
+      update: function (callback) {
+        let updateField = {};
+        updateField[req.body.fieldName] = req.body.value;
+        console.log(updateField);
 
-      function (err, count) {
-        if (err) res.json(err);
-        res.json(count);
+        //find the project and update
+        Project.updateOne(
+          { _id: req.params.id },
+          {
+            $set: updateField,
+          },
+          { new: true }
+        ).exec(callback);
+      },
+    },
+    function (err, results) {
+      if (err) {
+        res.json({ error: err });
       }
-    );
-  },
-];
+      results.project.trackActivities.push(
+        `${req.user.email} has updated the project ${req.body.fieldName} to ${req.body.value}`
+      );
+      results.project.save();
+      // console.log(results.project.trackActivities);
+
+      // Successful, so return.
+      res.json({ success: results.update, project: results.project });
+    }
+  );
+};
+
+// async (req, res) => {
+//   if (req.user.email !== req.body.createdBy.email) {
+//     res
+//       .status(400)
+//       .json({ message: "You are not allowed to update the project!" });
+//   }
+
+//   let updateField = {};
+//   updateField[req.body.fieldName] = req.body.value;
+//   console.log(updateField);
+
+//   //find the project and update
+//   Project.updateOne(
+//     { _id: req.params.id },
+//     {
+//       $set: updateField,
+//     },
+//     { new: true },
+
+//     // ).exec((err, updatedProject) => {
+//     //   if (err) res.status(400).json(err);
+//     //   res.status(200).json(updatedProject);
+//     // });
+
+//     function (err, count) {
+//       if (err) res.json(err);
+//       res.json(count);
+//     }
+//   );
+// },
 
 //delete project handler
 exports.deleteProject = (req, res) => {
