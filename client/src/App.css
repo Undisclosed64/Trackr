@@ -54,3 +54,10 @@ position: relative;
   cursor: pointer;
   color: #FF6400;
 }
+.sucess-msg{
+  text-align: center;
+  font-weight: 500;
+  background-color: #70e858;
+  padding: 1em 0.5em;
+  color: #fff;
+}
