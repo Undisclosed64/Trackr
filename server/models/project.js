@@ -9,7 +9,7 @@ const projectSchema = new Schema({
   status: { type: String, default: "Active" },
   createdBy: { type: Object, required: true },
   lastModified: { type: Date },
-  trackActivities: [],
+  trackActivities: [{ date: { type: Date }, updatedField: { type: String } }],
 });
 
 module.exports = mongoose.model("Project", projectSchema);
