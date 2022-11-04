@@ -11,6 +11,8 @@ import Modal from "react-bootstrap/Modal";
 import ProjectDeleted from "./ProjectDeleted";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import GetActivites from "./GetActivities";
+// 636270a5b08b5f2a93b2c16b
 
 const ProjectDetails = () => {
   const { projectId } = useParams();
@@ -32,7 +34,8 @@ const ProjectDetails = () => {
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [error, setError] = useState(null);
   const [projectNotFound, setProjectNotFound] = useState(false);
-  const [deleteMsg, setDeleteMsg] = useState("");
+  const [updatedMsg, setUpdatedMsg] = useState(null);
+  const [displayActivites, setDisplayActivities] = useState(false);
   const baseURL = "http://localhost:5000/server";
   const navigate = useNavigate();
 
@@ -101,6 +104,9 @@ const ProjectDetails = () => {
         }
       );
       console.log(res.data);
+      if (res.data.success) {
+        setUpdatedMsg("Updated Successfully");
+      }
     } catch (err) {
       if (err.response) {
         console.log(err);
@@ -114,6 +120,9 @@ const ProjectDetails = () => {
     navigate(`/projects/${project._id}/bugs`, {
       state: { projectId: `${project._id}` },
     });
+  };
+  const showActivites = () => {
+    setDisplayActivities(true);
   };
   const showAlert = () => {
     setDeleteAlert(true);
@@ -177,11 +186,19 @@ const ProjectDetails = () => {
       ) : (
         <div>
           <h2>Project Information</h2>
-
+          {updatedMsg ? <div className="sucess-msg">{updatedMsg}</div> : ""}
           <h3 onClick={showBugs}>Bugs</h3>
+          <button onClick={showActivites}>Activity Stream</button>
+
           <Button variant="danger" id="deleteProject" onClick={showAlert}>
             Delete Project
           </Button>
+
+          {displayActivites ? (
+            <GetActivites activities={project.trackActivities} />
+          ) : (
+            ""
+          )}
           <Form className="view-edit-form">
             {error ? <div className="error">{error}</div> : " "}
 
