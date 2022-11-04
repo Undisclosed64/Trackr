@@ -39,9 +39,11 @@ exports.createProject = [
       if (req.body.status) {
         project.status = req.body.status;
       }
-      project.trackActivities.push(
-        `${req.user.email} has added project ${project.title}`
-      );
+      project.trackActivities.push({
+        date: Date.now(),
+        updatedField: `${req.user.email} has added project ${project.title}`,
+      });
+
       project.save((err, createdProject) => {
         if (err) res.status(500).json(err);
         res.json(createdProject);
@@ -128,19 +130,22 @@ exports.updateProject = async function (req, res, next) {
       if (err) {
         res.json({ error: err });
       }
-      results.project.trackActivities.push(
-        `${req.user.email} has updated the project ${req.body.fieldName} to ${req.body.value}`
-      );
+      results.project.trackActivities.push({
+        date: Date.now(),
+        updatedField: `${req.user.email} has updated the project ${req.body.fieldName} to ${req.body.value}`,
+      });
+
       results.project.save();
-      // console.log(results.project.trackActivities);
 
       // Successful, so return.
-      res.json({ success: results.update, project: results.project });
+      res.json({
+        success: results.update,
+        // project: results.project.trackActivities,
+      });
     }
   );
 };
 
-// async (req, res) => {
 //   if (req.user.email !== req.body.createdBy.email) {
 //     res
 //       .status(400)
