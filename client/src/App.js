@@ -63,7 +63,7 @@ function App() {
       element: <Ticket user={user} />,
     },
   ]);
-  if (!user) return <div>loading..</div>;
+  // if (!user) return <div>loading..</div>;
   return (
     <div className="App">
       <RouterProvider router={router} />
