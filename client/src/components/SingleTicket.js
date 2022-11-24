@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import "../App.css";
 import Modal from "react-bootstrap/Modal";
+import TicketActivites from "./TicketActivities";
 
 const SingleTicket = () => {
   const navigate = useNavigate();
@@ -14,17 +15,18 @@ const SingleTicket = () => {
   const baseURL = "http://localhost:5000/server";
   const [error, setError] = useState([]);
   const [deleteAlert, setDeleteAlert] = useState(false);
-  const [ticket, setTicket] = useState({
-    title: "",
-    description: "",
-    assignedDev: "",
-    bugType: "",
-    flag: "",
-    severity: "",
-    status: "",
-    dueDate: "",
-  });
-  console.log(location.state.ticketId);
+  const [ticket, setTicket] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [assignedDev, setAssignedDev] = useState("");
+  const [bugType, setBugType] = useState("");
+  const [flag, setFlag] = useState("");
+  const [severity, setSeverity] = useState("");
+  const [status, setStatus] = useState("");
+  const [dueDate, setDueDate] = useState("");
+
+  const [displayActivites, setDisplayActivities] = useState(false);
+
   const id = location.state.ticketId;
   const token = localStorage.getItem("token");
 
@@ -34,11 +36,23 @@ const SingleTicket = () => {
       .then((response) => {
         console.log(response.data);
         setTicket(response.data);
+        setTitle(response.data.title);
+        setDescription(response.data.description);
+        setAssignedDev(response.data.assignedDev);
+        setBugType(response.data.bugType);
+        setFlag(response.data.flag);
+        setSeverity(response.data.severity);
+        setStatus(response.data.status);
+        setDueDate(response.data.dueDate);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  const showActivites = () => {
+    setDisplayActivities(true);
+  };
 
   const showModel = () => {
     setDeleteAlert(true);
@@ -78,14 +92,47 @@ const SingleTicket = () => {
     }
   };
   const onBlur = async (event) => {
-    console.log(event.target.value);
-    console.log(token);
+    const fieldName = event.target.name;
+    let value = "";
+    switch (fieldName) {
+      case "title":
+        value = event.target.value;
+        break;
+      case "description":
+        value = event.target.value;
+        break;
+      case "assignedDev":
+        value = event.target.value;
+        break;
+      case "bugType":
+        value = event.target.value;
+        break;
+      case "flag":
+        value = event.target.value;
+        break;
+      case "severity":
+        value = event.target.value;
+        break;
+      case "status":
+        value = event.target.value;
+        break;
+      case "dueDate":
+        value = event.target.value;
+        break;
+      default:
+        value = "";
+    }
+
     try {
-      const res = await axios.put(`${baseURL}/bugs/${id}`, ticket, {
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
-      });
+      const res = await axios.put(
+        `${baseURL}/bugs/${id}`,
+        { fieldName, value },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(res.data);
     } catch (err) {
       if (err.response) {
@@ -126,17 +173,22 @@ const SingleTicket = () => {
           <Button variant="danger" id="deleteProject" onClick={showModel}>
             Delete
           </Button>
+          <button onClick={showActivites}>Activity Stream</button>
+          {displayActivites ? (
+            <TicketActivites activities={ticket.trackActivities} />
+          ) : (
+            ""
+          )}
           <Form className="view-edit-form">
+            {error ? <div className="error">{error}</div> : " "}
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Control
                 type="text"
                 name="title"
                 onKeyDown={onKeyDown}
                 onBlur={onBlur}
-                value={ticket.title}
-                onChange={(e) =>
-                  setTicket({ ...ticket, title: e.target.value })
-                }
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -146,10 +198,8 @@ const SingleTicket = () => {
                 name="description"
                 onKeyDown={onKeyDown}
                 onBlur={onBlur}
-                value={ticket.description}
-                onChange={(e) =>
-                  setTicket({ ...ticket, description: e.target.value })
-                }
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -161,10 +211,8 @@ const SingleTicket = () => {
                     name="assignedDev"
                     onKeyDown={onKeyDown}
                     onBlur={onBlur}
-                    value={ticket.assignedDev}
-                    onChange={(e) =>
-                      setTicket({ ...ticket, assignedDev: e.target.value })
-                    }
+                    value={assignedDev}
+                    onChange={(e) => setAssignedDev(e.target.value)}
                   />
                 </Col>
 
@@ -172,12 +220,11 @@ const SingleTicket = () => {
                   <Form.Label>Bug Type</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
+                    name="bugType"
                     onKeyDown={onKeyDown}
                     onBlur={onBlur}
-                    value={ticket.bugType}
-                    onChange={(e) =>
-                      setTicket({ ...ticket, bugType: e.target.value })
-                    }
+                    value={bugType}
+                    onChange={(e) => setBugType(e.target.value)}
                   >
                     <option value="ui">UI</option>
                     <option value="maintenance">Maintenance</option>
@@ -192,13 +239,12 @@ const SingleTicket = () => {
                 <Col>
                   <Form.Label>Status</Form.Label>
                   <Form.Select
+                    name="status"
                     aria-label="Default select example"
                     onKeyDown={onKeyDown}
                     onBlur={onBlur}
-                    value={ticket.status}
-                    onChange={(e) =>
-                      setTicket({ ...ticket, status: e.target.value })
-                    }
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
                   >
                     <option value="open">Open</option>
                     <option value="in-progress">In-progress</option>
@@ -209,16 +255,14 @@ const SingleTicket = () => {
 
                 <Col>
                   <Form.Label>Due Date</Form.Label>
-                  <div>{new Date(ticket.dueDate).toDateString()} </div>
+                  <div>{new Date(dueDate).toDateString()} </div>
                   <Form.Control
                     type="date"
                     name="dueDate"
                     onKeyDown={onKeyDown}
                     onBlur={onBlur}
-                    value={ticket.dueDate}
-                    onChange={(e) =>
-                      setTicket({ ...ticket, dueDate: e.target.value })
-                    }
+                    value={dueDate}
+                    onChange={(e) => setDueDate(e.target.value)}
                   />
                 </Col>
               </Row>
@@ -229,13 +273,12 @@ const SingleTicket = () => {
                 <Col>
                   <Form.Label>Flag</Form.Label>
                   <Form.Select
+                    name="flag"
                     aria-label="Default select example"
                     onKeyDown={onKeyDown}
                     onBlur={onBlur}
-                    value={ticket.flag}
-                    onChange={(e) =>
-                      setTicket({ ...ticket, flag: e.target.value })
-                    }
+                    value={flag}
+                    onChange={(e) => setFlag(e.target.value)}
                   >
                     <option value="internal">Internal</option>
                     <option value="external">External</option>
@@ -245,13 +288,12 @@ const SingleTicket = () => {
                 <Col>
                   <Form.Label>Severity</Form.Label>
                   <Form.Select
+                    name="severity"
                     aria-label="Default select example"
                     onKeyDown={onKeyDown}
                     onBlur={onBlur}
-                    value={ticket.severity}
-                    onChange={(e) =>
-                      setTicket({ ...ticket, severity: e.target.value })
-                    }
+                    value={severity}
+                    onChange={(e) => setSeverity(e.target.value)}
                   >
                     <option value="critical">Critical</option>
                     <option value="major">Major</option>
