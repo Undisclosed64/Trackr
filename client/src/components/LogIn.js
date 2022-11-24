@@ -1,9 +1,7 @@
 import axios from "axios";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import "../App.css";
 
 const LogIn = () => {
   const baseURL = "http://localhost:5000/server";
@@ -38,35 +36,70 @@ const LogIn = () => {
     }
   };
   return (
-    <div>
-      <h1>Log In</h1>
-      {error ? <div className="error">{error}</div> : " "}
-      <Form className="logInForm" onSubmit={(e) => handleSubmit(e)}>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            name="email"
-            onChange={(e) => setData({ ...data, email: e.target.value })}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={(e) => setData({ ...data, password: e.target.value })}
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
-      <div className="signUpLinkInLogin">
-        <div>New to X? </div>
-        <Link to="/sign-up">Sign Up</Link>
+    <section className="loginPage flex flex-row justify-between ">
+      <div className="hidden section-left md:w-2/5  h-screen md:block">
+        <img
+          src="https://images.unsplash.com/photo-1669279687951-0da28b1ce769?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=60"
+          alt=""
+        />
       </div>
-    </div>
+
+      <div className="section-right py-4 sm:px-6 sm:py-12 sm:mx-auto md:flex justify-center md:w-3/5 ">
+        {error ? <div className="error">{error}</div> : " "}
+        <form
+          className="logInForm px-4 py-6 rounded"
+          onSubmit={(e) => handleSubmit(e)}
+        >
+          <h1 className="text-3xl sm:text-center font-bold text-lightBlack2 ">
+            Sign in to Fixer
+          </h1>
+          <div className="inputs mt-10 mb-1">
+            <input
+              type="email"
+              placeholder="Enter email"
+              name="email"
+              onChange={(e) => setData({ ...data, email: e.target.value })}
+              className="form-input px-3 py-2 rounded w-full mb-6 text-base"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              onChange={(e) => setData({ ...data, password: e.target.value })}
+              className="form-input px-3 py-2 rounded w-full text-base "
+            />
+          </div>
+          <p className="forgotPassword text-base text-right text-lightgray hover:text-blue-700 cursor-pointer">
+            Forgot password?
+          </p>
+          <div className="button-wrapper flex justify-center mt-2 mb-2">
+            <button
+              type="submit"
+              className="bg-brightRed py-2 rounded text-white w-full text-base font-medium"
+            >
+              Sign In
+            </button>
+          </div>
+          <div className="or text-lightBlack text-center text-lg my-6">OR</div>
+
+          <div className="social-handles">
+            <div className="google w-full drop-shadow-lg py-2 text-base text-center text-lightBlack mb-6 rounded font-medium">
+              Continue with Google
+            </div>
+            <div className="twitter w-full drop-shadow-lg  py-2 text-base text-center text-lightBlack rounded font-medium">
+              Continue with Twitter
+            </div>
+          </div>
+
+          <div className="signUpLinkInLogin mt-8 text-center text-base text-lightBlack">
+            New to Fixer?{" "}
+            <Link to="/sign-up" className="text-blue-600 underline">
+              SIGN UP
+            </Link>
+          </div>
+        </form>
+      </div>
+    </section>
   );
 };
 
