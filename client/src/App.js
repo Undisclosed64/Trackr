@@ -1,16 +1,16 @@
-import "./App.css";
-import CreateProject from "./components/Project";
-import SignUp from "./components/SignUp";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LogIn from "./components/LogIn";
-import Home from "./components/Home";
-import ProjectDetails from "./components/ProjectDetails";
-import Ticket from "./components/Ticket";
-import GetTickets from "./components/GetTickets";
-import { useState, useEffect } from "react";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./App.css";
+import GetTickets from "./components/GetTickets";
+import Home from "./components/Home";
+import LogIn from "./components/LogIn";
+import CreateProject from "./components/Project";
+import ProjectDetails from "./components/ProjectDetails";
+import SignUp from "./components/SignUp";
 import SingleTicket from "./components/SingleTicket";
+import Ticket from "./components/Ticket";
 
 function App() {
   const [user, setUser] = useState(null);
