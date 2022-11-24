@@ -13,6 +13,7 @@ const bugSchema = new Schema({
   createdOn: { type: Date },
   createdBy: { type: Object, required: true },
   project: { type: Schema.Types.ObjectId, ref: "Project" },
+  trackActivities: [{ date: { type: Date }, updatedField: { type: String } }],
 });
 
 module.exports = mongoose.model("Bugs", bugSchema);
