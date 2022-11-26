@@ -1,9 +1,10 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
 
-const Home = () => {
+const Home = ({ navbar }) => {
   return (
     <div>
+      {navbar}
       <Sidebar />
     </div>
   );
