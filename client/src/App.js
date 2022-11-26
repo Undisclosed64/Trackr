@@ -11,6 +11,7 @@ import ProjectDetails from "./components/ProjectDetails";
 import SignUp from "./components/SignUp";
 import SingleTicket from "./components/SingleTicket";
 import Ticket from "./components/Ticket";
+import Navbar from "./components/Navbar";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -40,7 +41,7 @@ function App() {
 
     {
       path: "dashboard",
-      element: <Home />,
+      element: <Home navbar={<Navbar />} />,
     },
     {
       path: "create-project",
@@ -63,10 +64,11 @@ function App() {
       element: <Ticket user={user} />,
     },
   ]);
-  // if (!user) return <div>loading..</div>;
+  if (!user) return <div>loading..</div>;
   return (
     <div className="App">
       <RouterProvider router={router} />
+      {/* <Navbar /> */}
     </div>
   );
 }
