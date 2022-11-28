@@ -4,11 +4,12 @@ import { GoSearch } from "react-icons/go";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoMdAddCircle } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
+import "../App.css";
 
 const Navbar = () => {
   return (
     <nav
-      id="navbar"
+      id="top-navbar"
       className="flex justify-between px-4 py-3 text-lightBlack3 border-b-[1px] border-borderColor"
     >
       <div className="sectionName">Home</div>
