@@ -26,7 +26,7 @@ const LogIn = () => {
       console.log(res.data);
       const token = res.data.accessToken;
       localStorage.setItem("token", token);
-      navigate("/dashboard");
+      navigate("/home");
     } catch (err) {
       if (err.response) {
         setError(err.response.data.msg);
@@ -48,15 +48,15 @@ const LogIn = () => {
 
       <div className="section-right py-4 sm:px-6 sm:py-12 sm:mx-auto md:flex justify-center md:w-3/5 ">
         <form
-          className="logInForm px-4 py-6 rounded"
+          className="logInForm px-4 py-3 rounded"
           onSubmit={(e) => handleSubmit(e)}
         >
           <h1 className="text-3xl text-center font-bold text-lightBlack2 mb-2 ">
-            Sign in to Fixer
+            Sign in to BugTracker
           </h1>
           {error ? <div className="error py-2">{error}</div> : " "}
 
-          <div className="inputs mt-3 mb-1">
+          <div className="inputs mt-8 mb-1">
             <input
               type="email"
               placeholder="Enter email"
@@ -99,7 +99,7 @@ const LogIn = () => {
           </div>
 
           <div className="signUpLinkInLogin mt-8 text-center text-base text-lightBlack">
-            New to Fixer?{" "}
+            New to BugTracker?{" "}
             <Link to="/sign-up" className="text-brightRed underline">
               SIGN UP
             </Link>
