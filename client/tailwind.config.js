@@ -5,12 +5,18 @@ module.exports = {
     screens: {
       vsm: "200px",
       sm: "400px",
+      msm: "560px",
       md: "760px",
       lg: "976px",
+      vlg: "1064px",
       xl: "1440px",
     },
 
     extend: {
+      backgroundImage: {
+        loginImg:
+          "url('https://images.unsplash.com/photo-1669279687951-0da28b1ce769?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=60')",
+      },
       colors: {
         brightRed: "hsl(12,88%,59%)",
         brightOrange: "#FF6400",
