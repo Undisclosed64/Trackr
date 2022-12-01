@@ -9,18 +9,33 @@ import { BiBug } from "react-icons/bi";
 import { RiMenu3Line } from "react-icons/ri";
 
 const Sidebar = () => {
-  const toggleSidebar = () => {
+  const displaySidebar = () => {
+    //select all elements
     const sidebar = document.querySelector("#sidebar");
     const toggleSidebar = document.querySelector("#toggleSidebar");
+    const navbar = document.getElementById("top-navbar");
+    const sectionHome = document.querySelector("#home");
+
+    //perform actions
     sidebar.style.display = "block";
     toggleSidebar.style.display = "none";
+    //move it to right
+    navbar.classList.add("toggler");
+    sectionHome.classList.add("toggler");
   };
   const hideSidebar = () => {
+    //select all elements
     const sidebar = document.querySelector("#sidebar");
     const toggleSidebar = document.querySelector("#toggleSidebar");
+    const navbar = document.getElementById("top-navbar");
+    const sectionHome = document.querySelector("#home");
+
+    //perform actions on them
     sidebar.style.display = "none";
     toggleSidebar.style.display = "block";
-    const topNav = document.querySelector("#top-navbar");
+    //move it to left
+    navbar.classList.remove("toggler");
+    sectionHome.classList.remove("toggler");
   };
   return (
     <div className="container">
@@ -28,7 +43,7 @@ const Sidebar = () => {
       <div
         className="absolute top-0 left-0 px-2 py-3 w-full text-2xl border-b-[1px] border-borderColor"
         id="toggleSidebar"
-        onClick={toggleSidebar}
+        onClick={displaySidebar}
       >
         <RiMenu3Line className="text-brightOrange text-2xl" />
       </div>
