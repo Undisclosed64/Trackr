@@ -10,7 +10,7 @@ const Navbar = () => {
   return (
     <nav
       id="top-navbar"
-      className="flex justify-between px-4 py-3 text-lightBlack3 border-b-[1px] border-borderColor"
+      className="toggler flex justify-between px-4 py-3 text-lightBlack3 border-b-[1px] border-borderColor ml-6"
     >
       <div className="sectionName">Home</div>
       <ul className="flex">
