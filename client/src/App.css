@@ -15,9 +15,9 @@
   box-shadow: rgb(0 0 0 / 20%) 1px 1px 5px 0px;
 }
 
-#top-navbar {
+/* #top-navbar {
   margin-left: 20%;
-}
+} */
 .header {
   padding-bottom: 0.82rem;
 }
@@ -98,5 +98,18 @@
 @media only screen and (min-width: 600px) {
   .logInForm {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  }
+}
+/* @media only screen and (min-width: 976px) {
+  .moveToRight#top-navbar {
+    margin-left: 20%;
+  }
+  .moveToRight#home {
+    margin-left: 20%;
+  }
+} */
+@media only screen and (min-width: 1064px) {
+  .toggler {
+    margin-left: 20% !important;
   }
 }
