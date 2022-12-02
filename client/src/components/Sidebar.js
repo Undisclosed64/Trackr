@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
 import { MdOutlineFeed } from "react-icons/md";
@@ -39,7 +39,7 @@ const Sidebar = () => {
   };
   return (
     <div className="container">
-      {/* sidebar toggler for smaller sizes */}
+      {/* sidebar hamburger for smaller sizes */}
       <div
         className="absolute top-0 left-0 px-2 py-3 w-full text-2xl border-b-[1px] border-borderColor"
         id="toggleSidebar"
