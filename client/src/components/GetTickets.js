@@ -1,41 +1,39 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import noteContext from "../context/noteContext";
 
-const GetTickets = (props) => {
-  const [projects, setProjects] = useState([]);
+const GetTickets = () => {
   const [ids, setIds] = useState([]);
   const [bugs, setBugs] = useState([]);
   const baseURL = "http://localhost:5000/server";
-  const email = props.user.email;
   const navigate = useNavigate();
+  const context = useContext(noteContext);
 
-  //get projects data and update projects arr
-  useEffect(() => {
-    const updateProjects = async () => {
-      try {
-        const res = await axios.get(`${baseURL}/projects`, {
-          params: {
-            email: email,
-          },
-        });
-        return setProjects(res.data.projects);
-      } catch {
-        return null;
-      }
-    };
-    updateProjects();
-  }, [email]);
+  // //get projects and update projects state
+  // useEffect(() => {
+  //   const updateProjects = async () => {
+  //     try {
+  //       const res = await axios.get(`${baseURL}/projects`, {
+  //         params: {
+  //           email: context.userEmail,
+  //         },
+  //       });
+  //       return setProjects(res.data.projects);
+  //     } catch {
+  //       return null;
+  //     }
+  //   };
+  //   updateProjects();
+  // }, [context.userEmail]);
 
-  //update ids
+  //get projects id
   useEffect(() => {
-    if (null === projects) {
-      return;
+    const projects = context.projects;
+    for (let i = 0; i < projects.length; i++) {
+      setIds((ids) => [...ids, projects[i]._id]);
     }
-
-    updateIds();
-    console.log(ids);
-  }, [projects]);
+  }, [context.projects]);
 
   //get bugs of all projects
   useEffect(() => {
@@ -59,18 +57,12 @@ const GetTickets = (props) => {
     getBugs();
   }, [ids]);
 
-  //set ids to project ids
-  const updateIds = async () => {
-    for (let i = 0; i < projects.length; i++) {
-      setIds((ids) => [...ids, projects[i]._id]);
-    }
-  };
   const getTicketDetail = (id) => {
     navigate(`/tickets/${id}`, {
       state: { ticketId: `${id}` },
     });
   };
-  if (!projects) return <div>Loading..</div>;
+  if (!context.projects) return <div>Loading..</div>;
 
   return (
     <div>
