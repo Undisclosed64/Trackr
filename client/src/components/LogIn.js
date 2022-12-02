@@ -39,7 +39,7 @@ const LogIn = () => {
   };
   return (
     <section className="loginPage flex flex-row justify-between ">
-      <div className="hidden section-left md:w-2/5  h-screen md:block">
+      <div className="section-left hidden lg:block lg:w-2/5  h-screen bg-loginImg bg-bottom">
         <img
           src="https://images.unsplash.com/photo-1669279687951-0da28b1ce769?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=60"
           alt=""
