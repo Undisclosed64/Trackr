@@ -12,6 +12,7 @@ import SignUp from "./components/SignUp";
 import SingleTicket from "./components/SingleTicket";
 import Ticket from "./components/Ticket";
 import Navbar from "./components/Navbar";
+import NoteState from "./context/NoteState";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -66,10 +67,11 @@ function App() {
   ]);
   // if (!user) return <div>loading..</div>;
   return (
-    <div className="App">
-      <RouterProvider router={router} />
-      {/* <Navbar /> */}
-    </div>
+    <NoteState className="App">
+      <div className="App">
+        <RouterProvider router={router} />
+      </div>
+    </NoteState>
   );
 }
 
