@@ -1,10 +1,45 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import noteContext from "../context/noteContext";
+import axios from "axios";
 
 const Home = ({ navbar }) => {
   const context = useContext(noteContext);
+  const baseURL = "http://localhost:5000/server";
+  const [ids, setIds] = useState([]);
+  const [totalTickets, setTotalTickets] = useState(null);
+
+  //get projects id
+  useEffect(() => {
+    const projects = context.projects;
+    for (let i = 0; i < projects.length; i++) {
+      setIds((ids) => [...ids, projects[i]._id]);
+    }
+  }, [context.projects]);
+
+  useEffect(() => {
+    try {
+      axios
+        .get(`${baseURL}/bugs`, {
+          params: {
+            ids: ids,
+          },
+        })
+        .then((response) => {
+          // console.log(response.data);
+          let count = 0;
+          for (let i = 0; i < response.data.length; i++) {
+            count = count + response.data[i].count;
+          }
+          console.log(count);
+          setTotalTickets(count);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [ids]);
+
   return (
     <div>
       {navbar}
@@ -19,7 +54,7 @@ const Home = ({ navbar }) => {
           </div>
 
           <div className="box-wrapper bg-red-500 px-2 py-8 flex flex-col items-center rounded-lg text-white">
-            <div className="text-3xl font-bold pb-2">20</div>
+            <div className="text-3xl font-bold pb-2">{totalTickets}</div>
             <span className="text-lg">Total Tickets</span>
           </div>
 
