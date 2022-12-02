@@ -71,11 +71,16 @@ exports.findBugsByProjects = (req, res) => {
     console.log(objectIdArray);
 
     Bug.aggregate([
-      //get all bugs that match the project id present in array
+      //get all bugs that match the project id present in ids array
       { $match: { project: { $in: objectIdArray } } },
-      // //group all bugs by the same project id
+
+      //group all bugs by the same project id
       {
-        $group: { _id: "$project", records: { $push: "$$ROOT" } },
+        $group: {
+          _id: "$project",
+          records: { $push: "$$ROOT" },
+          count: { $sum: 1 },
+        },
       },
 
       {
