@@ -8,7 +8,8 @@ const Home = ({ navbar }) => {
   const context = useContext(noteContext);
   const baseURL = "http://localhost:5000/server";
   const [ids, setIds] = useState([]);
-  const [totalTickets, setTotalTickets] = useState(null);
+  const [totalTickets, setTotalTickets] = useState(0);
+  const [activeProjects, setActiveProjects] = useState(0);
 
   //get projects id
   useEffect(() => {
@@ -18,6 +19,7 @@ const Home = ({ navbar }) => {
     }
   }, [context.projects]);
 
+  //get total tickets count
   useEffect(() => {
     try {
       axios
@@ -40,6 +42,25 @@ const Home = ({ navbar }) => {
     }
   }, [ids]);
 
+  //get total active projects count
+  useEffect(() => {
+    const updateProjects = async () => {
+      try {
+        const res = await axios.get(`${baseURL}/projects`, {
+          params: {
+            email: context.userEmail,
+            filterStatus: true,
+          },
+        });
+        // console.log(res.data.projects);
+        return setActiveProjects(res.data.projects.length);
+      } catch {
+        return null;
+      }
+    };
+    updateProjects();
+  }, [context.userEmail]);
+
   return (
     <div>
       {navbar}
@@ -49,7 +70,7 @@ const Home = ({ navbar }) => {
         {/* container for boxes */}
         <div className="information-boxes my-4 grid gap-8 msm:grid-cols-2 vlg:grid-cols-4">
           <div className="box-wrapper bg-teal-500 px-2 py-8 flex flex-col items-center rounded-lg text-white">
-            <div className="text-3xl font-bold pb-2">1</div>
+            <div className="text-3xl font-bold pb-2">{activeProjects}</div>
             <span className="text-lg">Active Projects</span>
           </div>
 
