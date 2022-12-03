@@ -54,7 +54,7 @@ function App() {
     },
     {
       path: "tickets",
-      element: <GetTickets user={user} />,
+      element: <GetTickets />,
     },
     {
       path: "tickets/:id",

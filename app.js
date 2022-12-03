@@ -7,7 +7,6 @@ const bugsRouter = require("./routes/bugs");
 const app = express();
 const cors = require("cors");
 const path = require("path");
-const { dirname } = require("path");
 
 mongoose.connect(
   process.env.MONGODB_URI
