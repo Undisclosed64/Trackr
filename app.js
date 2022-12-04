@@ -23,13 +23,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/server", userRouter, projectRouter, bugsRouter);
 
-//static files
+//serve the frontend
 app.use(express.static(path.join(__dirname, "./client/build")));
 
 app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+  res.sendFile(
+    path.join(__dirname, "./client/build/index.html"),
+    function (err) {
+      res.status(500).send(err);
+    }
+  );
 });
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
+
 app.listen(port, () => {
   console.log(`server running on port ${port}`);
 });
