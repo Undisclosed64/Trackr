@@ -23,7 +23,7 @@ const Home = ({ navbar }) => {
   useEffect(() => {
     try {
       axios
-        .get(`${baseURL}/bugs`, {
+        .get(`/server/bugs`, {
           params: {
             ids: ids,
           },
@@ -46,7 +46,7 @@ const Home = ({ navbar }) => {
   useEffect(() => {
     const updateProjects = async () => {
       try {
-        const res = await axios.get(`${baseURL}/projects`, {
+        const res = await axios.get(`/server/projects`, {
           params: {
             email: context.userEmail,
             filterStatus: true,

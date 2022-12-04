@@ -2,18 +2,21 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import noteContext from "../context/noteContext";
 
-const Ticket = (props) => {
+const Ticket = () => {
+  const context = useContext(noteContext);
   const [projects, setProjects] = useState([]);
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
   const baseURL = "http://localhost:5000/server";
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -27,12 +30,12 @@ const Ticket = (props) => {
     project: "",
   });
   const [ticket, setTicket] = useState();
-  const email = props.user.email;
-  console.log(props.user);
+  const email = context.userEmail;
+  console.log(email);
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/projects`, {
+      .get(`/server/projects`, {
         params: {
           email: email,
         },
@@ -46,7 +49,7 @@ const Ticket = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${baseURL}/bugs`, formData, {
+      const res = await axios.post(`/server/bugs`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

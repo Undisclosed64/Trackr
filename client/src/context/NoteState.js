@@ -12,7 +12,7 @@ const NoteState = (props) => {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/getUser`, {
+      .get(`/server/getUser`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -29,7 +29,7 @@ const NoteState = (props) => {
   useEffect(() => {
     const updateProjects = async () => {
       try {
-        const res = await axios.get(`${baseURL}/projects`, {
+        const res = await axios.get(`/server/projects`, {
           params: {
             email: email,
           },

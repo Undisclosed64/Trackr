@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -8,8 +8,10 @@ import Button from "react-bootstrap/Button";
 import "../App.css";
 import Modal from "react-bootstrap/Modal";
 import TicketActivites from "./TicketActivities";
+import noteContext from "../context/noteContext";
 
 const SingleTicket = () => {
+  const context = useContext(noteContext);
   const navigate = useNavigate();
   const location = useLocation();
   const baseURL = "http://localhost:5000/server";
@@ -65,7 +67,7 @@ const SingleTicket = () => {
 
     try {
       await axios
-        .delete(`${baseURL}/bugs/${ticket._id}`, {
+        .delete(`/server/bugs/${ticket._id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -125,7 +127,7 @@ const SingleTicket = () => {
 
     try {
       const res = await axios.put(
-        `${baseURL}/bugs/${id}`,
+        `/server/bugs/${id}`,
         { fieldName, value },
         {
           headers: {

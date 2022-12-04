@@ -1,6 +1,4 @@
-import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import GetTickets from "./components/GetTickets";
@@ -15,21 +13,21 @@ import Navbar from "./components/Navbar";
 import NoteState from "./context/NoteState";
 
 function App() {
-  const [user, setUser] = useState(null);
-  const baseURL = "http://localhost:5000/server";
-  const token = localStorage.getItem("token");
-  useEffect(() => {
-    axios
-      .get(`${baseURL}/getUser`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        setUser(response.data.user);
-      });
-  }, []);
+  // const baseURL = "http://localhost:5000/server";
+  // const token = localStorage.getItem("token");
+  // useEffect(() => {
+  //   axios
+  //     .get(`${baseURL}/getUser`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setUser(response.data.user);
+  //     });
+  // }, []);
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -58,11 +56,11 @@ function App() {
     },
     {
       path: "tickets/:id",
-      element: <SingleTicket user={user} />,
+      element: <SingleTicket />,
     },
     {
       path: "add-ticket",
-      element: <Ticket user={user} />,
+      element: <Ticket />,
     },
   ]);
   // if (!user) return <div>loading..</div>;

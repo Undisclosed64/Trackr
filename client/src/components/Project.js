@@ -27,7 +27,7 @@ const CreateProject = () => {
     console.log(token);
 
     try {
-      const res = await axios.post(`${baseURL}/projects`, formData, {
+      const res = await axios.post(`/server/projects`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

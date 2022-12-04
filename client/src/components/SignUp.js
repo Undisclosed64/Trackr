@@ -35,7 +35,7 @@ const SignUp = () => {
       role: formData.role,
     };
     try {
-      const res = await axios.post(`${baseURL}/users`, newUser);
+      const res = await axios.post(`/server/users`, newUser);
       console.log(res.data);
       navigate("/");
     } catch (error) {

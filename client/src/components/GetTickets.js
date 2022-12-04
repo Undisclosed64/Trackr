@@ -41,7 +41,7 @@ const GetTickets = () => {
     const getBugs = async () => {
       try {
         await axios
-          .get(`${baseURL}/bugs`, {
+          .get(`/server/bugs`, {
             params: {
               ids: ids,
             },

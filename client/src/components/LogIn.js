@@ -22,7 +22,7 @@ const LogIn = () => {
       return;
     }
     try {
-      const res = await axios.post(`${baseURL}/log-in`, data);
+      const res = await axios.post(`/server/log-in`, data);
       console.log(res.data);
       const token = res.data.accessToken;
       localStorage.setItem("token", token);

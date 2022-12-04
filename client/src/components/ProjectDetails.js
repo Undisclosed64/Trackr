@@ -44,7 +44,7 @@ const ProjectDetails = () => {
   //make the request
   useEffect(() => {
     axios
-      .get(`${baseURL}/projects/${projectId}`)
+      .get(`/server/projects/${projectId}`)
       .then((response) => {
         setTitle(response.data.title);
         setStartDate(response.data.startDate);
@@ -135,7 +135,7 @@ const ProjectDetails = () => {
 
     try {
       await axios
-        .delete(`${baseURL}/projects/${projectId}`, {
+        .delete(`/server/projects/${projectId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
