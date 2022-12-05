@@ -58,7 +58,7 @@ const Sidebar = () => {
             onClick={hideSidebar}
           />
           <BiBug className="text-brightOrange mr-2" />
-          <div className="text-brightWhite">BugTracker</div>
+          <div className="text-brightWhite">Trackr</div>
         </div>
 
         <nav className="mx-3">
