@@ -52,7 +52,7 @@ const LogIn = () => {
           onSubmit={(e) => handleSubmit(e)}
         >
           <h1 className="text-3xl text-center font-bold text-lightBlack2 mb-2 ">
-            Sign in to BugTracker
+            Sign in to Trackr
           </h1>
           {error ? <div className="error py-2">{error}</div> : " "}
 
@@ -99,7 +99,7 @@ const LogIn = () => {
           </div>
 
           <div className="signUpLinkInLogin mt-8 text-center text-base text-lightBlack">
-            New to BugTracker?{" "}
+            New to Trackr?{" "}
             <Link to="/sign-up" className="text-brightRed underline">
               SIGN UP
             </Link>
