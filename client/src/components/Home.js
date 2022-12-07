@@ -6,10 +6,11 @@ import axios from "axios";
 
 const Home = ({ navbar }) => {
   const context = useContext(noteContext);
-  const baseURL = "http://localhost:5000/server";
+  const baseURL = "http://localhost:5000";
   const [ids, setIds] = useState([]);
   const [totalTickets, setTotalTickets] = useState(0);
   const [activeProjects, setActiveProjects] = useState(0);
+  const [openTickets, setOpenTickets] = useState(0);
 
   //get projects id
   useEffect(() => {
@@ -23,13 +24,13 @@ const Home = ({ navbar }) => {
   useEffect(() => {
     try {
       axios
-        .get(`/server/bugs`, {
+        .get(`${baseURL}/server/bugs`, {
           params: {
             ids: ids,
           },
         })
         .then((response) => {
-          // console.log(response.data);
+          console.log(response.data);
           let count = 0;
           for (let i = 0; i < response.data.length; i++) {
             count = count + response.data[i].count;
@@ -46,7 +47,7 @@ const Home = ({ navbar }) => {
   useEffect(() => {
     const updateProjects = async () => {
       try {
-        const res = await axios.get(`/server/projects`, {
+        const res = await axios.get(`${baseURL}/server/projects`, {
           params: {
             email: context.userEmail,
             filterStatus: true,
@@ -60,6 +61,30 @@ const Home = ({ navbar }) => {
     };
     updateProjects();
   }, [context.userEmail]);
+
+  //get open tickets count
+  useEffect(() => {
+    try {
+      axios
+        .get(`${baseURL}/server/bugs`, {
+          params: {
+            ids: ids,
+            isFilterByOpenStatus: true,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          let count = 0;
+          for (let i = 0; i < response.data.length; i++) {
+            count = count + response.data[i].count;
+          }
+          console.log(count);
+          setOpenTickets(count);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [ids]);
 
   return (
     <div>
@@ -80,7 +105,7 @@ const Home = ({ navbar }) => {
           </div>
 
           <div className="box-wrapper bg-cyan-500 px-2 py-8 flex flex-col items-center rounded-lg text-white">
-            <div className="text-3xl font-bold pb-2">8</div>
+            <div className="text-3xl font-bold pb-2">{openTickets}</div>
             <span className="text-lg">Open Tickets</span>
           </div>
 
