@@ -26,6 +26,7 @@ exports.CreateBugs = [
         bugType: req.body.bugType,
         flag: req.body.flag,
         severity: req.body.severity,
+        status: req.body.status,
         dueDate: req.body.dueDate,
         createdOn: Date.now(),
         project: req.body.project,
@@ -66,36 +67,64 @@ exports.findBugsByProjects = (req, res) => {
   //convert string ids to objectid(else aggregate can't find )
   const ids = req.query.ids;
   console.log(req.query);
+
   if (ids) {
     let objectIdArray = ids.map((id) => mongoose.Types.ObjectId(id));
     console.log(objectIdArray);
 
-    Bug.aggregate([
-      //get all bugs that match the project id present in ids array
-      { $match: { project: { $in: objectIdArray } } },
+    const isFilterByOpen = req.query.isFilterByOpenStatus;
 
-      //group all bugs by the same project id
-      {
-        $group: {
-          _id: "$project",
-          records: { $push: "$$ROOT" },
-          count: { $sum: 1 },
+    if (!isFilterByOpen) {
+      console.log(isFilterByOpen);
+      Bug.aggregate([
+        //get all bugs that match the project id present in ids array
+        { $match: { project: { $in: objectIdArray } } },
+
+        //group all bugs by the same project id
+        {
+          $group: {
+            _id: "$project",
+            records: { $push: "$$ROOT" },
+            count: { $sum: 1 },
+          },
         },
-      },
 
-      {
-        $lookup: {
-          from: "projects",
-          localField: "_id",
-          foreignField: "_id",
-          as: "project_info",
+        {
+          $lookup: {
+            from: "projects",
+            localField: "_id",
+            foreignField: "_id",
+            as: "project_info",
+          },
         },
-      },
-    ]).exec(function (err, bugs) {
-      if (err) res.status(400).json(err);
+      ]).exec(function (err, bugs) {
+        if (err) res.status(400).json(err);
 
-      res.json(bugs);
-    });
+        res.json(bugs);
+      });
+    } else {
+      Bug.aggregate([
+        //get all tickets that match the project id present in ids array and that has the open status
+        {
+          $match: {
+            $and: [{ project: { $in: objectIdArray } }, { status: "Open" }],
+          },
+        },
+
+        //group all bugs by the same project id
+        {
+          $group: {
+            _id: "$project",
+            records: { $push: "$$ROOT" },
+            count: { $sum: 1 },
+          },
+        },
+      ]).exec(function (err, bugs) {
+        if (err) res.status(400).json(err);
+
+        res.json(bugs);
+      });
+    }
   }
 };
 
