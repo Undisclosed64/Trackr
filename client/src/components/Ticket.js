@@ -10,17 +10,16 @@ import noteContext from "../context/noteContext";
 
 const Ticket = () => {
   const context = useContext(noteContext);
-  const [projects, setProjects] = useState([]);
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
-  const baseURL = "http://localhost:5000/server";
+  const baseURL = "http://localhost:5000";
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    assignedDev: "",
+    assignedDev: "Unassigned",
     bugType: "",
     flag: "",
     severity: "",
@@ -30,26 +29,24 @@ const Ticket = () => {
     project: "",
   });
   const [ticket, setTicket] = useState();
-  const email = context.userEmail;
-  console.log(email);
-
-  useEffect(() => {
-    axios
-      .get(`/server/projects`, {
-        params: {
-          email: email,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        setProjects(response.data.projects);
-      });
-  }, []);
+  const projects = context.projects;
+  // useEffect(() => {
+  //   axios
+  //     .get(`${baseURL}/server/projects`, {
+  //       params: {
+  //         email: email,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setProjects(response.data.projects);
+  //     });
+  // }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`/server/bugs`, formData, {
+      const res = await axios.post(`${baseURL}/server/bugs`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
