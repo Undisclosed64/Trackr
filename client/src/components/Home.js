@@ -8,9 +8,10 @@ const Home = ({ navbar }) => {
   const context = useContext(noteContext);
   const baseURL = "http://localhost:5000";
   const [ids, setIds] = useState([]);
-  const [totalTickets, setTotalTickets] = useState(0);
   const [activeProjects, setActiveProjects] = useState(0);
+  const [totalTickets, setTotalTickets] = useState(0);
   const [openTickets, setOpenTickets] = useState(0);
+  const [unassignedTickets, setUnassignedTickets] = useState(0);
 
   //get projects id
   useEffect(() => {
@@ -19,6 +20,25 @@ const Home = ({ navbar }) => {
       setIds((ids) => [...ids, projects[i]._id]);
     }
   }, [context.projects]);
+
+  //get total active projects count
+  useEffect(() => {
+    const updateProjects = async () => {
+      try {
+        const res = await axios.get(`${baseURL}/server/projects`, {
+          params: {
+            email: context.userEmail,
+            filterStatus: true,
+          },
+        });
+        // console.log(res.data.projects);
+        return setActiveProjects(res.data.projects.length);
+      } catch {
+        return null;
+      }
+    };
+    updateProjects();
+  }, [context.userEmail]);
 
   //get total tickets count
   useEffect(() => {
@@ -43,25 +63,6 @@ const Home = ({ navbar }) => {
     }
   }, [ids]);
 
-  //get total active projects count
-  useEffect(() => {
-    const updateProjects = async () => {
-      try {
-        const res = await axios.get(`${baseURL}/server/projects`, {
-          params: {
-            email: context.userEmail,
-            filterStatus: true,
-          },
-        });
-        // console.log(res.data.projects);
-        return setActiveProjects(res.data.projects.length);
-      } catch {
-        return null;
-      }
-    };
-    updateProjects();
-  }, [context.userEmail]);
-
   //get open tickets count
   useEffect(() => {
     try {
@@ -73,13 +74,37 @@ const Home = ({ navbar }) => {
           },
         })
         .then((response) => {
-          console.log(response.data);
+          //console.log(response.data);
           let count = 0;
           for (let i = 0; i < response.data.length; i++) {
             count = count + response.data[i].count;
           }
           console.log(count);
           setOpenTickets(count);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [ids]);
+
+  //get unassigned tickets
+  useEffect(() => {
+    try {
+      axios
+        .get(`${baseURL}/server/bugs`, {
+          params: {
+            ids: ids,
+            isFilterByUnassigned: true,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          let count = 0;
+          for (let i = 0; i < response.data.length; i++) {
+            count = count + response.data[i].count;
+          }
+          console.log(count);
+          setUnassignedTickets(count);
         });
     } catch (err) {
       console.log(err);
@@ -110,7 +135,7 @@ const Home = ({ navbar }) => {
           </div>
 
           <div className="box-wrapper bg-teal-200 px-2 py-8 flex flex-col items-center rounded-lg bg-yellow-500 text-white">
-            <div className="text-3xl font-bold pb-2">14</div>
+            <div className="text-3xl font-bold pb-2">{unassignedTickets}</div>
             <span className="text-lg">Unassigned Tickets</span>
           </div>
         </div>
