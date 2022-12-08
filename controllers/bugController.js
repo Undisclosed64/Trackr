@@ -64,18 +64,37 @@ exports.getBug = async (req, res) => {
 
 //sort all bugs by projects
 exports.findBugsByProjects = (req, res) => {
-  //convert string ids to objectid(else aggregate can't find )
   const ids = req.query.ids;
-  console.log(req.query);
 
   if (ids) {
+    //convert string ids to objectid(else aggregate can't find )
     let objectIdArray = ids.map((id) => mongoose.Types.ObjectId(id));
-    console.log(objectIdArray);
+    // console.log(objectIdArray);
 
-    const isFilterByOpen = req.query.isFilterByOpenStatus;
+    const filterByOpen = () => {
+      Bug.aggregate([
+        //filter tickets by open status and project ids of the ids array
+        {
+          $match: {
+            $and: [{ project: { $in: objectIdArray } }, { status: "Open" }],
+          },
+        },
 
-    if (!isFilterByOpen) {
-      console.log(isFilterByOpen);
+        //group all bugs by the same project id
+        {
+          $group: {
+            _id: "$project",
+            records: { $push: "$$ROOT" },
+            count: { $sum: 1 },
+          },
+        },
+      ]).exec(function (err, bugs) {
+        if (err) res.status(400).json(err);
+        res.json(bugs);
+      });
+    };
+
+    const getAllTickets = () => {
       Bug.aggregate([
         //get all bugs that match the project id present in ids array
         { $match: { project: { $in: objectIdArray } } },
@@ -99,15 +118,19 @@ exports.findBugsByProjects = (req, res) => {
         },
       ]).exec(function (err, bugs) {
         if (err) res.status(400).json(err);
-
         res.json(bugs);
       });
-    } else {
+    };
+
+    const filterByUnassigned = () => {
       Bug.aggregate([
-        //get all tickets that match the project id present in ids array and that has the open status
+        //filter tickets by unassigned status and project ids of the ids array
         {
           $match: {
-            $and: [{ project: { $in: objectIdArray } }, { status: "Open" }],
+            $and: [
+              { project: { $in: objectIdArray } },
+              { assignedDev: "Unassigned" },
+            ],
           },
         },
 
@@ -121,44 +144,20 @@ exports.findBugsByProjects = (req, res) => {
         },
       ]).exec(function (err, bugs) {
         if (err) res.status(400).json(err);
-
         res.json(bugs);
       });
+    };
+
+    //get tickets based on the query
+    if (req.query.isFilterByOpenStatus) {
+      filterByOpen();
+    } else if (req.query.isFilterByUnassigned) {
+      filterByUnassigned();
+    } else {
+      getAllTickets();
     }
   }
 };
-
-// Bug.aggregate([
-//   { $match: { project: { $in: req.body.ids } } },
-//   function (err, result) {
-//     if (err) res.status(400).json(err);
-//     res.json(result);
-//   },
-// ]);
-
-// try {
-//   Bug.find({ project: { $in: req.body.ids } })
-//     .populate("project")
-//     .exec(function (err, bugs) {
-//       if (err) res.status(400).json(err);
-//       console.log(bugs.project);
-//       res.json(bugs);
-//     });
-// } catch (err) {
-//   res.status(500).json(err);
-// }
-
-// //get all bugs
-// exports.getAllBugs = async (req, res) => {
-//   try {
-//     Bug.find((err, bugs) => {
-//       if (err) res.status(400).json(err);
-//       res.status(200).json(bugs);
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// };
 
 //update a bug
 exports.updateBug = async function (req, res, next) {
