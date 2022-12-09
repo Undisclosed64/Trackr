@@ -11,8 +11,15 @@ const Feed = ({ navbar }) => {
     <div>
       {navbar}
       <Sidebar />
-      <section id="feed" className="">
-        <div className="projects-dropdown"></div>
+      <section id="feed" className="py-10 px-3">
+        <h3>Slecet Project</h3>
+        {projects.map((project) => {
+          return (
+            <div className="projects-dropdown">
+              <h2>{project.title}</h2>
+            </div>
+          );
+        })}
       </section>
     </div>
   );

@@ -6,26 +6,11 @@ import noteContext from "../context/noteContext";
 const GetTickets = () => {
   const [ids, setIds] = useState([]);
   const [bugs, setBugs] = useState([]);
-  const baseURL = "http://localhost:5000/server";
+  const baseURL = "http://localhost:5000";
   const navigate = useNavigate();
   const context = useContext(noteContext);
 
-  // //get projects and update projects state
-  // useEffect(() => {
-  //   const updateProjects = async () => {
-  //     try {
-  //       const res = await axios.get(`${baseURL}/projects`, {
-  //         params: {
-  //           email: context.userEmail,
-  //         },
-  //       });
-  //       return setProjects(res.data.projects);
-  //     } catch {
-  //       return null;
-  //     }
-  //   };
-  //   updateProjects();
-  // }, [context.userEmail]);
+  const projects = context.projects;
 
   //get projects id
   useEffect(() => {
@@ -35,13 +20,13 @@ const GetTickets = () => {
     }
   }, [context.projects]);
 
-  //get bugs of all projects
+  //get tickets of all projects
   useEffect(() => {
     console.log(ids);
     const getBugs = async () => {
       try {
         await axios
-          .get(`/server/bugs`, {
+          .get(`${baseURL}/server/bugs`, {
             params: {
               ids: ids,
             },
@@ -62,7 +47,7 @@ const GetTickets = () => {
       state: { ticketId: `${id}` },
     });
   };
-  if (!context.projects) return <div>Loading..</div>;
+  if (!projects) return <div>Loading..</div>;
 
   return (
     <div>
