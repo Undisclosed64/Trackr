@@ -11,6 +11,7 @@ import SingleTicket from "./components/SingleTicket";
 import Ticket from "./components/Ticket";
 import Navbar from "./components/Navbar";
 import NoteState from "./context/NoteState";
+import Feed from "./components/Feed";
 
 function App() {
   // const baseURL = "http://localhost:5000/server";
@@ -40,7 +41,11 @@ function App() {
 
     {
       path: "home",
-      element: <Home navbar={<Navbar />} />,
+      element: <Home navbar={<Navbar sectionName="Home" />} />,
+    },
+    {
+      path: "feed",
+      element: <Feed navbar={<Navbar sectionName="Feed" />} />,
     },
     {
       path: "create-project",
