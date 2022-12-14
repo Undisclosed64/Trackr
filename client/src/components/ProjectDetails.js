@@ -10,7 +10,6 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ProjectDeleted from "./ProjectDeleted";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import GetActivites from "./GetActivities";
 // 636270a5b08b5f2a93b2c16b
 
@@ -36,7 +35,7 @@ const ProjectDetails = () => {
   const [projectNotFound, setProjectNotFound] = useState(false);
   const [updatedMsg, setUpdatedMsg] = useState(null);
   const [displayActivites, setDisplayActivities] = useState(false);
-  const baseURL = "http://localhost:5000/server";
+  const baseURL = "http://localhost:5000";
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -44,7 +43,7 @@ const ProjectDetails = () => {
   //make the request
   useEffect(() => {
     axios
-      .get(`/server/projects/${projectId}`)
+      .get(`${baseURL}/server/projects/${projectId}`)
       .then((response) => {
         setTitle(response.data.title);
         setStartDate(response.data.startDate);
@@ -94,7 +93,7 @@ const ProjectDetails = () => {
     console.log(value);
     try {
       const res = await axios.put(
-        `${baseURL}/projects/${projectId}`,
+        `${baseURL}/server/projects/${projectId}`,
         { fieldName, value, createdBy: project.createdBy },
 
         {
@@ -156,8 +155,9 @@ const ProjectDetails = () => {
       }
     }
   };
+  console.log(project);
 
-  if (projectNotFound) return <ProjectDeleted />;
+  // if (projectNotFound) return <ProjectDeleted />;
   if (!project) return <div>loading...</div>;
 
   return (
