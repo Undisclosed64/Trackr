@@ -17,13 +17,16 @@ const Sidebar = () => {
     const toggleSidebar = document.querySelector("#toggleSidebar");
     const navbar = document.getElementById("top-navbar");
     const sectionHome = document.querySelector("#home");
+    const sectionFeed = document.querySelector("#feed");
 
+    console.log(sectionFeed);
     //perform actions
     sidebar.style.display = "block";
     toggleSidebar.style.display = "none";
     //move it to right
     navbar.classList.add("toggler");
-    sectionHome.classList.add("toggler");
+    // sectionHome.classList.add("toggler");
+    sectionFeed.classList.add("toggler");
   };
   const hideSidebar = () => {
     //select all elements
@@ -31,13 +34,16 @@ const Sidebar = () => {
     const toggleSidebar = document.querySelector("#toggleSidebar");
     const navbar = document.getElementById("top-navbar");
     const sectionHome = document.querySelector("#home");
+    const sectionFeed = document.querySelector("#feed");
+    console.log(sectionFeed);
 
     //perform actions on them
     sidebar.style.display = "none";
     toggleSidebar.style.display = "block";
     //move it to left
     navbar.classList.remove("toggler");
-    sectionHome.classList.remove("toggler");
+    // sectionHome.classList.remove("toggler");
+    sectionFeed.classList.remove("toggler");
   };
   return (
     <div className="container ">
@@ -59,7 +65,7 @@ const Sidebar = () => {
       {/* Dark themed sidebar */}
       <div
         id="sidebar"
-        className="bg-brightWhite fixed top-0 left-0 w-24 vlg:w-1/5 vlg:block h-screen"
+        className="bg-brightWhite fixed top-0 left-0 w-24 vlg:w-1/5 vlg:block h-screen drop-shadow z-10"
       >
         <div className="header text-brightRed drop-shadow px-2 py-1.5 md:py-2 mb-3 text-2xl bg-brightWhite flex justify-between">
           <div className="brand flex items-center lg:pl-1">
@@ -85,7 +91,7 @@ const Sidebar = () => {
                 to="/home"
                 className="sidebar-link no-underline flex px-1 py-2 hover:rounded  vlg:hover:bg-lightWhite hover:text-lightBlack3 text-lightBlack3"
               >
-                <AiOutlineHome className="mr-3 text-2xl" />
+                <AiOutlineHome className="mr-3 text-2xl text-lightBlack2" />
                 <div className="hidden text-xl vlg:block">Home</div>
               </Link>
             </li>
@@ -94,7 +100,7 @@ const Sidebar = () => {
                 to="/feed"
                 className="flex no-underline items-center px-1 py-2 text-lightBlack3 hover:rounded vlg:hover:bg-lightWhite hover:text-lightBlack3"
               >
-                <MdOutlineFeed className="mr-3 text-2xl" />
+                <MdOutlineFeed className="mr-3 text-2xl text-lightBlack2" />
                 <div className="hidden text-xl vlg:block">Feed</div>
               </Link>
             </li>
@@ -103,7 +109,7 @@ const Sidebar = () => {
                 to="#"
                 className="flex items-center px-1 py-2 no-underline hover:rounded vlg:hover:bg-lightWhite hover:text-lightBlack3 text-lightBlack3"
               >
-                <BsListTask className="mr-3 text-2xl" />
+                <BsListTask className="mr-3 text-2xl text-lightBlack2" />
                 <div className="hidden text-xl vlg:block">Projects</div>
               </Link>
             </li>
@@ -112,7 +118,7 @@ const Sidebar = () => {
                 to="/add-ticket"
                 className="flex no-underline items-center px-1 py-2 vlg:hover:bg-lightWhite hover:text-lightBlack3 hover:rounded text-lightBlack3"
               >
-                <IoTicketOutline className="mr-3 text-2xl" />
+                <IoTicketOutline className="mr-3 text-2xl text-lightBlack2" />
                 <div className="hidden text-xl vlg:block">Tickets</div>
               </Link>
             </li>
@@ -121,7 +127,7 @@ const Sidebar = () => {
                 to="/discuss"
                 className="flex items-center no-underline px-1 py-2 vlg:hover:bg-lightWhite hover:text-lightBlack3 hover:rounded text-lightBlack3"
               >
-                <GoCommentDiscussion className="mr-3 text-2xl" />
+                <GoCommentDiscussion className="mr-3 text-2xl text-lightBlack2" />
                 <div className="hidden text-xl vlg:block">Discuss</div>
               </Link>
             </li>
