@@ -119,7 +119,7 @@ const Home = ({ navbar }) => {
         <h1 className="text-xl font-semibold">Welcome {context.userName}</h1>
         {/* container for boxes */}
         <div className="information-boxes my-4 grid gap-8 msm:grid-cols-2 vlg:grid-cols-4">
-          <div className="box-wrapper bg-teal-500 px-2 py-8 flex flex-col items-center rounded-lg text-white">
+          <div className="box-wrapper bg-[url('svg.png')] bg-cover bg-sky-500/30 bg-no-repeat bg-center px-2 py-8 flex flex-col items-center rounded-lg text-white ">
             <div className="text-3xl font-bold pb-2">{activeProjects}</div>
             <span className="text-lg">Active Projects</span>
           </div>
