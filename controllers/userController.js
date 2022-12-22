@@ -47,7 +47,7 @@ exports.logUser = async (req, res) => {
     res.status(404).json({ msg: "Email is not registered!" });
     return;
   }
-
+  console.log(user);
   //check if password is correct or not
   if (await bcrypt.compare(req.body.password, user.password)) {
     //generate an access token
