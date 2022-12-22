@@ -7,12 +7,13 @@ const NoteState = (props) => {
   const [username, setUserName] = useState(null);
   const [email, setEmail] = useState(null);
   const [projects, setProjects] = useState([]);
-  const baseURL = "http://localhost:5000/server";
+  const baseURL = "http://localhost:5000";
   const token = localStorage.getItem("token");
 
+  //get the logged in user
   useEffect(() => {
     axios
-      .get(`/server/getUser`, {
+      .get(`${baseURL}/server/getUser`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -27,20 +28,20 @@ const NoteState = (props) => {
 
   //get all projects
   useEffect(() => {
-    const updateProjects = async () => {
+    const getProjects = async () => {
       try {
-        const res = await axios.get(`/server/projects`, {
+        const res = await axios.get(`${baseURL}/server/projects`, {
           params: {
             email: email,
           },
         });
-        console.log(res.data.projects);
+        // console.log(res.data.projects);
         return setProjects(res.data.projects);
       } catch {
         return null;
       }
     };
-    updateProjects();
+    getProjects();
   }, [email]);
 
   const state = {
