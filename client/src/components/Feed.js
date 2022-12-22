@@ -14,21 +14,33 @@ const Feed = ({ navbar }) => {
   const [showStatus, setShowStatus] = useState(false);
   const [streamActive, setStreamActive] = useState(true);
   const baseURL = "http://localhost:5000";
+  const [reverseArr, setReverseArr] = useState([]);
 
   useEffect(() => {
     axios
       .get(`${baseURL}/server/projects/${projectId}`)
       .then((res) => {
         setProject(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [projectId]);
 
+  //reverse the project activities array
+  useEffect(() => {
+    if (project) {
+      let arr = [];
+      for (let i = 0; i < project.trackActivities.length; i++) {
+        let element =
+          project.trackActivities[project.trackActivities.length - (i + 1)];
+        arr.push(element);
+      }
+      setReverseArr(arr);
+    }
+  }, [project]);
+
   const handleChange = (e) => {
-    console.log(e.target.value);
     setProjectId(e.target.value);
   };
   const displayStatus = () => {
@@ -94,7 +106,7 @@ const Feed = ({ navbar }) => {
           </div>
         </div>
         {project && streamActive ? (
-          <GetActivites activities={project.trackActivities} />
+          <GetActivites activities={reverseArr} />
         ) : (
           ""
         )}
