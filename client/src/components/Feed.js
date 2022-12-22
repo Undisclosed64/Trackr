@@ -4,12 +4,15 @@ import { useContext, useState } from "react";
 import noteContext from "../context/noteContext";
 import axios from "axios";
 import GetActivites from "./GetActivities";
+import DisplayStatus from "./DisplayStatus";
 
 const Feed = ({ navbar }) => {
   const context = useContext(noteContext);
   const projects = context.projects;
   const [projectId, setProjectId] = useState(null);
   const [project, setProject] = useState(null);
+  const [showStatus, setShowStatus] = useState(false);
+  const [streamActive, setStreamActive] = useState(true);
   const baseURL = "http://localhost:5000";
 
   useEffect(() => {
@@ -28,6 +31,27 @@ const Feed = ({ navbar }) => {
     console.log(e.target.value);
     setProjectId(e.target.value);
   };
+  const displayStatus = () => {
+    setShowStatus(true);
+    setStreamActive(false);
+    const statusBtn = document.querySelector(".status");
+    statusBtn.classList.add("addUnderline");
+    const activityStreamBtn = document.querySelector(".activityStream");
+    activityStreamBtn.classList.remove("addUnderline");
+  };
+  const displayActivity = () => {
+    setShowStatus(false);
+    setStreamActive(true);
+    const activityStreamBtn = document.querySelector(".activityStream");
+    activityStreamBtn.classList.add("addUnderline");
+    const statusBtn = document.querySelector(".status");
+    statusBtn.classList.remove("addUnderline");
+  };
+  const activityStreamBtn = document.querySelector(".activityStream");
+
+  if (activityStreamBtn && !showStatus) {
+    activityStreamBtn.classList.add("addUnderline");
+  }
 
   return (
     <div>
@@ -53,13 +77,28 @@ const Feed = ({ navbar }) => {
           </select>
           ;
         </div>
-
         <input
           type="text"
-          className="py-3 px-2 bg-brightWhite rounded-md drop-shadow w-full my-6 border text-veryLightGray tracking-tight"
+          className="py-3 px-2 bg-brightWhite rounded-md drop-shadow w-full my-8 border text-veryLightGray tracking-tight"
           placeholder="Share a quick thought and start a discussion"
         />
-        {project ? <GetActivites activities={project.trackActivities} /> : ""}
+        <div className="status-stream-wrapper flex gap-12 border-b-[1.5px]">
+          <div
+            className="activityStream font-medium pb-2 hover:cursor-pointer"
+            onClick={displayActivity}
+          >
+            Activity Stream
+          </div>
+          <div className="status hover:cursor-pointer" onClick={displayStatus}>
+            Status
+          </div>
+        </div>
+        {project && streamActive ? (
+          <GetActivites activities={project.trackActivities} />
+        ) : (
+          ""
+        )}
+        {showStatus ? <DisplayStatus /> : ""}
       </section>
     </div>
   );
