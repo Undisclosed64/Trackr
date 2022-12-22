@@ -24,6 +24,27 @@ body {
 .addUnderline {
   border-bottom: 2px solid #ff6400;
 }
+
+/* Container around content */
+.circle {
+  padding: 10px;
+  position: relative;
+}
+
+/* The circles on the timeline */
+.circle::after {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  left: -12px;
+  top: 12px;
+  background-color: #ffffff;
+  border: 4px solid #ff6400;
+  border-radius: 50%;
+  z-index: 1;
+}
+
 /* #top-navbar {
   margin-left: 20%;
 } */
