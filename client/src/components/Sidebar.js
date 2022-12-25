@@ -18,6 +18,7 @@ const Sidebar = () => {
     const navbar = document.getElementById("top-navbar");
     const sectionHome = document.querySelector("#home");
     const sectionFeed = document.querySelector("#feed");
+    const sectionTickets = document.querySelector("#tickets");
 
     console.log(sectionFeed);
     //perform actions
@@ -26,7 +27,8 @@ const Sidebar = () => {
     //move it to right
     navbar.classList.add("toggler");
     // sectionHome.classList.add("toggler");
-    sectionFeed.classList.add("toggler");
+    // sectionFeed.classList.add("toggler");
+    sectionTickets.classList.add("toggler");
   };
   const hideSidebar = () => {
     //select all elements
@@ -35,6 +37,8 @@ const Sidebar = () => {
     const navbar = document.getElementById("top-navbar");
     const sectionHome = document.querySelector("#home");
     const sectionFeed = document.querySelector("#feed");
+    const sectionTickets = document.querySelector("#tickets");
+
     console.log(sectionFeed);
 
     //perform actions on them
@@ -43,7 +47,8 @@ const Sidebar = () => {
     //move it to left
     navbar.classList.remove("toggler");
     // sectionHome.classList.remove("toggler");
-    sectionFeed.classList.remove("toggler");
+    // sectionFeed.classList.remove("toggler");
+    sectionTickets.classList.remove("toggler");
   };
   return (
     <div className="container ">
@@ -115,7 +120,7 @@ const Sidebar = () => {
             </li>
             <li className="mb-4 text-lg text-lightBlack3 ">
               <Link
-                to="/add-ticket"
+                to="/tickets"
                 className="flex no-underline items-center px-1 py-2 vlg:hover:bg-lightWhite hover:text-lightBlack3 hover:rounded text-lightBlack3"
               >
                 <IoTicketOutline className="mr-3 text-2xl text-lightBlack2" />
