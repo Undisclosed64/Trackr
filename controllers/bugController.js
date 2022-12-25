@@ -88,6 +88,14 @@ exports.findBugsByProjects = (req, res) => {
             count: { $sum: 1 },
           },
         },
+        {
+          $lookup: {
+            from: "projects",
+            localField: "_id",
+            foreignField: "_id",
+            as: "project_info",
+          },
+        },
       ]).exec(function (err, bugs) {
         if (err) res.status(400).json(err);
         res.json(bugs);
@@ -142,6 +150,45 @@ exports.findBugsByProjects = (req, res) => {
             count: { $sum: 1 },
           },
         },
+        {
+          $lookup: {
+            from: "projects",
+            localField: "_id",
+            foreignField: "_id",
+            as: "project_info",
+          },
+        },
+      ]).exec(function (err, bugs) {
+        if (err) res.status(400).json(err);
+        res.json(bugs);
+      });
+    };
+
+    const filterByClosed = () => {
+      Bug.aggregate([
+        //filter tickets by closed status and project ids of the ids array
+        {
+          $match: {
+            $and: [{ project: { $in: objectIdArray } }, { status: "closed" }],
+          },
+        },
+
+        //group all bugs by the same project id
+        {
+          $group: {
+            _id: "$project",
+            records: { $push: "$$ROOT" },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $lookup: {
+            from: "projects",
+            localField: "_id",
+            foreignField: "_id",
+            as: "project_info",
+          },
+        },
       ]).exec(function (err, bugs) {
         if (err) res.status(400).json(err);
         res.json(bugs);
@@ -153,6 +200,8 @@ exports.findBugsByProjects = (req, res) => {
       filterByOpen();
     } else if (req.query.isFilterByUnassigned) {
       filterByUnassigned();
+    } else if (req.query.isFilterByClosed) {
+      filterByClosed();
     } else {
       getAllTickets();
     }
