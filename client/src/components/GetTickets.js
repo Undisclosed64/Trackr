@@ -2,8 +2,9 @@ import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import noteContext from "../context/noteContext";
+import Sidebar from "../components/Sidebar";
 
-const GetTickets = () => {
+const GetTickets = ({ navbar }) => {
   const [ids, setIds] = useState([]);
   const [bugs, setBugs] = useState([]);
   const baseURL = "http://localhost:5000";
@@ -51,39 +52,63 @@ const GetTickets = () => {
 
   return (
     <div>
-      {bugs.map((project) => {
-        return (
-          <div key={project._id} className="bugsHeaderProject">
-            {project.project_info.map((pr) => {
-              return (
-                <h3 key={pr._id} className="project-title">
-                  {pr.title}
-                </h3>
-              );
-            })}
-
-            {/* second loop */}
-            {project.records.map((ticket) => {
-              return (
-                <div key={ticket._id} className="ticket">
-                  <h3
-                    className="ticket-title"
-                    onClick={() => getTicketDetail(ticket._id)}
-                  >
-                    {ticket.title}
-                  </h3>
-                  <div>{new Date(ticket.createdOn).toDateString()}</div>
-                  <div>{ticket.assignedDev}</div>
-                  <div>{new Date(ticket.dueDate).toDateString()}</div>
-                  <div>{ticket.status}</div>
-                  <div>{ticket.severity}</div>
-                  <div>{ticket.flag}</div>
-                </div>
-              );
-            })}
+      {navbar}
+      <Sidebar />
+      <section id="tickets" className="toggler py-10 px-2 md:mx-20">
+        <div className="filter-wrapper flex justify-center items-center mb-4 gap-4 msm:justify-between">
+          <select className="ticket-sort border-none text-brightOrange text-lg bg-transparent msm:ml-5">
+            <option value="All Bugs">All Tickets</option>
+            <option value="">All Open </option>
+            <option value="All Bugs">All Closed</option>
+            <option value="All Bugs">Unassigned</option>
+          </select>
+          <div className="rightSide flex items-center justify-between msm:gap-4">
+            <select className="view-sort border-none text-brightOrange text-lg bg-transparent">
+              <option value="">Classic</option>
+              <option value="">Plain</option>
+            </select>
+            <button
+              className="bg-brightOrange text-brightWhite rounded-full baseline py-2 px-3 hover:bg-orange-400 font-medium hidden 
+          sm:block"
+            >
+              Submit Ticket
+            </button>
           </div>
-        );
-      })}
+        </div>
+        {bugs.map((project) => {
+          return (
+            <div key={project._id} className="bugsHeaderProject">
+              {project.project_info.map((pr) => {
+                return (
+                  <h3 key={pr._id} className="project-title">
+                    {pr.title}
+                  </h3>
+                );
+              })}
+
+              {/* second loop */}
+              {project.records.map((ticket) => {
+                return (
+                  <div key={ticket._id} className="ticket">
+                    <h3
+                      className="ticket-title"
+                      onClick={() => getTicketDetail(ticket._id)}
+                    >
+                      {ticket.title}
+                    </h3>
+                    <div>{new Date(ticket.createdOn).toDateString()}</div>
+                    <div>{ticket.assignedDev}</div>
+                    <div>{new Date(ticket.dueDate).toDateString()}</div>
+                    <div>{ticket.status}</div>
+                    <div>{ticket.severity}</div>
+                    <div>{ticket.flag}</div>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </section>
     </div>
   );
 };
