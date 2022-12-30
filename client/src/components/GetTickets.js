@@ -121,10 +121,16 @@ const GetTickets = ({ navbar }) => {
     <div>
       {navbar}
       <Sidebar />
-      <section id="tickets" className="toggler py-10 px-2 md:mx-20">
-        <div className="filter-wrapper flex justify-center items-center mb-4 gap-4 msm:justify-between">
+      <section
+        id="tickets"
+        className="toggler py-20 fixed top-0 left-0 right-0 "
+      >
+        <div
+          className="filter-wrapper flex justify-center items-center msm:justify-between bg-brightWhite drop-shadow rounded-md 
+          mb-6 gap-4 mx-2 py-2 px-1 md:mx-4 md:py-4"
+        >
           <select
-            className="ticket-sort border-none text-brightOrange bg-transparent capitalize msm:ml-5"
+            className="ticket-sort border-none text-brightOrange bg-transparent capitalize"
             onChange={handleChange}
           >
             <option value="all">all tickets</option>
@@ -132,7 +138,7 @@ const GetTickets = ({ navbar }) => {
             <option value="closed">all closed</option>
             <option value="unassigned">unassigned</option>
           </select>
-          <div className="rightSide flex items-center justify-between msm:gap-4">
+          <div className="rightSide flex items-center justify-between msm:gap-4 pr-2">
             <select className="view-sort border-none text-brightOrange bg-transparent capitalize">
               <option value="">classic</option>
               <option value="">plain</option>
@@ -145,39 +151,71 @@ const GetTickets = ({ navbar }) => {
             </button>
           </div>
         </div>
-        {bugs.map((project) => {
-          return (
-            <div key={project._id} className="bugsHeaderProject">
-              {project.project_info.map((pr) => {
-                return (
-                  <h3 key={pr._id} className="project-title">
-                    {pr.title}
-                  </h3>
-                );
-              })}
-
-              {/* second loop */}
-              {project.records.map((ticket) => {
-                return (
-                  <div key={ticket._id} className="ticket">
-                    <h3
-                      className="ticket-title"
-                      onClick={() => getTicketDetail(ticket._id)}
+        <div className="tickets-header flex justify-between">
+          <div className="ticketHeader-wrapper">
+            <div className="w-56">Ticket</div>
+          </div>
+          <div className="w-48">Created</div>
+          <div className="w-24">Assigned developer</div>
+          <div className="w-24">Status</div>
+          <div className="w-24">Severity</div>
+          <div className="w-24">Flag</div>
+          <div className="w-48">Due date</div>
+        </div>
+        <div className="tickets-container h-96 bg-red-100 overflow-auto">
+          {bugs.map((project) => {
+            return (
+              <div key={project._id}>
+                {project.project_info.map((pr) => {
+                  return (
+                    <div
+                      key={pr._id}
+                      className="project-title capitalize font-medium"
                     >
-                      {ticket.title}
-                    </h3>
-                    <div>{new Date(ticket.createdOn).toDateString()}</div>
-                    <div>{ticket.assignedDev}</div>
-                    <div>{new Date(ticket.dueDate).toDateString()}</div>
-                    <div>{ticket.status}</div>
-                    <div>{ticket.severity}</div>
-                    <div>{ticket.flag}</div>
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
+                      {pr.title}
+                    </div>
+                  );
+                })}
+
+                {/* second loop */}
+                {project.records.map((ticket) => {
+                  return (
+                    <div
+                      key={ticket._id}
+                      className="ticket py-2 border-bottom flex items-baseline"
+                    >
+                      <div
+                        className="ticket-title w-96 bg-red-200 mr-8"
+                        onClick={() => getTicketDetail(ticket._id)}
+                      >
+                        {ticket.title}
+                      </div>
+                      <div className="w-48 bg-lightWhite mr-8 ">
+                        {new Date(ticket.createdOn).toDateString()}
+                      </div>
+                      <div className="w-48 bg-lightWhite mr-8">
+                        {ticket.assignedDev}
+                      </div>
+
+                      <div className="w-24 bg-lightWhite mr-8">
+                        {ticket.status}
+                      </div>
+                      <div className="w-24 bg-lightWhite mr-20">
+                        {ticket.severity}
+                      </div>
+                      <div className="w-24 bg-lightWhite mr-20">
+                        {ticket.flag}
+                      </div>
+                      <div className="w-40 bg-lightWhite mr-8">
+                        {new Date(ticket.dueDate).toDateString()}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
       </section>
     </div>
   );
