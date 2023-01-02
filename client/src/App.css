@@ -23,6 +23,7 @@ body {
 }
 .addUnderline {
   border-bottom: 2px solid #ff6400;
+  font-weight: 500;
 }
 
 /* Container around content */
@@ -88,17 +89,6 @@ body {
   background-color: gainsboro;
 }
 
-.bugsHeaderProject {
-  text-align: center;
-}
-.ticket {
-  margin: 30px;
-}
-.project-title {
-  font-weight: 600;
-  text-transform: uppercase;
-  text-decoration: underline;
-}
 .ticket-title:hover {
   cursor: pointer;
   color: #ff6400;
