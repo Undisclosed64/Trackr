@@ -45,7 +45,9 @@ body {
   border-radius: 50%;
   z-index: 1;
 }
-
+.ticket-wrapper:hover .external-link {
+  display: block;
+}
 /* #top-navbar {
   margin-left: 20%;
 } */
@@ -89,10 +91,6 @@ body {
   background-color: gainsboro;
 }
 
-.ticket-title:hover {
-  cursor: pointer;
-  color: #ff6400;
-}
 .sucess-msg {
   text-align: center;
   font-weight: 500;
