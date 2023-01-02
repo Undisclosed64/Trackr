@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import noteContext from "../context/noteContext";
 import Sidebar from "../components/Sidebar";
 import { IoIosArrowDropup } from "react-icons/io";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 const GetTickets = ({ navbar }) => {
   const [ids, setIds] = useState([]);
@@ -181,13 +182,14 @@ const GetTickets = ({ navbar }) => {
                   return (
                     <div
                       key={ticket._id}
-                      className="ticket border-bottom md:flex py-2 pl-8"
+                      className="ticket-wrapper border-bottom py-2 px-8 hover:bg-red-50 hover:font-medium hover:text-brightOrange"
                     >
                       <div
-                        className="ticket-title"
+                        className="ticket-title flex justify-between"
                         onClick={() => getTicketDetail(ticket._id)}
                       >
                         {ticket.title}
+                        <HiOutlineExternalLink className="external-link text-brightOrange text-lg hidden" />
                       </div>
 
                       <div className="ticket-details-wrapper bg-slate-100 hidden">
