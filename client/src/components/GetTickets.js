@@ -152,16 +152,19 @@ const GetTickets = ({ navbar }) => {
             </button>
           </div>
         </div>
-        <div className="ticketHeader-wrapper hidden">
-          <div className="w-56">Ticket</div>
-          <div className="w-48">Created</div>
-          <div className="w-24">Assigned developer</div>
-          <div className="w-24">Status</div>
-          <div className="w-24">Severity</div>
-          <div className="w-24">Flag</div>
-          <div className="w-48">Due date</div>
-        </div>
-        <div className="tickets-container overflow-auto whitespace-nowrap py-2  h-96 md:h-80">
+
+        <div className="tickets-container overflow-auto whitespace-nowrap py-2 h-96 md:h-80">
+          <div className="ticketHeader-wrapper hidden md:grid  grid-flow-col auto-cols-fr gap-12 p-1 mx-8 uppercase mb-2  border-b-2 text-lightGray">
+            <div className=" ">Ticket</div>
+            <div className=" md:grid grid-flow-col gap-6">
+              <div className="w-40  ">Assigned developer</div>
+              <div className="w-40  ">Created</div>
+              <div className="w-32  ">Status</div>
+              <div className="w-24  ">Severity</div>
+              <div className="w-24  ">Flag</div>
+              <div className="w-40  ">Due date</div>
+            </div>
+          </div>
           {bugs.map((project) => {
             return (
               <div key={project._id} className="text-black">
@@ -182,11 +185,11 @@ const GetTickets = ({ navbar }) => {
                   return (
                     <div
                       key={ticket._id}
-                      className="ticket-wrapper border-bottom hover:bg-red-50 hover:text-brightOrange py-2 px-8 msm:grid 
+                      className="ticket-wrapper border-bottom hover:bg-red-50 hover:text-brightOrange py-2 px-8 md:grid 
                       grid-flow-col auto-cols-fr gap-12"
                     >
                       <div
-                        className="ticket-title flex justify-between items-center bg-red-200"
+                        className="ticket-title flex justify-between items-center bg-red-200 "
                         onClick={() => getTicketDetail(ticket._id)}
                       >
                         {ticket.title}
@@ -194,14 +197,16 @@ const GetTickets = ({ navbar }) => {
                       </div>
 
                       <div className="ticket-details-wrapper hidden md:grid grid-flow-col gap-6">
-                        <div className="w-40 bg-red-200">
+                        <div className="w-40 bg-red-200 ">
                           {ticket.assignedDev}
                         </div>
                         <div className="w-40 bg-red-200">
                           {new Date(ticket.createdOn).toDateString()}
                         </div>
                         <div className="w-32 bg-red-200">{ticket.status}</div>
-                        <div className="w-24 bg-red-200">{ticket.severity}</div>
+                        <div className="w-24 bg-red-200 ">
+                          {ticket.severity}
+                        </div>
                         <div className="w-24 bg-red-200">{ticket.flag}</div>
                         <div className="w-40 bg-red-200">
                           {new Date(ticket.dueDate).toDateString()}
