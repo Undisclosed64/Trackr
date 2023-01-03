@@ -182,7 +182,7 @@ const GetTickets = ({ navbar }) => {
                   return (
                     <div
                       key={ticket._id}
-                      className="ticket-wrapper border-bottom hover:bg-red-50 hover:text-brightOrange py-2 px-8 md:grid 
+                      className="ticket-wrapper border-bottom hover:bg-red-50 hover:text-brightOrange py-2 px-8 msm:grid 
                       grid-flow-col auto-cols-fr gap-12"
                     >
                       <div
@@ -193,16 +193,21 @@ const GetTickets = ({ navbar }) => {
                         <HiOutlineExternalLink className="external-link text-brightOrange text-lg hidden" />
                       </div>
 
-                      <div className="bg-red-200">
-                        {new Date(ticket.createdOn).toDateString()}
-                      </div>
-                      <div className="bg-red-200">{ticket.assignedDev}</div>
-
-                      <div className=" bg-red-200">{ticket.status}</div>
-                      <div className=" bg-red-200">{ticket.severity}</div>
-                      <div className=" bg-red-200">{ticket.flag}</div>
-                      <div className="w-min bg-red-200">
-                        {new Date(ticket.dueDate).toDateString()}
+                      <div className="ticket-details-wrapper hidden md:grid grid-flow-col auto-cols-fr gap-6">
+                        <div className="overflow-hidden bg-red-200">
+                          {ticket.assignedDev}
+                        </div>
+                        <div className="overflow-hidden bg-red-200">
+                          {new Date(ticket.createdOn).toDateString()}
+                        </div>
+                        <div className="overflow-hidden bg-red-200">
+                          {ticket.status}
+                        </div>
+                        <div className=" bg-red-200">{ticket.severity}</div>
+                        <div className=" bg-red-200">{ticket.flag}</div>
+                        <div className="w-min bg-red-200">
+                          {new Date(ticket.dueDate).toDateString()}
+                        </div>
                       </div>
                     </div>
                   );
