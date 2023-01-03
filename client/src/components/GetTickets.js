@@ -161,7 +161,7 @@ const GetTickets = ({ navbar }) => {
           <div className="w-24">Flag</div>
           <div className="w-48">Due date</div>
         </div>
-        <div className="tickets-container h-96 md:h-80 overflow-auto whitespace-nowrap py-2">
+        <div className="tickets-container overflow-auto whitespace-nowrap py-2  h-96 md:h-80">
           {bugs.map((project) => {
             return (
               <div key={project._id} className="text-black">
@@ -182,28 +182,27 @@ const GetTickets = ({ navbar }) => {
                   return (
                     <div
                       key={ticket._id}
-                      className="ticket-wrapper border-bottom py-2 px-8 hover:bg-red-50 hover:font-medium hover:text-brightOrange"
+                      className="ticket-wrapper border-bottom hover:bg-red-50 hover:text-brightOrange py-2 px-8 md:grid 
+                      grid-flow-col auto-cols-fr gap-12"
                     >
                       <div
-                        className="ticket-title flex justify-between"
+                        className="ticket-title flex justify-between items-center bg-red-200"
                         onClick={() => getTicketDetail(ticket._id)}
                       >
                         {ticket.title}
                         <HiOutlineExternalLink className="external-link text-brightOrange text-lg hidden" />
                       </div>
 
-                      <div className="ticket-details-wrapper bg-slate-100 hidden">
-                        <div className="w-48 mr-8 ">
-                          {new Date(ticket.createdOn).toDateString()}
-                        </div>
-                        <div className="w-48 mr-8">{ticket.assignedDev}</div>
+                      <div className="bg-red-200">
+                        {new Date(ticket.createdOn).toDateString()}
+                      </div>
+                      <div className="bg-red-200">{ticket.assignedDev}</div>
 
-                        <div className="w-24 mr-8">{ticket.status}</div>
-                        <div className="w-24 mr-20">{ticket.severity}</div>
-                        <div className="w-24 mr-40">{ticket.flag}</div>
-                        <div className="w-40 mr-8">
-                          {new Date(ticket.dueDate).toDateString()}
-                        </div>
+                      <div className=" bg-red-200">{ticket.status}</div>
+                      <div className=" bg-red-200">{ticket.severity}</div>
+                      <div className=" bg-red-200">{ticket.flag}</div>
+                      <div className="w-min bg-red-200">
+                        {new Date(ticket.dueDate).toDateString()}
                       </div>
                     </div>
                   );
