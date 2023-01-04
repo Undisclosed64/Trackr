@@ -189,7 +189,7 @@ const GetTickets = ({ navbar }) => {
                   return (
                     <div
                       key={ticket._id}
-                      className="ticket-wrapper border-bottom hover:bg-red-50 hover:text-brightOrange py-2 px-8 md:grid 
+                      className="ticket-wrapper border-bottom hover:bg-red-50 hover:text-brightOrange hover:cursor-pointer py-2 px-8 md:grid 
                       grid-flow-col auto-cols-fr gap-12"
                     >
                       <div
