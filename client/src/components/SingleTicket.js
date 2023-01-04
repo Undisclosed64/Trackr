@@ -127,7 +127,7 @@ const SingleTicket = () => {
 
     try {
       const res = await axios.put(
-        `/server/bugs/${id}`,
+        `${baseURL}/server/bugs/${id}`,
         { fieldName, value },
         {
           headers: {
