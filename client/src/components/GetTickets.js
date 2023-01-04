@@ -5,6 +5,7 @@ import noteContext from "../context/noteContext";
 import Sidebar from "../components/Sidebar";
 import { IoIosArrowDropup } from "react-icons/io";
 import { HiOutlineExternalLink } from "react-icons/hi";
+import { HiOutlineTicket } from "react-icons/hi";
 
 const GetTickets = ({ navbar }) => {
   const [ids, setIds] = useState([]);
@@ -154,10 +155,13 @@ const GetTickets = ({ navbar }) => {
         </div>
 
         <div className="tickets-container overflow-auto whitespace-nowrap py-2 h-96 md:h-80">
-          <div className="ticketHeader-wrapper hidden md:grid  grid-flow-col auto-cols-fr gap-12 p-1 mx-8 uppercase mb-2  border-b-2 text-lightGray">
-            <div className=" ">Ticket</div>
-            <div className=" md:grid grid-flow-col gap-6">
-              <div className="w-40  ">Assigned developer</div>
+          <div className="ticketHeader-wrapper hidden md:grid grid-flow-col auto-cols-fr gap-12 mx-8 uppercase mb-2 pb-1 border-b-2 text-lightGray">
+            <div className="flex items-center">
+              <HiOutlineTicket className="text-lg mr-2" />
+              Ticket
+            </div>
+            <div className="md:grid grid-flow-col gap-6">
+              <div className="w-40">Assigned developer</div>
               <div className="w-40  ">Created</div>
               <div className="w-32  ">Status</div>
               <div className="w-24  ">Severity</div>
@@ -189,7 +193,7 @@ const GetTickets = ({ navbar }) => {
                       grid-flow-col auto-cols-fr gap-12"
                     >
                       <div
-                        className="ticket-title flex justify-between items-center bg-red-200 "
+                        className="ticket-title flex justify-between items-center"
                         onClick={() => getTicketDetail(ticket._id)}
                       >
                         {ticket.title}
@@ -197,18 +201,18 @@ const GetTickets = ({ navbar }) => {
                       </div>
 
                       <div className="ticket-details-wrapper hidden md:grid grid-flow-col gap-6">
-                        <div className="w-40 bg-red-200 ">
-                          {ticket.assignedDev}
-                        </div>
-                        <div className="w-40 bg-red-200">
+                        <div className="w-40 ">{ticket.assignedDev}</div>
+                        <div className="w-40 ">
                           {new Date(ticket.createdOn).toDateString()}
                         </div>
-                        <div className="w-32 bg-red-200">{ticket.status}</div>
-                        <div className="w-24 bg-red-200 ">
-                          {ticket.severity}
+                        <div className="w-32 first-letter:text-center text-white">
+                          <span className="w-24 h-24 py-1 px-4 rounded-full bg-blue">
+                            {ticket.status}
+                          </span>
                         </div>
-                        <div className="w-24 bg-red-200">{ticket.flag}</div>
-                        <div className="w-40 bg-red-200">
+                        <div className="w-24  ">{ticket.severity}</div>
+                        <div className="w-24 ">{ticket.flag}</div>
+                        <div className="w-40 text-red-600">
                           {new Date(ticket.dueDate).toDateString()}
                         </div>
                       </div>
