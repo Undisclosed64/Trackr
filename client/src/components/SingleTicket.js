@@ -14,7 +14,7 @@ const SingleTicket = () => {
   const context = useContext(noteContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const baseURL = "http://localhost:5000/server";
+  const baseURL = "http://localhost:5000";
   const [error, setError] = useState([]);
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [ticket, setTicket] = useState("");
@@ -34,7 +34,7 @@ const SingleTicket = () => {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/bugs/${id}`)
+      .get(`${baseURL}/server/bugs/${id}`)
       .then((response) => {
         console.log(response.data);
         setTicket(response.data);
@@ -67,7 +67,7 @@ const SingleTicket = () => {
 
     try {
       await axios
-        .delete(`/server/bugs/${ticket._id}`, {
+        .delete(`${baseURL}/server/bugs/${ticket._id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -148,7 +148,7 @@ const SingleTicket = () => {
   if (!ticket) return <div>Loading...</div>;
   return (
     <div>
-      {deleteAlert ? (
+      {/* {deleteAlert ? (
         <Modal.Dialog className="deletePopUp">
           <Modal.Header>
             <Modal.Title>
@@ -171,7 +171,6 @@ const SingleTicket = () => {
         </Modal.Dialog>
       ) : (
         <div>
-          <h1>Ticket Details</h1>
           <Button variant="danger" id="deleteProject" onClick={showModel}>
             Delete
           </Button>
@@ -180,136 +179,103 @@ const SingleTicket = () => {
             <TicketActivites activities={ticket.trackActivities} />
           ) : (
             ""
-          )}
-          <Form className="view-edit-form">
-            {error ? <div className="error">{error}</div> : " "}
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control
-                type="text"
-                name="title"
-                onKeyDown={onKeyDown}
-                onBlur={onBlur}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                type="text"
-                name="description"
-                onKeyDown={onKeyDown}
-                onBlur={onBlur}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Row>
-                <Col>
-                  <Form.Label>Assigned Developer</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="assignedDev"
-                    onKeyDown={onKeyDown}
-                    onBlur={onBlur}
-                    value={assignedDev}
-                    onChange={(e) => setAssignedDev(e.target.value)}
-                  />
-                </Col>
+          )} */}
+      <section className="py-10 px-4">
+        <div className="view-edit-form">
+          {error ? <div className="error">{error}</div> : " "}
+          <input
+            className="mb-3"
+            type="text"
+            name="title"
+            onKeyDown={onKeyDown}
+            onBlur={onBlur}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <input
+            type="text"
+            name="description"
+            onKeyDown={onKeyDown}
+            onBlur={onBlur}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <input
+            type="text"
+            name="assignedDev"
+            onKeyDown={onKeyDown}
+            onBlur={onBlur}
+            value={assignedDev}
+            onChange={(e) => setAssignedDev(e.target.value)}
+          />
 
-                <Col>
-                  <Form.Label>Bug Type</Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    name="bugType"
-                    onKeyDown={onKeyDown}
-                    onBlur={onBlur}
-                    value={bugType}
-                    onChange={(e) => setBugType(e.target.value)}
-                  >
-                    <option value="ui">UI</option>
-                    <option value="maintenance">Maintenance</option>
-                    <option value="runtime">Runtime</option>
-                    <option value="new feature">New Development</option>
-                  </Form.Select>
-                </Col>
-              </Row>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Row>
-                <Col>
-                  <Form.Label>Status</Form.Label>
-                  <Form.Select
-                    name="status"
-                    aria-label="Default select example"
-                    onKeyDown={onKeyDown}
-                    onBlur={onBlur}
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    <option value="open">Open</option>
-                    <option value="in-progress">In-progress</option>
-                    <option value="to be tested">To be tested</option>
-                    <option value="closed">Closed</option>
-                  </Form.Select>
-                </Col>
+          <select
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            name="bugType"
+            onKeyDown={onKeyDown}
+            onBlur={onBlur}
+            value={bugType}
+            onChange={(e) => setBugType(e.target.value)}
+          >
+            <option value="ui">UI</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="runtime">Runtime</option>
+            <option value="new feature">New Development</option>
+          </select>
 
-                <Col>
-                  <Form.Label>Due Date</Form.Label>
-                  <div>{new Date(dueDate).toDateString()} </div>
-                  <Form.Control
-                    type="date"
-                    name="dueDate"
-                    onKeyDown={onKeyDown}
-                    onBlur={onBlur}
-                    value={dueDate}
-                    onChange={(e) => setDueDate(e.target.value)}
-                  />
-                </Col>
-              </Row>
-            </Form.Group>
+          <select
+            name="status"
+            onKeyDown={onKeyDown}
+            onBlur={onBlur}
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option value="open">Open</option>
+            <option value="in-progress">In-progress</option>
+            <option value="to be tested">To be tested</option>
+            <option value="closed">Closed</option>
+          </select>
 
-            <Form.Group className="mb-3">
-              <Row>
-                <Col>
-                  <Form.Label>Flag</Form.Label>
-                  <Form.Select
-                    name="flag"
-                    aria-label="Default select example"
-                    onKeyDown={onKeyDown}
-                    onBlur={onBlur}
-                    value={flag}
-                    onChange={(e) => setFlag(e.target.value)}
-                  >
-                    <option value="internal">Internal</option>
-                    <option value="external">External</option>
-                  </Form.Select>
-                </Col>
+          <div>{new Date(dueDate).toDateString()} </div>
+          <input
+            type="date"
+            name="dueDate"
+            onKeyDown={onKeyDown}
+            onBlur={onBlur}
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
 
-                <Col>
-                  <Form.Label>Severity</Form.Label>
-                  <Form.Select
-                    name="severity"
-                    aria-label="Default select example"
-                    onKeyDown={onKeyDown}
-                    onBlur={onBlur}
-                    value={severity}
-                    onChange={(e) => setSeverity(e.target.value)}
-                  >
-                    <option value="critical">Critical</option>
-                    <option value="major">Major</option>
-                    <option value="minor">Minor</option>
-                  </Form.Select>
-                </Col>
-              </Row>
-            </Form.Group>
-          </Form>
+          <select
+            name="flag"
+            onKeyDown={onKeyDown}
+            onBlur={onBlur}
+            value={flag}
+            onChange={(e) => setFlag(e.target.value)}
+          >
+            <option value="internal">Internal</option>
+            <option value="external">External</option>
+          </select>
+
+          <select
+            name="severity"
+            onKeyDown={onKeyDown}
+            onBlur={onBlur}
+            value={severity}
+            onChange={(e) => setSeverity(e.target.value)}
+          >
+            <option value="critical">Critical</option>
+            <option value="major">Major</option>
+            <option value="minor">Minor</option>
+          </select>
         </div>
-      )}
-      ;
+      </section>
     </div>
   );
 };
+//       ;
+//     </div>
+//   );
+// };
 
 export default SingleTicket;
