@@ -185,11 +185,11 @@ const SingleTicket = () => {
           ) : (
             ""
           )} */}
-      <section className="my-10 px-2 overflow-scroll h-screen">
+      <section className="my-10 px-2 py-2 overflow-scroll h-screen">
         <div className="view-edit-form text-black px-2">
           {error ? <div className="error">{error}</div> : " "}
           <input
-            className="text-xl font-medium bg-transparent w-full border-none focus:bg-brightWhite mb-3"
+            className="text-xl font-medium bg-transparent w-full border-none focus:bg-brightWhite mb-2"
             type="text"
             name="title"
             onKeyDown={onKeyDown}
@@ -197,13 +197,13 @@ const SingleTicket = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <div className="createdInfo flex gap-4  pl-3 mb-6 items-center text-lg">
+          <div className="createdInfo flex gap-4 pl-3 mb-6 items-center text-lg">
             <div className=" text-lightGray border-r-2 pr-4">
               By {createdBy}
             </div>
             <BsInfoSquare className="text-brightOrange" />
           </div>
-          <div className="status-wrapper shadow bg-brightWhite h-24 mb-3">
+          <div className="status-wrapper shadow bg-brightWhite h-24 mb-4">
             <select
               name="status"
               className="border-none w-full mb-2 font-medium"
@@ -219,7 +219,7 @@ const SingleTicket = () => {
             </select>
             <div className="uppercase pl-3">current status</div>
           </div>
-          <div className="description-wrapper mb-3 h-28 bg-brightWhite px-3 py-2 shadow">
+          <div className="description-wrapper mb-4 h-28 bg-brightWhite px-3 py-2 shadow">
             <div className="text-lg font-medium mb-2 flex items-center">
               <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
               Description
@@ -234,7 +234,7 @@ const SingleTicket = () => {
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
-          <div className="bug-info-wrapper bg-brightWhite px-3 py-2 ">
+          <div className="bug-info-wrapper bg-brightWhite px-3 py-2 mb-4">
             <div className="capitalize text-lg font-medium mb-3 flex items-center">
               <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
               ticket information
@@ -258,52 +258,54 @@ const SingleTicket = () => {
               <div className="capitalize pb-2 text-lightGray">due date</div>
               {new Date(dueDate).toDateString()}{" "}
             </div>
+            <div className="severity-wrapper border-b mb-3 ">
+              <div className="pb-2 text-lightGray">Severity</div>
+              <select
+                name="severity"
+                className="border-none w-full font-medium pl-0"
+                onKeyDown={onKeyDown}
+                onBlur={onBlur}
+                value={severity}
+                onChange={(e) => setSeverity(e.target.value)}
+              >
+                <option value="critical">Critical</option>
+                <option value="major">Major</option>
+                <option value="minor">Minor</option>
+              </select>
+            </div>
+            <div className="type-wrapper border-b mb-3 ">
+              <div className="pb-2 text-lightGray capitalize">ticket type</div>
 
-            <select
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              name="bugType"
-              onKeyDown={onKeyDown}
-              onBlur={onBlur}
-              value={bugType}
-              onChange={(e) => setBugType(e.target.value)}
-            >
-              <option value="ui">UI</option>
-              <option value="maintenance">Maintenance</option>
-              <option value="runtime">Runtime</option>
-              <option value="new feature">New Development</option>
-            </select>
+              <select
+                className="border-none w-full font-medium pl-0"
+                name="bugType"
+                onKeyDown={onKeyDown}
+                onBlur={onBlur}
+                value={bugType}
+                onChange={(e) => setBugType(e.target.value)}
+              >
+                <option value="ui">UI</option>
+                <option value="maintenance">Maintenance</option>
+                <option value="runtime">Runtime</option>
+                <option value="new feature">New Development</option>
+              </select>
+            </div>
 
-            <input
-              type="date"
-              name="dueDate"
-              onKeyDown={onKeyDown}
-              onBlur={onBlur}
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-            />
+            <div className="flag-wrapper border-b mb-3">
+              <div className="pb-2 text-lightGray capitalize">Flag</div>
 
-            <select
-              name="flag"
-              onKeyDown={onKeyDown}
-              onBlur={onBlur}
-              value={flag}
-              onChange={(e) => setFlag(e.target.value)}
-            >
-              <option value="internal">Internal</option>
-              <option value="external">External</option>
-            </select>
-
-            <select
-              name="severity"
-              onKeyDown={onKeyDown}
-              onBlur={onBlur}
-              value={severity}
-              onChange={(e) => setSeverity(e.target.value)}
-            >
-              <option value="critical">Critical</option>
-              <option value="major">Major</option>
-              <option value="minor">Minor</option>
-            </select>
+              <select
+                name="flag"
+                className="border-none w-full font-medium pl-0"
+                onKeyDown={onKeyDown}
+                onBlur={onBlur}
+                value={flag}
+                onChange={(e) => setFlag(e.target.value)}
+              >
+                <option value="internal">Internal</option>
+                <option value="external">External</option>
+              </select>
+            </div>
           </div>
         </div>
       </section>
