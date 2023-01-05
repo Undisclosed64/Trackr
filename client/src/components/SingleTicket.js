@@ -185,7 +185,7 @@ const SingleTicket = () => {
           ) : (
             ""
           )} */}
-      <section className="my-10 px-2 py-2 overflow-scroll h-screen">
+      <section className="py-10 px-4 overflow-scroll h-screen lg:w-3/4 lg:mx-auto">
         <div className="view-edit-form text-black px-2">
           {error ? <div className="error">{error}</div> : " "}
           <input
