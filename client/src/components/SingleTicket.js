@@ -30,6 +30,7 @@ const SingleTicket = () => {
   const [severity, setSeverity] = useState("");
   const [status, setStatus] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [updatedMsg, setUpdatedMsg] = useState(null);
 
   const [displayActivites, setDisplayActivities] = useState(false);
 
@@ -141,6 +142,7 @@ const SingleTicket = () => {
         }
       );
       console.log(res.data);
+      setUpdatedMsg("Updated Successfully");
     } catch (err) {
       if (err.response) {
         console.log(err);
@@ -187,6 +189,7 @@ const SingleTicket = () => {
           )} */}
       <section className="py-10 px-4 overflow-scroll h-screen lg:w-3/4 lg:mx-auto">
         <div className="view-edit-form text-black px-2">
+          {updatedMsg ? <div className="sucess-msg">{updatedMsg}</div> : ""}
           {error ? <div className="error">{error}</div> : " "}
           <input
             className="text-xl font-medium bg-transparent w-full border-none focus:bg-brightWhite mb-2"
@@ -202,6 +205,9 @@ const SingleTicket = () => {
               By {createdBy}
             </div>
             <BsInfoSquare className="text-brightOrange" />
+            {/* <div className="info">
+              <div>Created on</div>
+            </div> */}
           </div>
           <div className="status-wrapper shadow bg-brightWhite h-24 mb-4">
             <select
