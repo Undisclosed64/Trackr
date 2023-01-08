@@ -61,6 +61,14 @@ const SingleTicket = () => {
       });
   }, []);
 
+  const closeModal = () => {
+    if (showMore) {
+      setShowMore(false);
+    }
+  };
+  const showMoreInfo = () => {
+    !showMore ? setShowMore(true) : setShowMore(false);
+  };
   const showActivites = () => {
     setDisplayActivities(true);
   };
@@ -164,12 +172,10 @@ const SingleTicket = () => {
       }
     }
   };
-  const showMoreInfo = () => {
-    setShowMore(true);
-  };
+
   if (!ticket) return <div>Loading...</div>;
   return (
-    <div>
+    <div onClick={closeModal}>
       {/* {deleteAlert ? (
         <Modal.Dialog className="deletePopUp">
           <Modal.Header>
@@ -202,7 +208,7 @@ const SingleTicket = () => {
           ) : (
             ""
           )} */}
-      <section className="py-10 px-4 overflow-scroll h-screen lg:w-3/4 lg:mx-auto">
+      <section className="singleTicket py-10 px-4 overflow-scroll h-screen lg:w-3/4 lg:mx-auto">
         <div className="view-edit-form text-black px-2">
           {updatedMsg ? (
             <div className="sucess-msg font-medium py-3 px-1 text-center text-brightWhite">
@@ -227,21 +233,31 @@ const SingleTicket = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <div className="createdInfo flex gap-4 pl-3 mb-6 items-center text-lg">
+          <div className="createdInfo flex gap-2 pl-3 mb-6 items-center text-lg">
             <div className=" text-lightGray border-r-2 pr-4">
               By {createdBy}
             </div>
-            <BsInfoSquare
-              className="text-brightOrange"
+            <div
+              className="i-wrapper text-brightOrange hover:cursor-pointer p-2 rounded-full hover:bg-veryLightGray"
               onClick={showMoreInfo}
-            />
-          </div>
-          <div className="more-info shadow bg-brightWhite w-full md:w-64 px-1 flex  justify-center items-center flex-col z-10 h-24 mb-4">
-            <div className="pb-2 text-lightGray">Created on</div>
-            <div className="text-black">
-              {new Date(createdOn).toDateString()}
+            >
+              <BsInfoSquare className="moreInfo-icon" />
             </div>
+            {showMore ? (
+              <div
+                className="more-info shadow bg-brightWhite flex justify-center items-center flex-col h-32 rounded-md absolute z-10 mx-auto w-5/6 md:w-1/3 top-36 left-8 md:right-80"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="pb-2 text-lightGray">Created on</div>
+                <div className="text-black">
+                  {new Date(createdOn).toDateString()}
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
+
           <div className="status-wrapper shadow bg-brightWhite h-24 mb-4">
             <select
               name="status"
