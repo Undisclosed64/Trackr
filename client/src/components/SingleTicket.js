@@ -18,7 +18,7 @@ const SingleTicket = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const baseURL = "http://localhost:5000";
-  const [error, setError] = useState([]);
+  const [error, setError] = useState(null);
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [ticket, setTicket] = useState("");
   const [title, setTitle] = useState("");
@@ -145,13 +145,19 @@ const SingleTicket = () => {
       setUpdatedMsg("Updated Successfully");
       setTimeout(() => {
         setUpdatedMsg(null);
-      }, 2000);
+      }, 3000);
     } catch (err) {
       if (err.response) {
         console.log(err);
         setError(err.response.data.message);
+        setTimeout(() => {
+          setError(null);
+        }, 3000);
       } else {
         setError("Oops! Something went wrong!");
+        setTimeout(() => {
+          setError(null);
+        }, 3000);
       }
     }
   };
@@ -192,8 +198,20 @@ const SingleTicket = () => {
           )} */}
       <section className="py-10 px-4 overflow-scroll h-screen lg:w-3/4 lg:mx-auto">
         <div className="view-edit-form text-black px-2">
-          {updatedMsg ? <div className="sucess-msg ">{updatedMsg}</div> : ""}
-          {error ? <div className="error">{error}</div> : " "}
+          {updatedMsg ? (
+            <div className="sucess-msg font-medium py-3 px-1 text-center text-brightWhite">
+              {updatedMsg}
+            </div>
+          ) : (
+            ""
+          )}
+          {error ? (
+            <div className="font-medium text-brightWhite bg-red-500 py-3 px-1 text-center my-2">
+              {error}
+            </div>
+          ) : (
+            " "
+          )}
           <input
             className="text-xl font-medium bg-transparent w-full border-none focus:bg-brightWhite mb-2"
             type="text"
