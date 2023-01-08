@@ -48,6 +48,7 @@ body {
 .ticket-wrapper:hover .external-link {
   display: block;
 }
+
 /* #top-navbar {
   margin-left: 20%;
 } */
@@ -92,11 +93,7 @@ body {
 }
 
 .sucess-msg {
-  text-align: center;
-  font-weight: 500;
   background-color: #70e858;
-  padding: 1em 0.5em;
-  color: #fff;
 }
 /* .section-right {
   border: 2px solid red;
@@ -113,6 +110,14 @@ body {
 @media only screen and (min-width: 600px) {
   .logInForm {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  }
+  /* .ticket-wrapper {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 0 30px;
+  } */
+
+  .ticket-details-wrapper {
   }
 }
 /* @media only screen and (min-width: 976px) {
