@@ -29,8 +29,10 @@ const SingleTicket = () => {
   const [flag, setFlag] = useState("");
   const [severity, setSeverity] = useState("");
   const [status, setStatus] = useState("");
+  const [createdOn, setCreatedOn] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [updatedMsg, setUpdatedMsg] = useState(null);
+  const [showMore, setShowMore] = useState(false);
 
   const [displayActivites, setDisplayActivities] = useState(false);
 
@@ -43,6 +45,7 @@ const SingleTicket = () => {
       .then((response) => {
         console.log(response.data.createdBy);
         setTicket(response.data);
+        setCreatedOn(response.data.createdOn);
         setTitle(response.data.title);
         setCreatedBy(response.data.createdBy.username);
         setDescription(response.data.description);
@@ -161,6 +164,9 @@ const SingleTicket = () => {
       }
     }
   };
+  const showMoreInfo = () => {
+    setShowMore(true);
+  };
   if (!ticket) return <div>Loading...</div>;
   return (
     <div>
@@ -225,10 +231,16 @@ const SingleTicket = () => {
             <div className=" text-lightGray border-r-2 pr-4">
               By {createdBy}
             </div>
-            <BsInfoSquare className="text-brightOrange" />
-            {/* <div className="info">
-              <div>Created on</div>
-            </div> */}
+            <BsInfoSquare
+              className="text-brightOrange"
+              onClick={showMoreInfo}
+            />
+          </div>
+          <div className="more-info shadow bg-brightWhite w-full md:w-64 px-1 flex  justify-center items-center flex-col z-10 h-24 mb-4">
+            <div className="pb-2 text-lightGray">Created on</div>
+            <div className="text-black">
+              {new Date(createdOn).toDateString()}
+            </div>
           </div>
           <div className="status-wrapper shadow bg-brightWhite h-24 mb-4">
             <select
