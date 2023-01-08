@@ -143,6 +143,9 @@ const SingleTicket = () => {
       );
       console.log(res.data);
       setUpdatedMsg("Updated Successfully");
+      setTimeout(() => {
+        setUpdatedMsg(null);
+      }, 2000);
     } catch (err) {
       if (err.response) {
         console.log(err);
@@ -189,7 +192,7 @@ const SingleTicket = () => {
           )} */}
       <section className="py-10 px-4 overflow-scroll h-screen lg:w-3/4 lg:mx-auto">
         <div className="view-edit-form text-black px-2">
-          {updatedMsg ? <div className="sucess-msg">{updatedMsg}</div> : ""}
+          {updatedMsg ? <div className="sucess-msg ">{updatedMsg}</div> : ""}
           {error ? <div className="error">{error}</div> : " "}
           <input
             className="text-xl font-medium bg-transparent w-full border-none focus:bg-brightWhite mb-2"
