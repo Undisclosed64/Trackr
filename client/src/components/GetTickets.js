@@ -13,7 +13,7 @@ const GetTickets = ({ navbar }) => {
   const baseURL = "http://localhost:5000";
   const navigate = useNavigate();
   const context = useContext(noteContext);
-
+  const [dropdown, setDropDown] = useState(false);
   const projects = context.projects;
 
   //get projects id
@@ -117,6 +117,9 @@ const GetTickets = ({ navbar }) => {
       getAllTickets();
     }
   };
+  const closeDropDown = () => {
+    !dropdown ? setDropDown(true) : setDropDown(false);
+  };
   if (!projects) return <div>Loading..</div>;
 
   return (
@@ -178,47 +181,53 @@ const GetTickets = ({ navbar }) => {
                       key={pr._id}
                       className="project-title capitalize font-medium flex items-center bg-lightBlue p-1 py-2"
                     >
-                      <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
+                      <IoIosArrowDropup
+                        className="text-xl text-brightOrange mr-2"
+                        onClick={closeDropDown}
+                      />
                       {pr.title}
                     </div>
                   );
                 })}
 
                 {/* second loop */}
-                {project.records.map((ticket) => {
-                  return (
-                    <div
-                      key={ticket._id}
-                      className="ticket-wrapper border-bottom hover:bg-red-50 hover:text-brightOrange hover:cursor-pointer py-2 px-8 md:grid 
-                      grid-flow-col auto-cols-fr gap-12"
-                    >
-                      <div
-                        className="ticket-title flex justify-between items-center"
-                        onClick={() => getTicketDetail(ticket._id)}
-                      >
-                        {ticket.title}
-                        <HiOutlineExternalLink className="external-link text-brightOrange text-lg hidden" />
-                      </div>
 
-                      <div className="ticket-details-wrapper hidden md:grid grid-flow-col gap-6">
-                        <div className="w-40 ">{ticket.assignedDev}</div>
-                        <div className="w-40 ">
-                          {new Date(ticket.createdOn).toDateString()}
+                {!dropdown
+                  ? project.records.map((ticket) => {
+                      return (
+                        <div
+                          key={ticket._id}
+                          className="ticket-wrapper border-bottom hover:bg-red-50 hover:text-brightOrange hover:cursor-pointer py-2 px-8 md:grid 
+        grid-flow-col auto-cols-fr gap-12"
+                        >
+                          <div
+                            className="ticket-title flex justify-between items-center"
+                            onClick={() => getTicketDetail(ticket._id)}
+                          >
+                            {ticket.title}
+                            <HiOutlineExternalLink className="external-link text-brightOrange text-lg hidden" />
+                          </div>
+
+                          <div className="ticket-details-wrapper hidden md:grid grid-flow-col gap-6">
+                            <div className="w-40 ">{ticket.assignedDev}</div>
+                            <div className="w-40 ">
+                              {new Date(ticket.createdOn).toDateString()}
+                            </div>
+                            <div className="w-32 first-letter:text-center text-white">
+                              <span className="w-24 h-24 py-1 px-4 rounded-full bg-blue">
+                                {ticket.status}
+                              </span>
+                            </div>
+                            <div className="w-24  ">{ticket.severity}</div>
+                            <div className="w-24 ">{ticket.flag}</div>
+                            <div className="w-40 text-red-600">
+                              {new Date(ticket.dueDate).toDateString()}
+                            </div>
+                          </div>
                         </div>
-                        <div className="w-32 first-letter:text-center text-white">
-                          <span className="w-24 h-24 py-1 px-4 rounded-full bg-blue">
-                            {ticket.status}
-                          </span>
-                        </div>
-                        <div className="w-24  ">{ticket.severity}</div>
-                        <div className="w-24 ">{ticket.flag}</div>
-                        <div className="w-40 text-red-600">
-                          {new Date(ticket.dueDate).toDateString()}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                      );
+                    })
+                  : ""}
               </div>
             );
           })}
