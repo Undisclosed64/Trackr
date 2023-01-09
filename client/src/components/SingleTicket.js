@@ -33,6 +33,7 @@ const SingleTicket = () => {
   const [dueDate, setDueDate] = useState("");
   const [updatedMsg, setUpdatedMsg] = useState(null);
   const [showMore, setShowMore] = useState(false);
+  const [close, setClose] = useState(false);
 
   const [displayActivites, setDisplayActivities] = useState(false);
 
@@ -172,6 +173,9 @@ const SingleTicket = () => {
       }
     }
   };
+  const closeDropdown = () => {
+    !close ? setClose(true) : setClose(false);
+  };
 
   if (!ticket) return <div>Loading...</div>;
   return (
@@ -274,20 +278,27 @@ const SingleTicket = () => {
             </select>
             <div className="uppercase pl-3">current status</div>
           </div>
-          <div className="description-wrapper mb-4 h-28 bg-brightWhite px-3 py-2 shadow">
+          <div className="description-wrapper mb-4 bg-brightWhite px-3 py-3 shadow">
             <div className="text-lg font-medium mb-2 flex items-center">
-              <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
+              <IoIosArrowDropup
+                className="text-xl text-brightOrange mr-2"
+                onClick={closeDropdown}
+              />
               Description
             </div>
-            <input
-              className="border-none w-full pl-0"
-              type="text"
-              name="description"
-              onKeyDown={onKeyDown}
-              onBlur={onBlur}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
+            {!close ? (
+              <input
+                className="border-none w-full pl-0"
+                type="text"
+                name="description"
+                onKeyDown={onKeyDown}
+                onBlur={onBlur}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            ) : (
+              ""
+            )}
           </div>
           <div className="bug-info-wrapper bg-brightWhite px-3 py-2 mb-4">
             <div className="capitalize text-lg font-medium mb-3 flex items-center">
