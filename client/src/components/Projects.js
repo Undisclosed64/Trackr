@@ -5,12 +5,16 @@ import noteContext from "../context/noteContext";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { HiOutlineTicket } from "react-icons/hi";
 import { RiProjectorLine } from "react-icons/ri";
-
-const baseURL = "http://localhost:5000";
+import { useNavigate } from "react-router-dom";
 
 const Projects = ({ navbar }) => {
   const context = useContext(noteContext);
   const projects = context.projects;
+  const navigate = useNavigate();
+
+  const TakeToProjectDetails = (projectId) => {
+    navigate(`/projects/${projectId}`);
+  };
 
   if (!projects) return <div>Loading...</div>;
 
@@ -63,8 +67,8 @@ const Projects = ({ navbar }) => {
             return (
               <div
                 key={project._id}
-                className="ticket-wrapper border-bottom hover:bg-red-50 hover:text-brightOrange hover:cursor-pointer py-2 px-8 md:grid 
-grid-flow-col auto-cols-fr gap-12"
+                className="ticket-wrapper border-bottom hover:bg-red-50 hover:text-brightOrange hover:cursor-pointer py-2 px-8 md:grid grid-flow-col auto-cols-fr gap-12"
+                onClick={() => TakeToProjectDetails(project._id)}
               >
                 <div className="ticket-title flex justify-between items-center">
                   {project.title}
