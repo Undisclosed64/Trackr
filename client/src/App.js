@@ -12,6 +12,7 @@ import Ticket from "./components/Ticket";
 import Navbar from "./components/Navbar";
 import NoteState from "./context/NoteState";
 import Feed from "./components/Feed";
+import Projects from "./components/Projects";
 
 function App() {
   // const baseURL = "http://localhost:5000/server";
@@ -50,6 +51,10 @@ function App() {
     {
       path: "tickets",
       element: <Tickets navbar={<Navbar sectionName="Tickets" />} />,
+    },
+    {
+      path: "projects",
+      element: <Projects navbar={<Navbar sectionName="Projects" />} />,
     },
     {
       path: "create-project",
