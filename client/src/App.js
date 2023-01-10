@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import GetTickets from "./components/GetTickets";
+import Tickets from "./components/Tickets";
 import Home from "./components/Home";
 import LogIn from "./components/LogIn";
 import CreateProject from "./components/Project";
@@ -48,6 +48,10 @@ function App() {
       element: <Feed navbar={<Navbar sectionName="Feed" />} />,
     },
     {
+      path: "tickets",
+      element: <Tickets navbar={<Navbar sectionName="Tickets" />} />,
+    },
+    {
       path: "create-project",
       element: <CreateProject />,
     },
@@ -55,10 +59,7 @@ function App() {
       path: "projects/:projectId",
       element: <ProjectDetails />,
     },
-    {
-      path: "tickets",
-      element: <GetTickets />,
-    },
+
     {
       path: "tickets/:id",
       element: <SingleTicket />,
