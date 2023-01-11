@@ -66,10 +66,11 @@ exports.getProject = (req, res) => {
 
 //get all projects
 exports.getAllProjects = (req, res) => {
-  const filterStatus = req.query.filterStatus;
+  const filterActive = req.query.filterActive;
+  const filterCompleted = req.query.filterCompleted;
 
   //query for filtering projects by active status
-  if (filterStatus) {
+  if (filterActive) {
     try {
       Project.find(
         { "createdBy.email": req.query.email, status: "Active" },
@@ -83,6 +84,18 @@ exports.getAllProjects = (req, res) => {
     }
 
     //else get all the projects
+  } else if (filterCompleted) {
+    try {
+      Project.find(
+        { "createdBy.email": req.query.email, status: "Completed" },
+        (err, projects) => {
+          if (err) res.status(404).json(err);
+          res.json({ projects: projects });
+        }
+      );
+    } catch (err) {
+      res.status(400).json(err);
+    }
   } else {
     try {
       Project.find({ "createdBy.email": req.query.email }, (err, projects) => {
