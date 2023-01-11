@@ -23,12 +23,12 @@ const Home = ({ navbar }) => {
 
   //get total active projects count
   useEffect(() => {
-    const updateProjects = async () => {
+    const getActiveProjects = async () => {
       try {
         const res = await axios.get(`${baseURL}/server/projects`, {
           params: {
             email: context.userEmail,
-            filterStatus: true,
+            filterActive: true,
           },
         });
         // console.log(res.data.projects);
@@ -37,7 +37,7 @@ const Home = ({ navbar }) => {
         return null;
       }
     };
-    updateProjects();
+    getActiveProjects();
   }, [context.userEmail]);
 
   //get total tickets count
