@@ -6,14 +6,58 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 import { HiOutlineTicket } from "react-icons/hi";
 import { RiProjectorLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+const baseURL = "http://localhost:5000";
 
 const Projects = ({ navbar }) => {
   const context = useContext(noteContext);
-  const projects = context.projects;
+  const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (context.projects) {
+      setProjects(context.projects);
+    }
+  }, [context.projects]);
 
   const TakeToProjectDetails = (projectId) => {
     navigate(`/projects/${projectId}`);
+  };
+  const sortByValue = (e) => {
+    console.log(e.target.value);
+    if (e.target.value === "active") sortByActive();
+    else if (e.target.value === "completed") sortByCompleted();
+    else setProjects(context.projects);
+  };
+  //get active projects
+  const sortByActive = async () => {
+    try {
+      const res = await axios.get(`${baseURL}/server/projects`, {
+        params: {
+          email: context.userEmail,
+          filterActive: true,
+        },
+      });
+      // console.log(res.data.projects);
+      setProjects(res.data.projects);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //get completed projects
+  const sortByCompleted = async () => {
+    try {
+      const res = await axios.get(`${baseURL}/server/projects`, {
+        params: {
+          email: context.userEmail,
+          filterCompleted: true,
+        },
+      });
+      console.log(res.data.projects);
+      setProjects(res.data.projects);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   if (!projects) return <div>Loading...</div>;
@@ -30,7 +74,10 @@ const Projects = ({ navbar }) => {
           className="filter-wrapper flex justify-center items-center msm:justify-between bg-brightWhite drop-shadow rounded-md 
           mb-6 gap-4 mx-2 py-2 px-1 md:mx-4 md:py-4"
         >
-          <select className="project-sort border-none text-brightOrange bg-transparent capitalize">
+          <select
+            className="project-sort border-none text-brightOrange bg-transparent capitalize"
+            onClick={(e) => sortByValue(e)}
+          >
             <option value="all">all projects</option>
             <option value="active">active projects </option>
             <option value="completed">completed projects</option>
