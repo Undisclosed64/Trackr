@@ -1,17 +1,14 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import { useState } from "react";
 import axios from "axios";
 import "../App.css";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ProjectDeleted from "./ProjectDeleted";
 import { useNavigate } from "react-router-dom";
 import GetActivites from "./GetActivities";
-// 636270a5b08b5f2a93b2c16b
+import { BsInfoSquare } from "react-icons/bs";
+import { IoIosArrowDropup } from "react-icons/io";
 
 const ProjectDetails = () => {
   const { projectId } = useParams();
@@ -29,12 +26,14 @@ const ProjectDetails = () => {
   const [endDate, setEndDate] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
-
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [error, setError] = useState(null);
   const [projectNotFound, setProjectNotFound] = useState(false);
   const [updatedMsg, setUpdatedMsg] = useState(null);
   const [displayActivites, setDisplayActivities] = useState(false);
+  const [showMore, setShowMore] = useState(false);
+  const [close, setClose] = useState(false);
+
   const baseURL = "http://localhost:5000";
   const navigate = useNavigate();
 
@@ -110,9 +109,23 @@ const ProjectDetails = () => {
       if (err.response) {
         console.log(err);
         setError(err.response.data.message);
+        setTimeout(() => {
+          setError(null);
+        }, 3000);
       } else {
         setError("Oops! Something went wrong!");
+        setTimeout(() => {
+          setError(null);
+        }, 3000);
       }
+    }
+  };
+  const showMoreInfo = () => {
+    !showMore ? setShowMore(true) : setShowMore(false);
+  };
+  const closeModal = () => {
+    if (showMore) {
+      setShowMore(false);
     }
   };
   const showBugs = () => {
@@ -150,19 +163,27 @@ const ProjectDetails = () => {
       if (err.response) {
         console.log(err);
         setError(err.response.data.message);
+        setTimeout(() => {
+          setError(null);
+        }, 3000);
       } else {
         setError("Oops! Something went wrong!");
+        setTimeout(() => {
+          setError(null);
+        }, 3000);
       }
     }
   };
-  console.log(project);
+  const closeDropdown = () => {
+    !close ? setClose(true) : setClose(false);
+  };
 
   // if (projectNotFound) return <ProjectDeleted />;
   if (!project) return <div>loading...</div>;
 
   return (
-    <div>
-      {deleteAlert ? (
+    <div onClick={closeModal}>
+      {/* {deleteAlert ? (
         <Modal.Dialog className="deletePopUp">
           <Modal.Header>
             <Modal.Title>
@@ -183,94 +204,83 @@ const ProjectDetails = () => {
             </Button>
           </Modal.Footer>
         </Modal.Dialog>
-      ) : (
-        <div>
-          <h2>Project Information</h2>
-          {updatedMsg ? <div className="sucess-msg">{updatedMsg}</div> : ""}
-          <h3 onClick={showBugs}>Bugs</h3>
-          <button onClick={showActivites}>Activity Stream</button>
-
-          <Button variant="danger" id="deleteProject" onClick={showAlert}>
-            Delete Project
-          </Button>
-
-          {displayActivites ? (
-            <GetActivites activities={project.trackActivities} />
+      ) : ( */}
+      <section className="py-10 px-4 overflow-scroll h-screen lg:w-3/4 lg:mx-auto">
+        <div className="view-edit-form text-black px-2">
+          {updatedMsg ? (
+            <div className="sucess-msg font-medium py-3 px-1 text-center text-brightWhite">
+              {updatedMsg}
+            </div>
           ) : (
             ""
           )}
-          <Form className="view-edit-form">
-            {error ? <div className="error">{error}</div> : " "}
+          {/* <h3 onClick={showBugs}>Bugs</h3>
+        <button onClick={showActivites}>Activity Stream</button>
 
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                name="title"
-                onKeyDown={onKeyDown}
-                onBlur={onBlur}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+        <Button variant="danger" id="deleteProject" onClick={showAlert}>
+          Delete Project
+        </Button> */}
+
+          {/* {displayActivites ? (
+          <GetActivites activities={project.trackActivities} />
+        ) : (
+          ""
+        
+        )} */}
+
+          {error ? (
+            <div className="font-medium text-brightWhite bg-red-500 py-3 px-1 text-center my-2">
+              {error}
+            </div>
+          ) : (
+            " "
+          )}
+
+          <input
+            className="text-xl font-medium bg-transparent w-full border-none focus:bg-brightWhite mb-2 capitalize"
+            type="text"
+            name="title"
+            onKeyDown={onKeyDown}
+            onBlur={onBlur}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <div className="createdInfo flex gap-2 pl-3 mb-6 items-center text-lg">
+            <div className=" text-lightGray border-r-2 pr-4">
+              By {createdBy.username}
+            </div>
+            <div
+              className="i-wrapper text-brightOrange hover:cursor-pointer p-2 rounded-full hover:bg-veryLightGray"
+              onClick={showMoreInfo}
+            >
+              <BsInfoSquare className="moreInfo-icon" />
+            </div>
+            {showMore ? (
+              <div
+                className="more-info shadow bg-brightWhite flex justify-center items-center flex-col h-32 rounded-md absolute z-10 mx-auto w-5/6 md:w-1/3 top-36 left-8 md:right-80"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="pb-2 text-lightGray">Start date</div>
+                <div className="text-black">
+                  {new Date(startDate).toDateString()}
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="status-wrapper shadow bg-brightWhite mb-4 px-2 py-3 msm:px-6">
+            <div className="text-lg font-medium mb-2 flex items-center capitalize">
+              <IoIosArrowDropup
+                className="text-xl text-brightOrange mr-2"
+                onClick={closeDropdown}
               />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Created By</Form.Label>
-              {/* <Form.Control
-                type="text"
-                name="createdBy"
-                onKeyDown={onKeyDown}
-                onBlur={onBlur}
-                value={project.createdBy.username}
-                onChange={(e) =>
-                  setProject({ ...project, createdBy: e.target.value })
-                }
-              /> */}
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Row>
-                <Col>
-                  <Form.Label>Start date</Form.Label>
-                  <div>{new Date(startDate).toDateString()} </div>
-                  <Form.Control
-                    type="date"
-                    name="startDate"
-                    onKeyDown={onKeyDown}
-                    onBlur={onBlur}
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                  />
-                </Col>
-                <Col>
-                  <Form.Label>End date</Form.Label>
-                  <div>{new Date(endDate).toDateString()} </div>
+              Current status
+            </div>
 
-                  <Form.Control
-                    type="date"
-                    name="endDate"
-                    onKeyDown={onKeyDown}
-                    onBlur={onBlur}
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                  />
-                </Col>
-              </Row>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                type="text"
-                name="description"
-                onKeyDown={onKeyDown}
-                onBlur={onBlur}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Label>Status</Form.Label>
-            <Form.Select
-              aria-label="Default select example"
+            <select
               name="status"
+              className="border-none w-full msm:px-6"
               onKeyDown={onKeyDown}
               onBlur={onBlur}
               value={status}
@@ -282,10 +292,95 @@ const ProjectDetails = () => {
               <option value="Delayed">Delayed</option>
               <option value="Completed">Completed</option>
               <option value="Cancelled">Cancelled</option>
-            </Form.Select>
-          </Form>
+            </select>
+          </div>
+
+          <div className="description-wrapper mb-4 bg-brightWhite px-2 py-3 shadow">
+            <div className="text-lg font-medium mb-2 flex items-center">
+              <IoIosArrowDropup
+                className="text-xl text-brightOrange mr-2"
+                onClick={closeDropdown}
+              />
+              Description
+            </div>
+            {!close ? (
+              <input
+                className="border-none w-full pl-1 msm:px-6"
+                type="text"
+                name="description"
+                onKeyDown={onKeyDown}
+                onBlur={onBlur}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+
+          <div className="project-info-wrapper bg-brightWhite px-2 py-3 mb-4">
+            <div className="capitalize text-lg font-medium mb-3 flex items-center">
+              <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
+              project information
+            </div>
+            <div className="startDate-wrapper mb-3 border-b py-2 pl-1 msm:mx-6">
+              <div className="capitalize pb-2 text-lightGray">start date</div>
+              {new Date(startDate).toDateString()}
+            </div>
+            <div className="dueDate-wrapper mb-3 border-b py-2 pl-1 msm:mx-6">
+              <div className="capitalize pb-2 text-lightGray">end date</div>
+              {new Date(endDate).toDateString()}
+            </div>
+          </div>
+          {/* <Form.Group className="mb-3">
+            <Row>
+              <Col>
+                <Form.Label>Start date</Form.Label>
+                <div>{new Date(startDate).toDateString()} </div>
+                <Form.Control
+                  type="date"
+                  name="startDate"
+                  onKeyDown={onKeyDown}
+                  onBlur={onBlur}
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+              </Col>
+              <Col>
+                <Form.Label>End date</Form.Label>
+                <div>{new Date(endDate).toDateString()} </div>
+
+                <Form.Control
+                  type="date"
+                  name="endDate"
+                  onKeyDown={onKeyDown}
+                  onBlur={onBlur}
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </Col>
+            </Row>
+          </Form.Group> */}
+
+          {/* <Form.Label>Status</Form.Label>
+          <Form.Select
+            aria-label="Default select example"
+            name="status"
+            onKeyDown={onKeyDown}
+            onBlur={onBlur}
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option value="Active">Active</option>
+            <option value="In-progress">In-progress</option>
+            <option value="To be tested">To be tested</option>
+            <option value="Delayed">Delayed</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+          </Form.Select> */}
         </div>
-      )}
+      </section>
+      {/* )} */}
     </div>
   );
 };
