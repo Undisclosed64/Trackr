@@ -262,10 +262,17 @@ const SingleTicket = () => {
             )}
           </div>
 
-          <div className="status-wrapper shadow bg-brightWhite h-24 mb-4">
+          <div className="status-wrapper shadow bg-brightWhite mb-4 px-3 py-3 msm:px-6">
+            <div className="text-lg font-medium mb-2 flex items-center capitalize">
+              <IoIosArrowDropup
+                className="text-xl text-brightOrange mr-2"
+                onClick={closeDropdown}
+              />
+              Current status
+            </div>
             <select
               name="status"
-              className="border-none w-full mb-2 font-medium"
+              className="border-none w-full mb-2 msm:px-6"
               onKeyDown={onKeyDown}
               onBlur={onBlur}
               value={status}
@@ -276,7 +283,6 @@ const SingleTicket = () => {
               <option value="to be tested">To be tested</option>
               <option value="closed">Closed</option>
             </select>
-            <div className="uppercase pl-3">current status</div>
           </div>
           <div className="description-wrapper mb-4 bg-brightWhite px-3 py-3 shadow">
             <div className="text-lg font-medium mb-2 flex items-center">
@@ -288,7 +294,7 @@ const SingleTicket = () => {
             </div>
             {!close ? (
               <input
-                className="border-none w-full pl-0"
+                className="border-none w-full pl-0 msm:px-6"
                 type="text"
                 name="description"
                 onKeyDown={onKeyDown}
@@ -305,7 +311,7 @@ const SingleTicket = () => {
               <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
               ticket information
             </div>
-            <div className="assigned-warpper mb-3 border-b">
+            <div className="assigned-warpper mb-3 border-b msm:mx-6">
               <div className="pb-2 text-lightGray">Assigned to </div>
               <div className="assigned-wrapper flex items-center">
                 <FaUserCircle className="text-2xl text-brightOrange" />
@@ -320,11 +326,11 @@ const SingleTicket = () => {
                 />
               </div>
             </div>
-            <div className="dueDate-wrapper mb-3 border-b py-2">
+            <div className="dueDate-wrapper mb-3 border-b py-2 msm:mx-6">
               <div className="capitalize pb-2 text-lightGray">due date</div>
               {new Date(dueDate).toDateString()}{" "}
             </div>
-            <div className="severity-wrapper border-b mb-3 ">
+            <div className="severity-wrapper border-b mb-3 msm:mx-6">
               <div className="pb-2 text-lightGray">Severity</div>
               <select
                 name="severity"
@@ -339,7 +345,7 @@ const SingleTicket = () => {
                 <option value="minor">Minor</option>
               </select>
             </div>
-            <div className="type-wrapper border-b mb-3 ">
+            <div className="type-wrapper border-b mb-3 msm:mx-6">
               <div className="pb-2 text-lightGray capitalize">ticket type</div>
 
               <select
@@ -357,7 +363,7 @@ const SingleTicket = () => {
               </select>
             </div>
 
-            <div className="flag-wrapper border-b mb-3">
+            <div className="flag-wrapper border-b mb-3 msm:mx-6">
               <div className="pb-2 text-lightGray capitalize">Flag</div>
 
               <select
