@@ -85,13 +85,22 @@ const Ticket = () => {
       {errors.length !== 0
         ? errors[0].map((err) => {
             return (
-              <div key={err.param} className="error">
+              <div
+                key={err.param}
+                className="bg-red-500 p-3 fixed top-0 z-10 text-brightWhite mx-auto font-medium rounded-b-lg"
+              >
                 {err.msg}
               </div>
             );
           })
         : ""}
-      {error ? <div className="error">{error}</div> : " "}
+      {error ? (
+        <div className="bg-red-500 p-3 fixed top-0 z-10 text-brightWhite mx-auto font-medium rounded-b-lg">
+          {error}
+        </div>
+      ) : (
+        " "
+      )}
       <form className="" onSubmit={handleSubmit}>
         <div className="projects-wrapper my-4">
           <label className="font-medium mb-2" htmlFor="project">
