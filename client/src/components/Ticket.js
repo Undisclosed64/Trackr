@@ -79,7 +79,7 @@ const Ticket = () => {
         } else {
           setErrors((errors) => [...errors, err.response.data.errors]);
           setTimeout(() => {
-            setErrors(null);
+            setErrors([]);
           }, 2000);
         }
       } else {
