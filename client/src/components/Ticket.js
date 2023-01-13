@@ -8,6 +8,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import noteContext from "../context/noteContext";
 import { Editor } from "@tinymce/tinymce-react";
+import { FiAlertTriangle } from "react-icons/fi";
 
 const Ticket = () => {
   const context = useContext(noteContext);
@@ -18,26 +19,21 @@ const Ticket = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    project: "",
     title: "",
     description: "",
-    assignedDev: "Unassigned",
-    bugType: "",
-    flag: "",
-    severity: "",
-    status: "",
-    dueDate: "",
+    assignedDev: undefined,
+    status: undefined,
+    dueDate: undefined,
+    bugType: undefined,
+    flag: undefined,
+    severity: undefined,
     createdOn: "",
-    project: "",
   });
   const [ticket, setTicket] = useState();
   const projects = context.projects;
 
   const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
 
   // useEffect(() => {
 
@@ -55,40 +51,51 @@ const Ticket = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post(`${baseURL}/server/bugs`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(res.data);
-      setTicket(res.data);
-      // console.log(ticket._id);
-      navigate(`/tickets/${ticket._id}`, {
-        state: { ticketId: `${ticket._id}` },
-      });
-    } catch (err) {
-      // console.log(err.response.data.message);
-      if (err.response) {
-        // console.log(err.response.data);
-        if (err.response.data.message) {
-          setError(err.response.data.message);
+    if (!formData.project) {
+      setError(`Please select a project`);
+      setTimeout(() => {
+        setError(null);
+      }, 2000);
+    } else if (!formData.title) {
+      setError(`Title can not be empty`);
+      setTimeout(() => {
+        setError(null);
+      }, 2000);
+    } else
+      try {
+        const res = await axios.post(`${baseURL}/server/bugs`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(res.data);
+        setTicket(res.data);
+        // console.log(ticket._id);
+        navigate(`/tickets/${ticket._id}`, {
+          state: { ticketId: `${ticket._id}` },
+        });
+      } catch (err) {
+        // console.log(err.response.data.message);
+        if (err.response) {
+          // console.log(err.response.data);
+          if (err.response.data.message) {
+            setError(err.response.data.message);
+            setTimeout(() => {
+              setError(null);
+            }, 2000);
+          } else {
+            setErrors((errors) => [...errors, err.response.data.errors]);
+            setTimeout(() => {
+              setErrors([]);
+            }, 2000);
+          }
+        } else {
+          setError("Oops! Something went wrong!");
           setTimeout(() => {
             setError(null);
           }, 2000);
-        } else {
-          setErrors((errors) => [...errors, err.response.data.errors]);
-          setTimeout(() => {
-            setErrors([]);
-          }, 2000);
         }
-      } else {
-        setError("Oops! Something went wrong!");
-        setTimeout(() => {
-          setError(null);
-        }, 2000);
       }
-    }
   };
 
   return (
@@ -101,13 +108,15 @@ const Ticket = () => {
                 key={err.param}
                 className="bg-red-500 p-3 fixed top-0 z-10 text-brightWhite mx-auto font-medium rounded-b-lg"
               >
+                <FiAlertTriangle className="mr-2 text-lg" />
                 {err.msg}
               </div>
             );
           })
         : ""}
       {error ? (
-        <div className="bg-red-500 p-3 fixed top-0 z-10 text-brightWhite mx-auto font-medium rounded-b-lg">
+        <div className="bg-red-500 p-3 fixed top-0 z-10 text-brightWhite mx-auto font-medium rounded-b-lg flex items-center">
+          <FiAlertTriangle className="mr-2 text-lg" />
           {error}
         </div>
       ) : (
@@ -116,14 +125,19 @@ const Ticket = () => {
       <form className="" onSubmit={handleSubmit}>
         <div className="projects-wrapper my-4">
           <label className="font-medium mb-2" htmlFor="project">
-            Project
+            Project <span className="text-brightOrange text-lg">*</span>
           </label>
           <select
             className="w-full capitalize border-veryLightWhite border rounded hover:border-brightOrange hover:cursor-pointer"
+            defaultValue={"default"}
             onChange={(e) =>
               setFormData({ ...formData, project: e.target.value })
             }
           >
+            <option value="default" className="capitalize" disabled>
+              select project
+            </option>
+            ;
             {projects.map((project) => {
               return (
                 <option value={project._id} key={project._id}>
@@ -136,10 +150,10 @@ const Ticket = () => {
 
         <div className="title-wrapper flex flex-col my-4">
           <label
-            class=" ticket-title font-medium mb-2 capitalize"
+            className="ticket-title font-medium mb-2 capitalize"
             htmlFor="title"
           >
-            ticket title
+            ticket title <span className="text-brightOrange text-lg">*</span>
           </label>
           <input
             type="text"
