@@ -2,11 +2,12 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import noteContext from "../context/noteContext";
+import { Editor } from "@tinymce/tinymce-react";
 
 const Ticket = () => {
   const context = useContext(noteContext);
@@ -30,7 +31,16 @@ const Ticket = () => {
   });
   const [ticket, setTicket] = useState();
   const projects = context.projects;
+
+  const editorRef = useRef(null);
+  const log = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+  };
+
   // useEffect(() => {
+
   //   axios
   //     .get(`${baseURL}/server/projects`, {
   //       params: {
@@ -70,8 +80,8 @@ const Ticket = () => {
   };
 
   return (
-    <div>
-      <h1>Create Ticket</h1>
+    <div className="px-4 py-3 bg-red-200">
+      <div className="capitalize font-semibold text-lg mb-4">new ticket</div>
       {errors.length !== 0
         ? errors[0].map((err) => {
             return (
@@ -82,118 +92,174 @@ const Ticket = () => {
           })
         : ""}
       {error ? <div className="error">{error}</div> : " "}
-      <Form className="signUpForm" onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Control
-            required
+      <form className="" onSubmit={handleSubmit}>
+        <div className="projects-wrapper my-4">
+          <label className="font-medium mb-2" htmlFor="project">
+            Project
+          </label>
+          <select
+            className="w-full capitalize"
+            onChange={(e) =>
+              setFormData({ ...formData, project: e.target.value })
+            }
+          >
+            {projects.map((project) => {
+              return (
+                <option value={project._id} key={project._id}>
+                  {project.title}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+
+        <div className="title-wrapper flex flex-col my-4">
+          <label
+            class=" ticket-title text-gray-700 font-bold mb-2 capitalize"
+            htmlFor="title"
+          >
+            ticket title
+          </label>
+          <input
             type="text"
-            placeholder="Title"
+            name="title"
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
             }
-            name="title"
           />
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Control
-            type="text"
-            placeholder="Description"
+        </div>
+        <div className="description-wrapper my-4">
+          <label htmlFor="description" className="font-medium mb-2">
+            Description
+          </label>
+          <Editor
             onChange={(e) =>
               setFormData({ ...formData, description: e.target.value })
             }
             name="description"
+            apiKey="g7djnctfldrwo1kkuj9879hlsnhu0t6swgxn1ri31eikvoa1"
+            onInit={(evt, editor) => (editorRef.current = editor)}
+            initialValue="<p>This is the initial content of the editor.</p>"
+            init={{
+              height: 300,
+              menubar: false,
+              plugins: [
+                "advlist",
+                "autolink",
+                "lists",
+                "link",
+                "image",
+                "charmap",
+                "preview",
+                "anchor",
+                "searchreplace",
+                "visualblocks",
+                "code",
+                "fullscreen",
+                "insertdatetime",
+                "media",
+                "table",
+                "code",
+                "help",
+                "wordcount",
+              ],
+              toolbar:
+                "undo redo | blocks | " +
+                "bold italic forecolor | alignleft aligncenter " +
+                "alignright alignjustify | bullist numlist outdent indent | " +
+                "removeformat | help",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+            }}
           />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Control
+        </div>
+
+        <div className="assigned-wrapper my-4 flex flex-col">
+          <label className="font-medium mb-2 capitalize" htmlFor="project">
+            assigned to
+          </label>
+          <input
             type="text"
-            placeholder="Assigned Dev"
+            name="assignedDev"
             onChange={(e) =>
               setFormData({ ...formData, assignedDev: e.target.value })
             }
-            name="assignedDev"
           />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Row>
-            <Col>
-              <Form.Label>Status</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                onChange={(e) =>
-                  setFormData({ ...formData, status: e.target.value })
-                }
-              >
-                <option value="open">Open</option>
-                <option value="in-progress">In-progress</option>
-                <option value="to be tested">To be tested</option>
-                <option value="closed">Closed</option>
-              </Form.Select>
-            </Col>
+        </div>
+        <div className="my-4 flex flex-wrap">
+          <div className="status-wrapper w-full msm:w-1/2 msm:pr-4 mb-4">
+            <label
+              className="block font-medium mb-2 capitalize"
+              htmlFor="status"
+            >
+              Status
+            </label>
+            <select
+              className="w-full"
+              onChange={(e) =>
+                setFormData({ ...formData, status: e.target.value })
+              }
+            >
+              <option value="open">Open</option>
+              <option value="in-progress">In-progress</option>
+              <option value="to be tested">To be tested</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
 
-            <Col>
-              <Form.Label>Due Date</Form.Label>
-              <Form.Control
-                type="date"
-                name="dueDate"
-                onChange={(e) =>
-                  setFormData({ ...formData, dueDate: e.target.value })
-                }
-              />
-            </Col>
-          </Row>
-        </Form.Group>
+          <div className="dueDate-wrapper w-full msm:w-1/2">
+            <label
+              className="block font-medium mb-2 capitalize"
+              htmlFor="dueDate"
+            >
+              due date
+            </label>
+            <input
+              type="date"
+              className="w-full"
+              name="dueDate"
+              onChange={(e) =>
+                setFormData({ ...formData, dueDate: e.target.value })
+              }
+            />
+          </div>
+        </div>
+        <div className="my-4 flex flex-wrap ">
+          <div className="flag-wrapper w-full msm:w-1/2 msm:pr-4 mb-4 msm:mb-0">
+            <label className="block font-medium mb-2" htmlFor="flag">
+              Flag
+            </label>
+            <select
+              className="w-full"
+              onChange={(e) =>
+                setFormData({ ...formData, flag: e.target.value })
+              }
+            >
+              <option value="internal">Internal</option>
+              <option value="external">External</option>
+            </select>
+          </div>
 
-        <Form.Group className="mb-3">
-          <Row>
-            <Col>
-              <Form.Label>Flag</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                onChange={(e) =>
-                  setFormData({ ...formData, flag: e.target.value })
-                }
-              >
-                <option value="internal">Internal</option>
-                <option value="external">External</option>
-              </Form.Select>
-            </Col>
-
-            <Col>
-              <Form.Label>Severity</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                onChange={(e) =>
-                  setFormData({ ...formData, severity: e.target.value })
-                }
-              >
-                <option value="critical">Critical</option>
-                <option value="major">Major</option>
-                <option value="minor">Minor</option>
-              </Form.Select>
-            </Col>
-          </Row>
-        </Form.Group>
-        <Form.Select
-          aria-label="Default select example"
-          onChange={(e) =>
-            setFormData({ ...formData, project: e.target.value })
-          }
-        >
-          {projects.map((project) => {
-            return (
-              <option value={project._id} key={project._id}>
-                {project.title}
-              </option>
-            );
-          })}
-        </Form.Select>
-
+          <div className="severity-wrapper w-full msm:w-1/2">
+            <label className="block font-medium mb-2" htmlFor="severity">
+              Severity
+            </label>
+            <select
+              className="w-full"
+              onChange={(e) =>
+                setFormData({ ...formData, severity: e.target.value })
+              }
+            >
+              <option value="critical">Critical</option>
+              <option value="major">Major</option>
+              <option value="minor">Minor</option>
+            </select>
+          </div>
+        </div>
         <Button variant="primary" type="submit">
           Submit
         </Button>
-      </Form>
+      </form>
     </div>
   );
 };
