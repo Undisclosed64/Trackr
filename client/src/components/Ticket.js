@@ -80,7 +80,7 @@ const Ticket = () => {
   };
 
   return (
-    <div className="px-4 py-3 bg-red-200">
+    <div className="px-4 py-3 bg-brightWhite overflow-y-scroll h-screen float-right w-full sm:w-4/5 md:w-3/5">
       <div className="capitalize font-semibold text-lg mb-4">new ticket</div>
       {errors.length !== 0
         ? errors[0].map((err) => {
@@ -98,7 +98,7 @@ const Ticket = () => {
             Project
           </label>
           <select
-            className="w-full capitalize"
+            className="w-full capitalize border-veryLightWhite border rounded hover:border-brightOrange hover:cursor-pointer"
             onChange={(e) =>
               setFormData({ ...formData, project: e.target.value })
             }
@@ -115,13 +115,14 @@ const Ticket = () => {
 
         <div className="title-wrapper flex flex-col my-4">
           <label
-            class=" ticket-title text-gray-700 font-bold mb-2 capitalize"
+            class=" ticket-title font-medium mb-2 capitalize"
             htmlFor="title"
           >
             ticket title
           </label>
           <input
             type="text"
+            className="border-veryLightWhite border rounded hover:border-brightOrange"
             name="title"
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
@@ -136,6 +137,7 @@ const Ticket = () => {
             onChange={(e) =>
               setFormData({ ...formData, description: e.target.value })
             }
+            className=""
             name="description"
             apiKey="g7djnctfldrwo1kkuj9879hlsnhu0t6swgxn1ri31eikvoa1"
             onInit={(evt, editor) => (editorRef.current = editor)}
@@ -180,6 +182,7 @@ const Ticket = () => {
           </label>
           <input
             type="text"
+            className="border-veryLightWhite border rounded"
             name="assignedDev"
             onChange={(e) =>
               setFormData({ ...formData, assignedDev: e.target.value })
@@ -195,7 +198,7 @@ const Ticket = () => {
               Status
             </label>
             <select
-              className="w-full"
+              className="w-full border-veryLightWhite border rounded"
               onChange={(e) =>
                 setFormData({ ...formData, status: e.target.value })
               }
@@ -216,7 +219,7 @@ const Ticket = () => {
             </label>
             <input
               type="date"
-              className="w-full"
+              className="w-full border-veryLightWhite border rounded"
               name="dueDate"
               onChange={(e) =>
                 setFormData({ ...formData, dueDate: e.target.value })
@@ -224,13 +227,13 @@ const Ticket = () => {
             />
           </div>
         </div>
-        <div className="my-4 flex flex-wrap ">
+        <div className="my-4 flex flex-wrap">
           <div className="flag-wrapper w-full msm:w-1/2 msm:pr-4 mb-4 msm:mb-0">
             <label className="block font-medium mb-2" htmlFor="flag">
               Flag
             </label>
             <select
-              className="w-full"
+              className="w-full border-veryLightWhite border rounded"
               onChange={(e) =>
                 setFormData({ ...formData, flag: e.target.value })
               }
@@ -245,7 +248,7 @@ const Ticket = () => {
               Severity
             </label>
             <select
-              className="w-full"
+              className="w-full border-veryLightWhite border rounded"
               onChange={(e) =>
                 setFormData({ ...formData, severity: e.target.value })
               }
@@ -256,9 +259,18 @@ const Ticket = () => {
             </select>
           </div>
         </div>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+        <div className="buttons absolute bottom-4">
+          <button
+            className="bg-brightOrange text-brightWhite rounded-full 
+        py-1 px-8 hover:bg-orange-400 mr-6"
+            type="submit"
+          >
+            Add
+          </button>
+          <button className="rounded-full px-10 py-1 border-2 text-brightOrange">
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );
