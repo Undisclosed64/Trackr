@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { GoSearch } from "react-icons/go";
 import { IoMdAddCircle } from "react-icons/io";
@@ -6,12 +6,17 @@ import { FaUserCircle } from "react-icons/fa";
 import "../App.css";
 import Ticket from "../components/Ticket";
 
-const Navbar = ({ sectionName }) => {
+const Navbar = ({ sectionName, isDisplayed }) => {
   const [showAddTicket, setShowAddTicket] = useState(false);
-
   const displayCreateTicket = () => {
     setShowAddTicket(true);
   };
+  console.log(isDisplayed);
+  useEffect(() => {
+    if (isDisplayed) {
+      setShowAddTicket(true);
+    }
+  }, [isDisplayed]);
 
   return (
     <div className="div">
