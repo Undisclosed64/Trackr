@@ -6,6 +6,8 @@ import Sidebar from "./Sidebar";
 import { IoIosArrowDropup } from "react-icons/io";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { HiOutlineTicket } from "react-icons/hi";
+import { React } from "react";
+import Navbar from "./Navbar";
 
 const Tickets = ({ navbar }) => {
   const [ids, setIds] = useState([]);
@@ -14,6 +16,7 @@ const Tickets = ({ navbar }) => {
   const navigate = useNavigate();
   const context = useContext(noteContext);
   const [dropdown, setDropDown] = useState(false);
+  const [createTicket, setCreateTicket] = useState(false);
   const projects = context.projects;
 
   //get projects id
@@ -26,9 +29,12 @@ const Tickets = ({ navbar }) => {
 
   //get tickets of all projects
   useEffect(() => {
-    console.log(ids);
     getAllTickets();
   }, [ids]);
+
+  useEffect(() => {
+    setCreateTicket(false);
+  }, [createTicket]);
 
   const getAllTickets = async () => {
     try {
@@ -124,7 +130,11 @@ const Tickets = ({ navbar }) => {
 
   return (
     <div>
-      {navbar}
+      {createTicket ? (
+        <Navbar sectionName="Tickets" isDisplayed={createTicket} />
+      ) : (
+        <Navbar sectionName="Tickets" />
+      )}
       <Sidebar />
       <section
         id="tickets"
@@ -150,7 +160,8 @@ const Tickets = ({ navbar }) => {
             </select>
             <button
               className="bg-brightOrange text-brightWhite rounded-full baseline py-2 px-3 hover:bg-orange-400 font-medium hidden 
-          sm:block"
+          sm:block z-10"
+              onClick={() => setCreateTicket(true)}
             >
               Submit Ticket
             </button>
