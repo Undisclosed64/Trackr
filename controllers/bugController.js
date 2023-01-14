@@ -8,10 +8,10 @@ const async = require("async");
 //bug create handler
 exports.CreateBugs = [
   check("title").notEmpty().withMessage("Title can not be empty!"),
-  check("dueDate")
-    .isISO8601()
-    .toDate()
-    .withMessage("Due date does not have a valid format!"),
+  // check("dueDate")
+  //   .isISO8601()
+  //   .toDate()
+  //   .withMessage("Due date does not have a valid format!"),
 
   async (req, res) => {
     //look for errors
@@ -31,7 +31,6 @@ exports.CreateBugs = [
         createdOn: Date.now(),
         project: req.body.project,
       });
-
       if (req.user) {
         // console.log(req.user);
         const email = req.user.email;
