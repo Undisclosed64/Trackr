@@ -96,9 +96,14 @@ const Ticket = ({ showForm }) => {
         }
       }
   };
+  const cancel = () => {
+    showForm(false);
+    const overlay = document.querySelector(".overlay");
+    overlay.classList.remove("overlay-container");
+  };
   return (
-    <div className="py-10 bg-white overflow-y-scroll h-screen w-full sm:w-4/5 md:w-3/5 z-10 absolute right-0">
-      <div className="capitalize font-semibold text-lg bg-white2 fixed w-full p mb-4  px-4 py-2 z-10 top-0">
+    <div className="ticketCreateContainer py-10 bg-white overflow-y-scroll h-screen w-full sm:w-4/5 md:w-3/5 z-10 absolute right-0 top-0">
+      <div className="capitalize font-semibold text-lg bg-white2 fixed w-full mb-4 px-4 py-2 z-10 top-0">
         new ticket
       </div>
       {errors.length !== 0
@@ -306,7 +311,7 @@ const Ticket = ({ showForm }) => {
           </button>
           <button
             className="rounded-full px-10 py-1 border-2 text-brightOrange"
-            onClick={() => showForm(false)}
+            onClick={cancel}
           >
             Cancel
           </button>
