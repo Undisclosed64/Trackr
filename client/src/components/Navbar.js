@@ -10,6 +10,8 @@ const Navbar = ({ sectionName, isDisplayed }) => {
   const [showAddTicket, setShowAddTicket] = useState(false);
   const displayCreateTicket = () => {
     setShowAddTicket(true);
+    const overlay = document.querySelector(".overlay");
+    overlay.classList.add("overlay-container");
   };
   console.log(isDisplayed);
   useEffect(() => {
@@ -20,9 +22,10 @@ const Navbar = ({ sectionName, isDisplayed }) => {
 
   return (
     <div className="div">
+      <div className="overlay hidden"></div>
       <nav
         id="top-navbar"
-        className="toggler flex justify-between items-center px-4 py-2 bg-brightWhite drop-shadow text-lightBlack3 fixed top-0 right-0 left-0 z-10"
+        className="navbar toggler flex justify-between items-center px-4 py-2 bg-brightWhite drop-shadow text-lightBlack3 fixed top-0 right-0 left-0 z-10"
       >
         <div className="sectionName ml-4 font-medium lg:text-lg">
           {sectionName}
