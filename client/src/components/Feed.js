@@ -69,14 +69,18 @@ const Feed = ({ navbar }) => {
     <div>
       {navbar}
       <Sidebar />
+      {/* <section
+        id="feed"
+        className="toggler py-20 px-4 md:px-20 flex justify-center flex-col fixed top-0 left-0 right-0"
+      > */}
       <section
         id="feed"
-        className="toggler py-10 px-4 md:mx-20 flex justify-center flex-col"
+        className="toggler py-20 flex justify-center flex-col fixed top-0 left-0 right-0"
       >
-        <div className="projects-dropdown w-full bg-brightWhite rounded-md p-2.5 drop-shadow md:h-40 md:p-5 flex justify-center flex-col">
-          <div className="mb-3 lg:text-xl font-medium">Select Project</div>
+        <div className="projects-dropdown w-full bg-brightWhite drop-shadow py-2 flex items-baseline gap-4 px-4 z-20">
+          <div className="mb-3 text-lightGray pl-4">Select Project</div>
           <select
-            className=" w-full msm:w-1/2 border rounded drop-shadow-sm focus:outline-none appearance-none capitalize"
+            className=" w-full msm:w-1/2 border-none rounded drop-shadow-sm text-brightOrange capitalize"
             onChange={handleChange}
           >
             {projects.map((project) => {
@@ -89,28 +93,33 @@ const Feed = ({ navbar }) => {
           </select>
           ;
         </div>
-        <input
-          type="text"
-          className="py-3 px-2 bg-brightWhite rounded-md drop-shadow w-full my-8 border text-veryLightGray tracking-tight"
-          placeholder="Share a quick thought and start a discussion"
-        />
-        <div className="status-stream-wrapper flex gap-12 border-b-[1.5px]">
-          <div
-            className="activityStream font-medium pb-2 hover:cursor-pointer"
-            onClick={displayActivity}
-          >
-            Activity Stream
+        <div className="scrollable-content overflow-auto h-screen px-4 md:px-20">
+          <input
+            type="text"
+            className="py-3 px-2 bg-brightWhite rounded-md drop-shadow w-full my-8 border text-veryLightGray tracking-tight"
+            placeholder="Share a quick thought and start a discussion"
+          />
+          <div className="status-stream-wrapper flex gap-12 border-b-[1.5px]">
+            <div
+              className="activityStream pb-2 hover:cursor-pointer"
+              onClick={displayActivity}
+            >
+              Activity Stream
+            </div>
+            <div
+              className="status hover:cursor-pointer"
+              onClick={displayStatus}
+            >
+              Status
+            </div>
           </div>
-          <div className="status hover:cursor-pointer" onClick={displayStatus}>
-            Status
-          </div>
+          {project && streamActive ? (
+            <GetActivites activities={reverseArr} />
+          ) : (
+            ""
+          )}
+          {showStatus ? <DisplayStatus /> : ""}
         </div>
-        {project && streamActive ? (
-          <GetActivites activities={reverseArr} />
-        ) : (
-          ""
-        )}
-        {showStatus ? <DisplayStatus /> : ""}
       </section>
     </div>
   );
