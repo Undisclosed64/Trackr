@@ -17,6 +17,8 @@ const Navbar = ({ sectionName, isDisplayed }) => {
   useEffect(() => {
     if (isDisplayed) {
       setShowAddTicket(true);
+      const overlay = document.querySelector(".overlay");
+      overlay.classList.add("overlay-container");
     }
   }, [isDisplayed]);
 
