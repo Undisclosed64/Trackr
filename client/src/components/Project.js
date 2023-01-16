@@ -1,11 +1,9 @@
 import React from "react";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { useState } from "react";
-import Button from "react-bootstrap/Button";
+import { useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FiAlertTriangle } from "react-icons/fi";
+import { Editor } from "@tinymce/tinymce-react";
 
 const CreateProject = () => {
   const [formData, setFormData] = useState({
@@ -18,8 +16,9 @@ const CreateProject = () => {
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const editorRef = useRef(null);
 
-  const baseURL = "http://localhost:5000/server";
+  const baseURL = "http://localhost:5000";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +26,7 @@ const CreateProject = () => {
     console.log(token);
 
     try {
-      const res = await axios.post(`/server/projects`, formData, {
+      const res = await axios.post(`${baseURL}/server/projects`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -46,80 +45,160 @@ const CreateProject = () => {
     }
   };
   return (
-    <div>
-      <h1>Create Project</h1>
+    <div className="projectCreateContainer py-10 bg-white overflow-y-scroll h-screen w-full sm:w-4/5 md:w-3/5 z-10 absolute right-0 top-0">
+      <div className="capitalize font-semibold text-lg bg-white2 fixed w-full mb-4 px-4 py-2 z-10 top-0">
+        new project
+      </div>
       {errors.length !== 0
         ? errors[0].map((err) => {
             return (
-              <div key={err.param} className="error">
+              <div
+                key={err.param}
+                className="error bg-red-500 p-3 fixed top-0 z-10 text-brightWhite mx-auto font-medium rounded-b-lg"
+              >
+                <FiAlertTriangle className="mr-2 text-lg" />
+
                 {err.msg}
               </div>
             );
           })
         : ""}
-      {error ? <div className="error">{error}</div> : " "}
-      <Form className="signUpForm" onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Control
-            required
-            type="text"
-            placeholder="Title"
-            onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
-            }
-            name="title"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Row>
-            <Col>
-              <Form.Control
+      {error ? (
+        <div className="bg-red-500 p-3 fixed top-0 z-10 text-brightWhite mx-auto font-medium rounded-b-lg flex items-center">
+          <FiAlertTriangle className="mr-2 text-lg" />
+          {error}
+        </div>
+      ) : (
+        " "
+      )}
+      <form className="" onSubmit={handleSubmit}>
+        <div className="formContent px-4">
+          <div className="title-wrapper my-4 flex flex-col">
+            <label className="font-medium mb-2 capitalize" htmlFor="project">
+              Project title <span className="text-brightOrange text-lg">*</span>
+            </label>
+            <input
+              type="text"
+              className="border-veryLightWhite border rounded hover:border-brightOrange"
+              name="title"
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
+            />
+          </div>
+          <div className="description-wrapper my-4 ">
+            <label htmlFor="description" className="font-medium mb-2">
+              Description
+            </label>
+            <Editor
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
+              className=""
+              name="description"
+              apiKey="g7djnctfldrwo1kkuj9879hlsnhu0t6swgxn1ri31eikvoa1"
+              onInit={(evt, editor) => (editorRef.current = editor)}
+              initialValue="<p>This is the initial content of the editor.</p>"
+              init={{
+                height: 300,
+                menubar: false,
+                plugins: [
+                  "advlist",
+                  "autolink",
+                  "lists",
+                  "link",
+                  "image",
+                  "charmap",
+                  "preview",
+                  "anchor",
+                  "searchreplace",
+                  "visualblocks",
+                  "code",
+                  "fullscreen",
+                  "insertdatetime",
+                  "media",
+                  "table",
+                  "code",
+                  "help",
+                  "wordcount",
+                ],
+                toolbar:
+                  "undo redo | blocks | " +
+                  "bold italic forecolor | alignleft aligncenter " +
+                  "alignright alignjustify | bullist numlist outdent indent | " +
+                  "removeformat | help",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              }}
+            />
+          </div>
+
+          <div className="status-wrapper my-4">
+            <label className="font-medium mb-2" htmlFor="status">
+              Status
+            </label>
+            <select
+              className="w-full border-veryLightWhite border rounded"
+              onChange={(e) =>
+                setFormData({ ...formData, status: e.target.value })
+              }
+            >
+              <option value="active">Active</option>
+              <option value="in-progress">In-progress</option>
+              <option value="to be tested">To be tested</option>
+              <option value="delayed">Delayed</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+          <div className="my-4 flex flex-wrap">
+            <div className="startDate-wrapper w-full msm:w-1/2 msm:pr-4 mb-4">
+              <label
+                className="block font-medium mb-2 capitalize"
+                htmlFor="startDate"
+              >
+                start date
+              </label>
+              <input
                 type="date"
-                placeholder="Start date"
+                className="w-full border-veryLightWhite border rounded"
+                name="startDate"
                 onChange={(e) =>
                   setFormData({ ...formData, startDate: e.target.value })
                 }
-                name="startDate"
               />
-            </Col>
-            <Col>
-              <Form.Control
-                type="date"
-                onChange={(e) =>
-                  setFormData({ ...formData, endDate: e.target.value })
-                }
-                name="endDate"
-                placeholder="End date"
-              />
-            </Col>
-          </Row>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Control
-            type="text"
-            placeholder="Description"
-            onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
-            }
-            name="description"
-          />
-        </Form.Group>
+            </div>
 
-        <Form.Select
-          aria-label="Default select example"
-          onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-        >
-          <option value="Active">Active</option>
-          <option value="In-progress">In-progress</option>
-          <option value="To be tested">To be tested</option>
-          <option value="Delayed">Delayed</option>
-          <option value="Completed">Completed</option>
-          <option value="Cancelled">Cancelled</option>
-        </Form.Select>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+            <div className="endDate-wrapper w-full msm:w-1/2">
+              <label
+                className="block font-medium mb-2 capitalize"
+                htmlFor="endate"
+              >
+                end date <span className="text-brightOrange text-lg">*</span>
+              </label>
+              <input
+                type="date"
+                className="w-full border-veryLightWhite border rounded"
+                name="dueDate"
+                onChange={(e) =>
+                  setFormData({ ...formData, dueDate: e.target.value })
+                }
+              />
+            </div>
+          </div>
+        </div>
+        <div className="buttons fixed bottom-0 w-full bg-brightWhite px-4 py-2">
+          <button
+            className="bg-brightOrange text-brightWhite rounded-full py-1 px-8 hover:bg-orange-400 mr-6"
+            type="submit"
+          >
+            Add
+          </button>
+          <button className="rounded-full px-10 py-1 border-2 text-brightOrange">
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
