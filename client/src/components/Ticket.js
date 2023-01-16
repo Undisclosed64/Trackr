@@ -111,7 +111,7 @@ const Ticket = ({ showForm }) => {
             return (
               <div
                 key={err.param}
-                className="bg-red-500 p-3 fixed top-0 z-10 text-brightWhite mx-auto font-medium rounded-b-lg"
+                className="bg-red-500 p-3 fixed top-0 z-10 text-brightWhite mx-auto font-medium rounded-b-lg flex items-center"
               >
                 <FiAlertTriangle className="mr-2 text-lg" />
                 {err.msg}
