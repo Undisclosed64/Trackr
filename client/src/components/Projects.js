@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import Sidebar from "./Sidebar";
+import Project from "../components/Project";
 import axios from "axios";
 import noteContext from "../context/noteContext";
 import { HiOutlineExternalLink } from "react-icons/hi";
@@ -11,6 +12,7 @@ const baseURL = "http://localhost:5000";
 const Projects = ({ navbar }) => {
   const context = useContext(noteContext);
   const [projects, setProjects] = useState([]);
+  const [createProject, setCreateProject] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,13 +61,14 @@ const Projects = ({ navbar }) => {
       console.log(err);
     }
   };
-
   if (!projects) return <div>Loading...</div>;
 
   return (
-    <>
+    <div>
       {navbar}
       <Sidebar />
+      {createProject ? <Project /> : ""}
+
       <section
         id="projects"
         className="toggler fixed py-20 top-0 left-0 right-0"
@@ -90,6 +93,7 @@ const Projects = ({ navbar }) => {
             <button
               className="bg-brightOrange text-brightWhite rounded-full baseline py-2 px-3 hover:bg-orange-400 font-medium hidden 
           sm:block"
+              onClick={() => setCreateProject(true)}
             >
               Submit Project
             </button>
@@ -117,7 +121,7 @@ const Projects = ({ navbar }) => {
                 className="ticket-wrapper border-bottom hover:bg-red-50 hover:text-brightOrange hover:cursor-pointer py-2 px-8 md:grid grid-flow-col auto-cols-fr gap-12"
                 onClick={() => TakeToProjectDetails(project._id)}
               >
-                <div className="ticket-title flex justify-between items-center">
+                <div className="ticket-title flex justify-between items-center capitalize">
                   {project.title}
                   <HiOutlineExternalLink className="external-link text-brightOrange text-lg hidden" />
                 </div>
@@ -145,7 +149,7 @@ const Projects = ({ navbar }) => {
           })}
         </div>
       </section>
-    </>
+    </div>
   );
 };
 export default Projects;
