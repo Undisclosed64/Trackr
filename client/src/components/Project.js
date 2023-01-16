@@ -44,6 +44,7 @@ const CreateProject = () => {
       }
     }
   };
+  const cancel = () => {};
   return (
     <div className="projectCreateContainer py-10 bg-white overflow-y-scroll h-screen w-full sm:w-4/5 md:w-3/5 z-10 absolute right-0 top-0">
       <div className="capitalize font-semibold text-lg bg-white2 fixed w-full mb-4 px-4 py-2 z-10 top-0">
@@ -54,7 +55,7 @@ const CreateProject = () => {
             return (
               <div
                 key={err.param}
-                className="error bg-red-500 p-3 fixed top-0 z-10 text-brightWhite mx-auto font-medium rounded-b-lg"
+                className=" bg-red-500 p-3 fixed top-0 z-10 text-brightWhite mx-auto font-medium rounded-b-lg flex items-center"
               >
                 <FiAlertTriangle className="mr-2 text-lg" />
 
@@ -194,7 +195,10 @@ const CreateProject = () => {
           >
             Add
           </button>
-          <button className="rounded-full px-10 py-1 border-2 text-brightOrange">
+          <button
+            className="rounded-full px-10 py-1 border-2 text-brightOrange"
+            onClick={cancel}
+          >
             Cancel
           </button>
         </div>
