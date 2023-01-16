@@ -21,6 +21,11 @@ const Projects = ({ navbar }) => {
     }
   }, [context.projects]);
 
+  useEffect(() => {
+    setCreateProject(false);
+  }, []);
+
+  console.log(createProject);
   const TakeToProjectDetails = (projectId) => {
     navigate(`/projects/${projectId}`);
   };
@@ -67,7 +72,7 @@ const Projects = ({ navbar }) => {
     <div>
       {navbar}
       <Sidebar />
-      {createProject ? <Project /> : ""}
+      {createProject ? <Project isDisplayed={createProject} /> : ""}
 
       <section
         id="projects"
