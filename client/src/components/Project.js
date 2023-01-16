@@ -37,10 +37,22 @@ const CreateProject = () => {
       // console.log(err.response.data.message);
       if (err.response) {
         // console.log(err.response.data);
-        if (err.response.data.message) setError(err.response.data.message);
-        else setErrors((errors) => [...errors, err.response.data.errors]);
+        if (err.response.data.message) {
+          setError(err.response.data.message);
+          setTimeout(() => {
+            setError(null);
+          }, 2000);
+        } else {
+          setErrors((errors) => [...errors, err.response.data.errors]);
+          setTimeout(() => {
+            setErrors([]);
+          }, 2000);
+        }
       } else {
         setError("Oops! Something went wrong!");
+        setTimeout(() => {
+          setError(null);
+        }, 2000);
       }
     }
   };
