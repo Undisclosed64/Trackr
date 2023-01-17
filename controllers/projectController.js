@@ -7,15 +7,15 @@ const project = require("../models/project");
 //handler for project creation
 exports.createProject = [
   //validate the input fields
-  check("title").not().isEmpty().withMessage("Project title can not be empty!"),
-  check("startDate")
-    .isISO8601()
-    .toDate()
-    .withMessage("Start date does not have a valid format!"),
-  check("endDate")
-    .isISO8601()
-    .toDate()
-    .withMessage("End date does not have a valid format!"),
+  // check("title").not().isEmpty().withMessage("Project title can not be empty!"),
+  // check("startDate")
+  //   .isISO8601()
+  //   .toDate()
+  //   .withMessage("Start date does not have a valid format!"),
+  // check("endDate")
+  //   .isISO8601()
+  //   .toDate()
+  //   .withMessage("End date does not have a valid format!"),
 
   async (req, res) => {
     //check for errors
@@ -29,6 +29,7 @@ exports.createProject = [
         startDate: req.body.startDate,
         endDate: req.body.endDate,
         description: req.body.description,
+        status: req.body.status,
       });
       if (req.user) {
         // console.log(req.user);
@@ -36,9 +37,9 @@ exports.createProject = [
         const username = email.substring(0, email.lastIndexOf("@"));
         project.createdBy = { username, email };
       }
-      if (req.body.status) {
-        project.status = req.body.status;
-      }
+      // if (req.body.status) {
+      //   project.status = req.body.status;
+      // }
       project.trackActivities.push({
         date: Date.now(),
         updatedField: `${req.user.email} has added project ${project.title}`,
