@@ -1,12 +1,12 @@
 import React, { useEffect, useContext, useState } from "react";
 import Sidebar from "./Sidebar";
-import Project from "../components/Project";
 import axios from "axios";
 import noteContext from "../context/noteContext";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { HiOutlineTicket } from "react-icons/hi";
 import { RiProjectorLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 const baseURL = "http://localhost:5000";
 
 const Projects = ({ navbar }) => {
@@ -22,10 +22,11 @@ const Projects = ({ navbar }) => {
   }, [context.projects]);
 
   useEffect(() => {
-    setCreateProject(false);
-  }, []);
+    return () => {
+      setCreateProject(false);
+    };
+  }, [createProject]);
 
-  console.log(createProject);
   const TakeToProjectDetails = (projectId) => {
     navigate(`/projects/${projectId}`);
   };
@@ -70,9 +71,12 @@ const Projects = ({ navbar }) => {
 
   return (
     <div>
-      {navbar}
+      {createProject ? (
+        <Navbar sectionName="Projects" projectCreateForm={createProject} />
+      ) : (
+        <Navbar sectionName="Projects" />
+      )}
       <Sidebar />
-      {createProject ? <Project isDisplayed={createProject} /> : ""}
 
       <section
         id="projects"
