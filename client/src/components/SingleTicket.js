@@ -111,6 +111,7 @@ const SingleTicket = () => {
       event.target.blur();
     }
   };
+  console.log(ticket);
   const onBlur = async (event) => {
     const fieldName = event.target.name;
     let value = "";
