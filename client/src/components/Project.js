@@ -7,53 +7,66 @@ import { Editor } from "@tinymce/tinymce-react";
 
 const CreateProject = ({ projectCreateForm }) => {
   const [formData, setFormData] = useState({
-    title: "",
-    startDate: "",
-    endDate: "",
-    description: "",
-    status: "",
+    title: undefined,
+    startDate: undefined,
+    endDate: undefined,
+    description: undefined,
+    status: undefined,
   });
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const editorRef = useRef(null);
   const baseURL = "http://localhost:5000";
+  console.log(formData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const token = localStorage.getItem("token");
     console.log(token);
-
-    try {
-      const res = await axios.post(`${baseURL}/server/projects`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(res.data);
-      navigate(`/projects/${res.data._id}`);
-    } catch (err) {
-      // console.log(err.response.data.message);
-      if (err.response) {
-        // console.log(err.response.data);
-        if (err.response.data.message) {
-          setError(err.response.data.message);
+    if (!formData.title) {
+      setError(`Title can not be empty`);
+      setTimeout(() => {
+        setError(null);
+      }, 2000);
+    } else if (!formData.endDate) {
+      setError(`Please provide a end date`);
+      setTimeout(() => {
+        setError(null);
+      }, 2000);
+    } else
+      try {
+        console.log(formData.description);
+        const res = await axios.post(`${baseURL}/server/projects`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(res.data);
+        navigate(`/projects/${res.data._id}`);
+      } catch (err) {
+        // console.log(err.response.data.message);
+        if (err.response) {
+          // console.log(err.response.data);
+          if (err.response.data.message) {
+            setError(err.response.data.message);
+            setTimeout(() => {
+              setError(null);
+            }, 2000);
+          } else {
+            setErrors((errors) => [...errors, err.response.data.errors]);
+            setTimeout(() => {
+              setErrors([]);
+            }, 2000);
+          }
+        } else {
+          setError("Oops! Something went wrong!");
           setTimeout(() => {
             setError(null);
           }, 2000);
-        } else {
-          setErrors((errors) => [...errors, err.response.data.errors]);
-          setTimeout(() => {
-            setErrors([]);
-          }, 2000);
         }
-      } else {
-        setError("Oops! Something went wrong!");
-        setTimeout(() => {
-          setError(null);
-        }, 2000);
       }
-    }
   };
   const cancel = () => {
     projectCreateForm(false);
@@ -195,7 +208,7 @@ const CreateProject = ({ projectCreateForm }) => {
                 className="w-full border-veryLightWhite border rounded"
                 name="dueDate"
                 onChange={(e) =>
-                  setFormData({ ...formData, dueDate: e.target.value })
+                  setFormData({ ...formData, endDate: e.target.value })
                 }
               />
             </div>
