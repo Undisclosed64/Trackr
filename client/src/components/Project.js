@@ -13,16 +13,16 @@ const CreateProject = ({ projectCreateForm }) => {
     description: undefined,
     status: undefined,
   });
+  const editorRef = useRef(null);
+
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const editorRef = useRef(null);
   const baseURL = "http://localhost:5000";
-  console.log(formData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(formData.description);
     const token = localStorage.getItem("token");
     console.log(token);
     if (!formData.title) {
@@ -68,6 +68,7 @@ const CreateProject = ({ projectCreateForm }) => {
         }
       }
   };
+
   const cancel = () => {
     projectCreateForm(false);
   };
@@ -118,14 +119,17 @@ const CreateProject = ({ projectCreateForm }) => {
               Description
             </label>
             <Editor
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
               className=""
               name="description"
               apiKey="g7djnctfldrwo1kkuj9879hlsnhu0t6swgxn1ri31eikvoa1"
               onInit={(evt, editor) => (editorRef.current = editor)}
-              initialValue="<p>This is the initial content of the editor.</p>"
+              initialValue={formData.description}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  description: e.target.getContent({ format: "text" }),
+                })
+              }
               init={{
                 height: 300,
                 menubar: false,
