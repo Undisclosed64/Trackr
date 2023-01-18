@@ -3,60 +3,49 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import "../App.css";
-import Modal from "react-bootstrap/Modal";
-import ProjectDeleted from "./ProjectDeleted";
 import { useNavigate } from "react-router-dom";
-import GetActivites from "./GetActivities";
 import { BsInfoSquare } from "react-icons/bs";
 import { IoIosArrowDropup } from "react-icons/io";
+import ProjectDeleted from "./ProjectDeleted";
 
 const ProjectDetails = () => {
   const { projectId } = useParams();
-  const [project, setProject] = useState({
-    title: "",
-    createdBy: "",
-    startDate: "",
-    endDate: "",
-    description: "",
-    status: "",
-  });
+  const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [createdBy, setCreatedBy] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
-  const [deleteAlert, setDeleteAlert] = useState(false);
-  const [error, setError] = useState(null);
-  const [projectNotFound, setProjectNotFound] = useState(false);
-  const [updatedMsg, setUpdatedMsg] = useState(null);
-  const [displayActivites, setDisplayActivities] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [updatedMsg, setUpdatedMsg] = useState(null);
   const [close, setClose] = useState(false);
-
-  const baseURL = "http://localhost:5000";
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+  const baseURL = "http://localhost:5000";
   const token = localStorage.getItem("token");
+  const [projectNotFound, setProjectNotFound] = useState(false);
 
   //make the request
   useEffect(() => {
     axios
       .get(`${baseURL}/server/projects/${projectId}`)
       .then((response) => {
+        console.log(response.data);
+        setId(response.data.id);
         setTitle(response.data.title);
         setStartDate(response.data.startDate);
         setEndDate(response.data.endDate);
         setDescription(response.data.description);
         setCreatedBy(response.data.createdBy);
         setStatus(response.data.status);
-        setProject(response.data);
       })
+
       .catch((error) => {
-        setProjectNotFound(true);
-        // console.log(error);
+        // setProjectNotFound(true);
+        console.log(error);
       });
-  }, []);
+  }, [projectId]);
 
   const onKeyDown = (event) => {
     if (event.key === "Enter" || event.key === "Escape") {
@@ -88,12 +77,11 @@ const ProjectDetails = () => {
       default:
         value = "";
     }
-    console.log(fieldName);
-    console.log(value);
+
     try {
       const res = await axios.put(
         `${baseURL}/server/projects/${projectId}`,
-        { fieldName, value, createdBy: project.createdBy },
+        { fieldName, value, createdBy: createdBy },
 
         {
           headers: {
@@ -101,10 +89,12 @@ const ProjectDetails = () => {
           },
         }
       );
-      console.log(res.data);
       if (res.data.success) {
         setUpdatedMsg("Updated Successfully");
       }
+      setTimeout(() => {
+        setUpdatedMsg(null);
+      }, 3000);
     } catch (err) {
       if (err.response) {
         console.log(err);
@@ -128,59 +118,56 @@ const ProjectDetails = () => {
       setShowMore(false);
     }
   };
-  const showBugs = () => {
-    navigate(`/projects/${project._id}/bugs`, {
-      state: { projectId: `${project._id}` },
-    });
-  };
-  const showActivites = () => {
-    setDisplayActivities(true);
-  };
-  const showAlert = () => {
-    setDeleteAlert(true);
-  };
-  const cancelDelete = () => {
-    setDeleteAlert(false);
-  };
-  const deleteProject = async () => {
-    console.log(project.createdBy.email);
 
-    try {
-      await axios
-        .delete(`/server/projects/${projectId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          data: {
-            projectOwnerEmail: project.createdBy.email,
-          },
-        })
-        .then((response) => {
-          console.log(response.data);
-          // setDeleteMsg(response.data.message);
-        });
-    } catch (err) {
-      if (err.response) {
-        console.log(err);
-        setError(err.response.data.message);
-        setTimeout(() => {
-          setError(null);
-        }, 3000);
-      } else {
-        setError("Oops! Something went wrong!");
-        setTimeout(() => {
-          setError(null);
-        }, 3000);
-      }
-    }
-  };
-  const closeDropdown = () => {
-    !close ? setClose(true) : setClose(false);
-  };
-
-  // if (projectNotFound) return <ProjectDeleted />;
-  if (!project) return <div>loading...</div>;
-
+  // const showBugs = () => {
+  //   navigate(`/projects/${project._id}/bugs`, {
+  //     state: { projectId: `${project._id}` },
+  //   });
+  // };
+  // const showActivites = () => {
+  //   setDisplayActivities(true);
+  // };
+  // const showAlert = () => {
+  //   setDeleteAlert(true);
+  // };
+  // const cancelDelete = () => {
+  //   setDeleteAlert(false);
+  // };
+  // const deleteProject = async () => {
+  //   try {
+  //     await axios
+  //       .delete(`/server/projects/${projectId}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         data: {
+  //           projectOwnerEmail: createdBy.email,
+  //         },
+  //       })
+  //       .then((response) => {
+  //         console.log(response.data);
+  //         // setDeleteMsg(response.data.message);
+  //       });
+  //   } catch (err) {
+  //     if (err.response) {
+  //       console.log(err);
+  //       setError(err.response.data.message);
+  //       setTimeout(() => {
+  //         setError(null);
+  //       }, 3000);
+  //     } else {
+  //       setError("Oops! Something went wrong!");
+  //       setTimeout(() => {
+  //         setError(null);
+  //       }, 3000);
+  //     }
+  //   }
+  // };
+  // const closeDropdown = () => {
+  //   !close ? setClose(true) : setClose(false);
+  // };
+  if (projectNotFound) return <ProjectDeleted />;
+  if (!title) return <div>loading...</div>;
   return (
     <div onClick={closeModal}>
       {/* {deleteAlert ? (
@@ -271,10 +258,7 @@ const ProjectDetails = () => {
           </div>
           <div className="status-wrapper shadow bg-brightWhite mb-4 px-2 py-3 msm:px-6">
             <div className="text-lg font-medium mb-2 flex items-center capitalize">
-              <IoIosArrowDropup
-                className="text-xl text-brightOrange mr-2"
-                onClick={closeDropdown}
-              />
+              <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
               Current status
             </div>
 
@@ -286,21 +270,18 @@ const ProjectDetails = () => {
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
-              <option value="Active">Active</option>
-              <option value="In-progress">In-progress</option>
-              <option value="To be tested">To be tested</option>
-              <option value="Delayed">Delayed</option>
-              <option value="Completed">Completed</option>
-              <option value="Cancelled">Cancelled</option>
+              <option value="active">Active</option>
+              <option value="in-progress">In-progress</option>
+              <option value="to be tested">To be tested</option>
+              <option value="delayed">Delayed</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
             </select>
           </div>
 
           <div className="description-wrapper mb-4 bg-brightWhite px-2 py-3 shadow">
             <div className="text-lg font-medium mb-2 flex items-center">
-              <IoIosArrowDropup
-                className="text-xl text-brightOrange mr-2"
-                onClick={closeDropdown}
-              />
+              <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
               Description
             </div>
             {!close ? (
