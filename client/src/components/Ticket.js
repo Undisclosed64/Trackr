@@ -1,9 +1,5 @@
 import React from "react";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import { useState, useEffect, useContext, useRef } from "react";
-import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import noteContext from "../context/noteContext";
@@ -17,7 +13,6 @@ const Ticket = ({ showForm }) => {
   const token = localStorage.getItem("token");
   const baseURL = "http://localhost:5000";
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     project: "",
     title: "",
@@ -50,6 +45,8 @@ const Ticket = ({ showForm }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
+
     if (!formData.project) {
       setError(`Please select a project`);
       setTimeout(() => {
@@ -176,7 +173,10 @@ const Ticket = ({ showForm }) => {
             </label>
             <Editor
               onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
+                setFormData({
+                  ...formData,
+                  description: e.target.getContent({ format: "text" }),
+                })
               }
               className=""
               name="description"
