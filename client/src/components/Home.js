@@ -3,12 +3,18 @@ import Sidebar from "../components/Sidebar";
 import { useContext, useEffect, useState } from "react";
 import noteContext from "../context/noteContext";
 import axios from "axios";
+import Ticket from "../components/Ticket";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut, Pie } from "react-chartjs-2";
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Home = ({ navbar }) => {
   const context = useContext(noteContext);
   const baseURL = "http://localhost:5000";
   const [ids, setIds] = useState([]);
+  const [totalProjects, setTotalProjects] = useState(0);
   const [activeProjects, setActiveProjects] = useState(0);
+  const [completedProjects, setCompletedProjects] = useState(0);
   const [totalTickets, setTotalTickets] = useState(0);
   const [openTickets, setOpenTickets] = useState(0);
   const [unassignedTickets, setUnassignedTickets] = useState(0);
@@ -16,6 +22,7 @@ const Home = ({ navbar }) => {
   //get projects id
   useEffect(() => {
     const projects = context.projects;
+    setTotalProjects(projects.length);
     for (let i = 0; i < projects.length; i++) {
       setIds((ids) => [...ids, projects[i]._id]);
     }
@@ -38,6 +45,25 @@ const Home = ({ navbar }) => {
       }
     };
     getActiveProjects();
+  }, [context.userEmail]);
+
+  //get completed projects count
+  useEffect(() => {
+    const completedProjectsCount = async () => {
+      try {
+        const res = await axios.get(`${baseURL}/server/projects`, {
+          params: {
+            email: context.userEmail,
+            filterCompleted: true,
+          },
+        });
+        // console.log(res.data.projects);
+        return setCompletedProjects(res.data.projects.length);
+      } catch {
+        return null;
+      }
+    };
+    completedProjectsCount();
   }, [context.userEmail]);
 
   //get total tickets count
@@ -111,8 +137,48 @@ const Home = ({ navbar }) => {
     }
   }, [ids]);
 
+  const ticketData = {
+    labels: ["Total tickets", "Open tickets", "Unassigned tickets"],
+    datasets: [
+      {
+        label: "# of tickets",
+        data: [totalTickets, openTickets, unassignedTickets],
+        backgroundColor: [
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+        ],
+        borderColor: [
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(153, 102, 255, 0.2)",
+        ],
+        borderWidth: 4,
+      },
+    ],
+  };
+  const projectData = {
+    labels: ["Total Projects", "Active Projects", "Completed Projects"],
+    datasets: [
+      {
+        label: "# of projects",
+        data: [totalProjects, activeProjects, completedProjects],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(75, 192, 192, 1)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(75, 192, 192, 1)",
+        ],
+        borderWidth: 4,
+      },
+    ],
+  };
   return (
-    <div>
+    <div className="">
       {navbar}
       <Sidebar />
       <section id="home" className="toggler py-10 px-3 md:mx-4">
@@ -134,10 +200,15 @@ const Home = ({ navbar }) => {
             <span className="text-lg">Open Tickets</span>
           </div>
 
-          <div className="box-wrapper bg-teal-200 px-2 py-8 flex flex-col items-center rounded-lg bg-yellow-500 text-white">
+          <div className="box-wrapper bg-teal-200 px-2 py-8 flex flex-col items-center rounded-lg  text-white">
             <div className="text-3xl font-bold pb-2">{unassignedTickets}</div>
             <span className="text-lg">Unassigned Tickets</span>
           </div>
+        </div>
+
+        <div className="chart-container">
+          <Doughnut data={ticketData} className="" />
+          <Pie data={projectData} className="" />
         </div>
       </section>
     </div>
