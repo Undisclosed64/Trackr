@@ -165,12 +165,12 @@ const Home = ({ navbar }) => {
         data: [totalProjects, activeProjects, completedProjects],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(75, 192, 192, 1)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
         ],
         borderColor: [
           "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
           "rgba(75, 192, 192, 1)",
         ],
         borderWidth: 4,
@@ -206,9 +206,15 @@ const Home = ({ navbar }) => {
           </div>
         </div>
 
-        <div className="chart-container">
-          <Doughnut data={ticketData} className="" />
-          <Pie data={projectData} className="" />
+        <div className="chart-container my-10 px-2 flex flex-col msm:flex-row msm:w-1/2 msm:gap-8">
+          <Doughnut
+            data={ticketData}
+            className="bg-brightWhite  rounded shadow-md msm:w-1/5 mb-4 msm:mb-0 p-2"
+          />
+          <Pie
+            data={projectData}
+            className="bg-brightWhite rounded shadow-md msm:w-1/5 p-2"
+          />
         </div>
       </section>
     </div>
