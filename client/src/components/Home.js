@@ -182,7 +182,7 @@ const Home = ({ navbar }) => {
       {navbar}
       <Sidebar />
       <section id="home" className="toggler my-20 fixed top-0 left-0 right-0 ">
-        <h1 className="text-xl msm:text-3xl font-semibold text-brightRed px-10">
+        <h1 className="text-xl msm:text-3xl font-semibold text-black2 px-10">
           Welcome, {context.userName}!
         </h1>
         <div className="inner-container overflow-auto h-screen pb-20 px-10">
