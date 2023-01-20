@@ -144,12 +144,12 @@ const Home = ({ navbar }) => {
         label: "# of tickets",
         data: [totalTickets, openTickets, unassignedTickets],
         backgroundColor: [
-          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 99, 132, 0.2)",
           "rgba(255, 206, 86, 0.2)",
           "rgba(153, 102, 255, 0.2)",
         ],
         borderColor: [
-          "rgba(54, 162, 235, 1)",
+          "rgba(255, 99, 132, 1)",
           "rgba(255, 206, 86, 1)",
           "rgba(153, 102, 255, 0.2)",
         ],
@@ -185,28 +185,28 @@ const Home = ({ navbar }) => {
         <h1 className="text-xl font-semibold">Welcome {context.userName}</h1>
         {/* container for boxes */}
         <div className="information-boxes my-4 grid gap-8 msm:grid-cols-2 vlg:grid-cols-4">
-          <div className="box-wrapper bg-[url('svg.png')] bg-cover bg-sky-500/30 bg-no-repeat bg-center px-2 py-8 flex flex-col items-center rounded-lg text-white ">
+          <div className="box-wrapper bg-[url('svg.png')] bg-cover bg-sky-500/30 bg-no-repeat bg-center px-2 py-8 flex flex-col items-center rounded text-white ">
             <div className="text-3xl font-bold pb-2">{activeProjects}</div>
             <span className="text-lg">Active Projects</span>
           </div>
 
-          <div className="box-wrapper bg-red-500 px-2 py-8 flex flex-col items-center rounded-lg text-white">
+          <div className="box-wrapper bg-red-500 px-2 py-8 flex flex-col items-center rounded text-white">
             <div className="text-3xl font-bold pb-2">{totalTickets}</div>
             <span className="text-lg">Total Tickets</span>
           </div>
 
-          <div className="box-wrapper bg-cyan-500 px-2 py-8 flex flex-col items-center rounded-lg text-white">
+          <div className="box-wrapper bg-cyan-500 px-2 py-8 flex flex-col items-center rounded text-white">
             <div className="text-3xl font-bold pb-2">{openTickets}</div>
             <span className="text-lg">Open Tickets</span>
           </div>
 
-          <div className="box-wrapper bg-teal-200 px-2 py-8 flex flex-col items-center rounded-lg  text-white">
+          <div className="box-wrapper bg-teal-200 px-2 py-8 flex flex-col items-center rounded text-white">
             <div className="text-3xl font-bold pb-2">{unassignedTickets}</div>
             <span className="text-lg">Unassigned Tickets</span>
           </div>
         </div>
 
-        <div className="chart-container my-10 px-2 flex flex-col msm:flex-row msm:w-1/2 msm:gap-8">
+        <div className="chart-container my-14 px-2 flex flex-col msm:flex-row msm:w-1/2 msm:gap-8">
           <Doughnut
             data={ticketData}
             className="bg-brightWhite  rounded shadow-md msm:w-1/5 mb-4 msm:mb-0 p-2"
