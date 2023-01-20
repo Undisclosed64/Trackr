@@ -17,13 +17,14 @@ module.exports = {
         loginImg:
           "url('https://images.unsplash.com/photo-1669279687951-0da28b1ce769?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=60')",
       },
+
       colors: {
         brightRed: "hsl(12,88%,59%)",
         lightGray: "#808080",
         brightOrange: "#FF6400",
         lightWhite: "#edede9",
         veryLightGray: "#cecece",
-        black: "#000000",
+        black2: "#000000E6",
         // lightBlack: "#42526E",
         lightBlack2: "rgb(94, 108, 132)",
         lightBlack3: "#464646",
@@ -39,6 +40,8 @@ module.exports = {
         brightWhite: "#ffffff",
         lightBlack: "#00000099",
         lightBlue: "#F8F8F8",
+        veryLightWhite: "rgb(236, 237, 238)",
+        white2: "#FAFAFA",
       },
     },
   },
