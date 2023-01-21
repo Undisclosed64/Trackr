@@ -187,7 +187,7 @@ const Home = ({ navbar }) => {
         </h1>
         <div className="inner-container overflow-auto h-screen pb-20 px-10">
           {/* container for boxes */}
-          <div className="information-boxes my-4 grid gap-8 msm:grid-cols-2 vlg:grid-cols-4">
+          <div className="information-boxes my-4 grid gap-8 msm:grid-cols-2 vlg:grid-cols-4 mb-6">
             <div className="box-wrapper bg-[url('svg.png')] bg-cover bg-sky-500/30 bg-no-repeat bg-center px-2 py-8 flex flex-col items-center rounded text-white ">
               <div className="text-3xl font-bold pb-2">{activeProjects}</div>
               <span className="text-lg">Active Projects</span>
@@ -209,7 +209,7 @@ const Home = ({ navbar }) => {
             </div>
           </div>
 
-          <div className="chart-container my-14 msm:px-6 flex flex-col msm:flex-row msm:w-1/2 msm:gap-8">
+          {/* <div className="chart-container my-14 msm:px-6 flex flex-col msm:flex-row msm:w-1/2 msm:gap-8">
             <Doughnut
               data={ticketData}
               className="bg-brightWhite  rounded shadow-md p-2 msm:w-1/5 mb-4 msm:mb-0"
@@ -218,6 +218,14 @@ const Home = ({ navbar }) => {
               data={projectData}
               className="bg-brightWhite rounded shadow-md msm:w-1/5 p-2 "
             />
+          </div> */}
+          <div className="chart-container my-14 grid gap-8 msm:grid-cols-2 justify-center">
+            <div className="chart-wrapper bg-brightWhite  rounded shadow-md p-2 msm:p-4  ">
+              <Doughnut data={ticketData} className="" />
+            </div>
+            <div className="chart-wrapper bg-brightWhite  rounded shadow-md p-2 msm:p-4 ">
+              <Pie data={projectData} className="" />
+            </div>
           </div>
         </div>
       </section>
