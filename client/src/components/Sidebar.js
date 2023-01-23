@@ -8,7 +8,7 @@ import { BsListTask } from "react-icons/bs";
 import { BiBug } from "react-icons/bi";
 import { RiMenu3Line } from "react-icons/ri";
 import { IoLogoAmplify } from "react-icons/io5";
-import { FiMenu } from "react-icons/fi";
+import { FiMenu, FiLogOut } from "react-icons/fi";
 
 const Sidebar = () => {
   const displaySidebar = () => {
@@ -48,7 +48,7 @@ const Sidebar = () => {
     navbar.classList.remove("toggler");
     // sectionHome.classList.remove("toggler");
     // sectionFeed.classList.remove("toggler");
-    sectionTickets.classList.remove("toggler");
+    // sectionTickets.classList.remove("toggler");
   };
   return (
     <div className="container ">
@@ -111,7 +111,7 @@ const Sidebar = () => {
             </li>
             <li className="mb-4 text-lg text-lightBlack3">
               <Link
-                to="#"
+                to="/projects"
                 className="flex items-center px-1 py-2 no-underline hover:rounded vlg:hover:bg-lightWhite hover:text-lightBlack3 text-lightBlack3"
               >
                 <BsListTask className="mr-3 text-2xl text-lightBlack2" />
@@ -134,6 +134,15 @@ const Sidebar = () => {
               >
                 <GoCommentDiscussion className="mr-3 text-2xl text-lightBlack2" />
                 <div className="hidden text-xl vlg:block">Discuss</div>
+              </Link>
+            </li>
+            <li className="mb-4 text-lg text-lightBlack3">
+              <Link
+                to="/logout"
+                className="flex items-center no-underline px-1 py-2 vlg:hover:bg-lightWhite hover:text-lightBlack3 hover:rounded text-lightBlack3"
+              >
+                <FiLogOut className="mr-3 text-2xl text-lightBlack2" />
+                <div className="hidden text-xl vlg:block">Logout</div>
               </Link>
             </li>
           </ul>
