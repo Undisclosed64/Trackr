@@ -13,6 +13,7 @@ import Navbar from "./components/Navbar";
 import NoteState from "./context/NoteState";
 import Feed from "./components/Feed";
 import Projects from "./components/Projects";
+import LogOut from "./components/LogOut";
 
 function App() {
   // const baseURL = "http://localhost:5000/server";
@@ -50,7 +51,7 @@ function App() {
     },
     {
       path: "tickets",
-      element: <Tickets navbar={<Navbar sectionName="Tickets" />} />,
+      element: <Tickets />,
     },
     {
       path: "projects",
@@ -72,6 +73,10 @@ function App() {
     {
       path: "add-ticket",
       element: <Ticket />,
+    },
+    {
+      path: "logout",
+      element: <LogOut />,
     },
   ]);
   // if (!user) return <div>loading..</div>;
