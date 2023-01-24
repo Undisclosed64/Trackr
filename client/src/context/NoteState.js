@@ -1,11 +1,11 @@
 import NoteContext from "./noteContext";
 import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from "react";
 
 const NoteState = (props) => {
   const [username, setUserName] = useState(null);
   const [email, setEmail] = useState(null);
+  const [user, setUser] = useState(null);
   const [projects, setProjects] = useState([]);
   const baseURL = "http://localhost:5000";
   const token = localStorage.getItem("token");
@@ -19,12 +19,26 @@ const NoteState = (props) => {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        setUser(response.data);
         const name = response.data.user.email.split("@")[0];
         setUserName(name);
         setEmail(response.data.user.email);
       });
-  }, []);
+  }, [user, token]);
+
+  const checkSessionExpiration = (user) => {
+    if (user) {
+      const exp = user.exp;
+      const now = Date.now() / 1000;
+      if (now > exp) {
+        console.log("session expired");
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (user) checkSessionExpiration(user);
+  }, [user]);
 
   //get all projects
   useEffect(() => {
@@ -48,6 +62,7 @@ const NoteState = (props) => {
     userName: username,
     userEmail: email,
     projects: projects,
+    user: user,
   };
 
   return (
