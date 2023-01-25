@@ -19,6 +19,9 @@ const LogOut = () => {
       }, 2000);
     }
   };
+  const handleCancelClick = () => {
+    navigate(-1);
+  };
   return (
     <section className="flex items-center justify-center h-screen mx-2">
       {success ? (
@@ -35,12 +38,15 @@ const LogOut = () => {
         </div>
 
         <div className="options flex gap-3">
-          <button className="rounded px-4 py-2 border text-brightOrange">
+          <button
+            className="rounded px-5 py-2 border text-brightOrange"
+            onClick={handleCancelClick}
+          >
             Cancel
           </button>
           <button
             className="bg-brightOrange text-brightWhite rounded border
-        py-2 px-4 hover:bg-orange-400"
+        py-2 px-5 hover:bg-orange-400"
             onClick={handleLogOut}
           >
             Logout
