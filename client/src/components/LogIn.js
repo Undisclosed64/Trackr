@@ -5,8 +5,11 @@ import "../App.css";
 import { FcGoogle } from "react-icons/fc";
 import { BsTwitter } from "react-icons/bs";
 
-const LogIn = () => {
-  const baseURL = "http://localhost:5000/server";
+import React from "react";
+import { Navigate } from "react-router-dom";
+
+const LogIn = ({ isAuthenticated }) => {
+  const baseURL = "http://localhost:5000";
 
   const [data, setData] = useState({
     email: "",
@@ -15,6 +18,10 @@ const LogIn = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const handleGoogleLogin = async () => {
+    window.location = `${baseURL}/auth/google`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (data.email === "" || data.password === "") {
@@ -22,7 +29,7 @@ const LogIn = () => {
       return;
     }
     try {
-      const res = await axios.post(`/server/log-in`, data);
+      const res = await axios.post(`${baseURL}/server/log-in`, data);
       console.log(res.data);
       const token = res.data.accessToken;
       localStorage.setItem("token", token);
@@ -90,7 +97,9 @@ const LogIn = () => {
           <div className="social-handles">
             <div className="google-wrapper flex justify-center w-full text-lightBlack py-2  mb-6 rounded font-medium">
               <FcGoogle className="text-2xl mr-3" />
-              <div className="google">Continue with Google</div>
+              <div className="google" onClick={handleGoogleLogin}>
+                Continue with Google
+              </div>
             </div>
             <div className="twitter-wrapper flex justify-center w-full text-lightBlack py-2  mb-6 rounded font-medium">
               <BsTwitter className="text-2xl mr-3 text-blue" />
