@@ -4,8 +4,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FiAlertTriangle } from "react-icons/fi";
 import { Editor } from "@tinymce/tinymce-react";
+import "../App.css";
 
-const CreateProject = ({ projectCreateForm }) => {
+const CreateProject = ({ projectCreateForm, onCancel }) => {
   const [formData, setFormData] = useState({
     title: undefined,
     startDate: undefined,
@@ -69,11 +70,17 @@ const CreateProject = ({ projectCreateForm }) => {
       }
   };
 
+  useEffect(() => {});
   const cancel = () => {
     projectCreateForm(false);
+    onCancel();
+    //remove class that hides overflow of the sidebar
+    const sidebar = document.querySelector("#sidebar");
+    sidebar.classList.remove("hideOverflow");
   };
+
   return (
-    <div className="projectCreateContainer py-10 bg-white overflow-y-scroll h-screen w-full sm:w-4/5 md:w-3/5 z-10 absolute right-0 top-0">
+    <div className="projectCreateContainer py-10 bg-white overflow-y-scroll h-screen w-full sm:w-4/5 md:w-3/5 absolute right-0 top-0 z-10000">
       <div className="capitalize font-semibold text-lg bg-white2 fixed w-full mb-4 px-4 py-2 z-10 top-0">
         new project
       </div>
