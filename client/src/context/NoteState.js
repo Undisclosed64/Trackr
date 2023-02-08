@@ -3,8 +3,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const NoteState = (props) => {
-  const [username, setUserName] = useState(null);
-  const [email, setEmail] = useState(null);
   const [user, setUser] = useState(null);
   const [isSessionExpired, setIsSessionExpired] = useState(false);
   const [projects, setProjects] = useState([]);
@@ -20,16 +18,15 @@ const NoteState = (props) => {
         },
       })
       .then((response) => {
+        // console.log(response.data);
         setUser(response.data);
-        const name = response.data.user.email.split("@")[0];
-        setUserName(name);
-        setEmail(response.data.user.email);
       });
-  }, [user, token]);
+  }, [token]);
 
   const checkSessionExpiration = (user) => {
     if (user) {
-      const exp = user.user.exp;
+      const exp = user.exp;
+      console.log(exp);
       const now = Date.now() / 1000;
       if (now > exp) {
         console.log("session expired");
@@ -48,7 +45,7 @@ const NoteState = (props) => {
       try {
         const res = await axios.get(`${baseURL}/server/projects`, {
           params: {
-            email: email,
+            email: user.email,
           },
         });
         // console.log(res.data.projects);
@@ -58,18 +55,19 @@ const NoteState = (props) => {
       }
     };
     getProjects();
-  }, [email]);
+  }, [user]);
 
   const state = {
-    userName: username,
-    userEmail: email,
-    projects: projects,
+    // userName: username,
+    // userEmail: email,
     user: user,
+    projects: projects,
   };
 
   const getLogInPage = () => {
     window.location.href = "/";
   };
+  // console.log(projects);
   return (
     <div>
       <NoteContext.Provider value={state}>
