@@ -20,9 +20,6 @@ const token = localStorage.getItem("token");
 const App = () => {
   console.log("app rendered");
   const context = useContext(noteContext);
-  // const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [shouldRedirectToLogin, setShouldRedirectToLogin] = useState(false);
 
   const router = createBrowserRouter([
     {
@@ -59,24 +56,13 @@ const App = () => {
         },
         {
           path: "logout",
-          element: <LogOut setIsLoggedIn={setIsLoggedIn} />,
+          element: <LogOut />,
         },
 
-        // {
-        //   path: "create-project",
-        //   element: <CreateProject />,
-        // },
-        // {
-
-        // {
-        //   path: "add-ticket",
-        //   element: <Ticket />,
-        // },
         // {
         //   path: "profile",
         //   element: <UserProfile />,
         // },
-        // {
       ],
     },
     {
@@ -84,39 +70,6 @@ const App = () => {
       element: <LogIn />,
     },
   ]);
-
-  useEffect(() => {
-    // Check if the user is logged in
-    console.log("checkIfUserIsLoggedIn is called");
-
-    const checkIfUserIsLoggedIn = async () => {
-      try {
-        await axios
-          .get(`${baseURL}/server/verifyUser`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then((response) => {
-            console.log(response.data);
-            if (response.status === 200) {
-              setIsLoggedIn(true);
-            }
-          });
-      } catch (err) {
-        console.log(err);
-        setShouldRedirectToLogin(true);
-        // window.location.href = "/login"; //starts switching between login and "/"
-      }
-    };
-    checkIfUserIsLoggedIn();
-  }, []);
-
-  if (shouldRedirectToLogin) {
-    console.log("redirecting to login page");
-    // window.location.href = "/login";
-  }
-  console.log("isLoggedIn:" + isLoggedIn);
   return (
     <>
       <NoteState>
