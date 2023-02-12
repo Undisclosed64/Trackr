@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
 import { MdOutlineFeed } from "react-icons/md";
 import { GoCommentDiscussion } from "react-icons/go";
@@ -12,8 +11,55 @@ import { FiMenu, FiLogOut } from "react-icons/fi";
 import { Outlet, NavLink } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import ".././index.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+const baseURL = "http://localhost:5000";
+const token = localStorage.getItem("token");
 
 const Root = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  const hideSidebar = () => {
+    //select all elements
+    const sidebar = document.querySelector("#sidebar");
+    const toggleSidebar = document.querySelector("#toggleSidebar");
+
+    //perform actions on them
+    sidebar.style.display = "none";
+    toggleSidebar.style.display = "block";
+  };
+  let activeStyle = {
+    color: "#FF6400",
+  };
+
+  useEffect(() => {
+    console.log("isLoggedIn:" + isLoggedIn);
+
+    // Check if the user is logged in
+    const checkIfUserIsLoggedIn = async () => {
+      try {
+        await axios
+          .get(`${baseURL}/server/verifyUser`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            console.log(response.data);
+            if (response.status === 200) {
+              setIsLoggedIn(true);
+            }
+          });
+      } catch (err) {
+        console.log(err);
+        navigate("/login");
+      }
+    };
+    checkIfUserIsLoggedIn();
+  }, [isLoggedIn]);
+
   return (
     <>
       <Navbar />
@@ -32,67 +78,77 @@ const Root = () => {
               trackr
             </div>
           </div>
-          <div className="hamburger-wrapper self-center mt-2 p-0.5">
+          <div
+            className="hamburger-wrapper self-center mt-2 p-0.5"
+            onClick={hideSidebar}
+          >
             <FiMenu className="text-veryLightGray" />
           </div>
         </div>
 
         <nav className="mx-1 vlg:mx-3 py-3 h-screen ">
-          <ul className="font-medium mr-4 ">
-            <li className="mb-4 text-lg text-lightBlack3">
-              <Link
+          <ul className="mr-4 text-lightBlack">
+            <li className="mb-4 text-lg">
+              <NavLink
                 to="/home"
-                className="sidebar-link no-underline flex px-1 py-2 hover:rounded  vlg:hover:bg-lightWhite hover:text-lightBlack3 text-lightBlack3"
+                className="home-link no-underline flex px-1 py-2 hover:rounded hover:bg-lightWhite"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
-                <AiOutlineHome className="mr-3 text-2xl text-lightBlack2" />
+                <AiOutlineHome className="mr-3 text-2xl text-inherit" />
                 <div className="hidden text-xl vlg:block">Home</div>
-              </Link>
+              </NavLink>
               {/* other code */}
             </li>
-            <li className="mb-4 text-lg text-lightBlack3">
-              <Link
+            <li className="mb-4 text-lg">
+              <NavLink
                 to="/feed"
-                className="flex no-underline items-center px-1 py-2 text-lightBlack3 hover:rounded vlg:hover:bg-lightWhite hover:text-lightBlack3"
+                className="flex no-underline items-center px-1 py-2  hover:rounded hover:bg-lightWhite"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
-                <MdOutlineFeed className="mr-3 text-2xl text-lightBlack2" />
+                <MdOutlineFeed className="mr-3 text-2xl text-inherit" />
                 <div className="hidden text-xl vlg:block">Feed</div>
-              </Link>
+              </NavLink>
             </li>
-            <li className="mb-4 text-lg text-lightBlack3">
-              <Link
+            <li className="mb-4 text-lg">
+              <NavLink
                 to="/projects"
-                className="flex items-center px-1 py-2 no-underline hover:rounded vlg:hover:bg-lightWhite hover:text-lightBlack3 text-lightBlack3"
+                className="flex items-center px-1 py-2 no-underline hover:rounded hover:bg-lightWhite "
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
-                <BsListTask className="mr-3 text-2xl text-lightBlack2" />
+                <BsListTask className="mr-3 text-2xl text-inherit" />
                 <div className="hidden text-xl vlg:block">Projects</div>
-              </Link>
+              </NavLink>
             </li>
-            <li className="mb-4 text-lg text-lightBlack3 ">
-              <Link
+            <li className="mb-4 text-lg">
+              <NavLink
                 to="/tickets"
-                className="flex no-underline items-center px-1 py-2 vlg:hover:bg-lightWhite hover:text-lightBlack3 hover:rounded text-lightBlack3"
+                className="flex no-underline items-center px-1 py-2 vlg:hover:bg-lightWhite hover:rounded"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
-                <IoTicketOutline className="mr-3 text-2xl text-lightBlack2" />
+                <IoTicketOutline className="mr-3 text-2xl text-inherit" />
                 <div className="hidden text-xl vlg:block">Tickets</div>
-              </Link>
+              </NavLink>
             </li>
-            <li className="mb-4 text-lg text-lightBlack3">
-              <Link
+            <li className="mb-4 text-lg">
+              <NavLink
                 to="/discuss"
-                className="flex items-center no-underline px-1 py-2 vlg:hover:bg-lightWhite hover:text-lightBlack3 hover:rounded text-lightBlack3"
+                className="flex items-center no-underline px-1 py-2 hover:bg-lightWhite 
+                hover:rounded"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
-                <GoCommentDiscussion className="mr-3 text-2xl text-lightBlack2" />
+                <GoCommentDiscussion className="mr-3 text-2xl text-inherit" />
                 <div className="hidden text-xl vlg:block">Discuss</div>
-              </Link>
+              </NavLink>
             </li>
-            <li className="mb-4 text-lg text-lightBlack3">
-              <Link
+            <li className="mb-4 text-lg">
+              <NavLink
                 to="/logout"
-                className="flex items-center no-underline px-1 py-2 vlg:hover:bg-lightWhite hover:text-lightBlack3 hover:rounded text-lightBlack3"
+                className="flex items-center no-underline px-1 py-2 hover:bg-lightWhite  hover:rounded "
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
-                <FiLogOut className="mr-3 text-2xl text-lightBlack2" />
+                <FiLogOut className="mr-3 text-2xl text-inherit" />
                 <div className="hidden text-xl vlg:block">Logout</div>
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </nav>
