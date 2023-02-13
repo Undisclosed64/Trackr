@@ -44,24 +44,19 @@ const Navbar = ({ sectionName }) => {
           {sectionName}
         </div>
         <ul className="flex">
-          <li className="ml-2 msm:ml-5">
-            <Link to="#" className="text-lightBlack">
-              <GoSearch className="text-xl md:text-2xl" />
-            </Link>
-          </li>
           <li className="ml-2 msm:ml-5" onClick={displayCreateTicket}>
             <Link to="" className="text-lightBlack">
               <IoMdAddCircle className="text-xl md:text-2xl" />
             </Link>
           </li>
           <li className="ml-2 msm:ml-5">
-            <Link to="" className="text-lightBlack">
+            <Link to="/profile" className="text-lightBlack">
               <FaUserCircle className="text-xl md:text-2xl" />
             </Link>
           </li>
         </ul>
       </nav>
-      {/* {showUserProfile ? <UserProfile /> : ""} */}
+      {showUserProfile ? <UserProfile /> : ""}
     </div>
   );
 };
