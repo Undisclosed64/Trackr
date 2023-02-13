@@ -16,6 +16,16 @@ module.exports = {
       backgroundImage: {
         loginImg:
           "url('https://images.unsplash.com/photo-1669279687951-0da28b1ce769?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=60')",
+        profileBg: `url('../src/assets/wave.svg')`,
+      },
+      backgroundSize: {
+        profileBg: "cover",
+      },
+      backgroundRepeat: {
+        profileBg: "no-repeat",
+      },
+      backgroundPosition: {
+        profileBg: "center",
       },
 
       colors: {
@@ -42,6 +52,7 @@ module.exports = {
         lightBlue: "#F8F8F8",
         veryLightWhite: "rgb(236, 237, 238)",
         white2: "#FAFAFA",
+        sidebarBg: "#f2f2f2",
       },
     },
   },
