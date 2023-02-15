@@ -84,16 +84,13 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   function (req, res) {
-    // console.log(req.user);
+    console.log(req.user);
     const accessToken = jwt.sign({ email: req.user.email }, process.env.key, {
       expiresIn: "10h",
     });
 
-    //return user info and token
-    // res.json({
-    //   user: req.user,
-    //   accessToken,
-    // });
+    // res.cookie("accessToken", accessToken, { httpOnly: true });
+    res.cookie("accessToken", accessToken);
 
     // Successful authentication, redirect home.
     res.redirect(`http://localhost:3000/home`);
