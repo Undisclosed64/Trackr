@@ -3,18 +3,17 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import { FcGoogle } from "react-icons/fc";
-import { BsTwitter } from "react-icons/bs";
+import { FaUserCircle } from "react-icons/fa";
+import { ActionMsg } from "./ActionMsg";
+import { TailSpin } from "react-loader-spinner";
 
-import React from "react";
-import { Navigate } from "react-router-dom";
-
-const LogIn = ({ isAuthenticated }) => {
+const LogIn = () => {
   const baseURL = "http://localhost:5000";
-
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false); // add loading state
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -24,10 +23,16 @@ const LogIn = ({ isAuthenticated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("clicked");
     if (data.email === "" || data.password === "") {
-      setError("Input field can not be empty!");
+      setError("Input field can not be empty");
+      setTimeout(() => {
+        setError(null);
+      }, 1500);
       return;
     }
+    setLoading(true); // set loading state to true before making request
+
     try {
       const res = await axios.post(`${baseURL}/server/log-in`, data);
       console.log(res.data);
@@ -37,11 +42,18 @@ const LogIn = ({ isAuthenticated }) => {
     } catch (err) {
       if (err.response) {
         setError(err.response.data.msg);
-        //console.log(error);
+        setTimeout(() => {
+          setError(null);
+        }, 1500);
+        console.log(error);
       } else {
         setError("Oops! Something went wrong!");
-        //console.log("Oops! Something went wrong!");
+        setTimeout(() => {
+          setError(null);
+        }, 1500);
       }
+    } finally {
+      setLoading(false); // set loading state to false after request completes
     }
   };
   return (
@@ -53,60 +65,78 @@ const LogIn = ({ isAuthenticated }) => {
         />
       </div>
 
-      <div className="section-right py-4 sm:px-6 sm:py-12 sm:mx-auto md:flex justify-center md:w-3/5 ">
+      <div className="section-right py-4 sm:px-6 sm:py-10 mx-auto md:flex justify-center items-center md:w-3/5">
         <form
-          className="logInForm px-4 py-3 rounded"
+          className="logInForm px-6 py-3 rounded"
           onSubmit={(e) => handleSubmit(e)}
         >
           <h1 className="text-3xl text-center font-bold text-lightBlack2 mb-2 ">
             Sign in to Trackr
-          </h1>
-          {error ? <div className="error py-2">{error}</div> : " "}
-
+          </h1>{" "}
+          {error ? <ActionMsg error={error} /> : " "}
           <div className="inputs mt-8 mb-1">
             <input
               type="email"
               placeholder="Enter email"
               name="email"
               onChange={(e) => setData({ ...data, email: e.target.value })}
-              className="form-input px-3 py-2 rounded w-full mb-6 text-base"
-              required
+              className="form-input px-3 py-2 rounded w-full mb-6 text-base border-lightBlue1"
             />
             <input
               type="password"
               placeholder="Password"
               name="password"
               onChange={(e) => setData({ ...data, password: e.target.value })}
-              className="form-input px-3 py-2 rounded w-full text-base"
-              required
+              className="form-input px-3 py-2 rounded w-full text-base border-lightBlue1"
             />
           </div>
           <p className="forgotPassword text-base text-right text-lightgray hover:text-blue-700 cursor-pointer">
             Forgot password?
           </p>
-          <div className="button-wrapper flex justify-center mt-2 mb-2">
-            <button
+          <div className="button-wrapper flex justify-center my-2">
+            {loading ? (
+              <button
+                type="submit"
+                className="py-2 rounded text-white w-full text-base font-medium uppercase bg-brightRedLight justify-center flex items-center"
+                disabled
+              >
+                <TailSpin
+                  height="25"
+                  width="25"
+                  color="white"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={true}
+                  ariaLabel="oval-loading"
+                />
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="bg-brightRed py-2 rounded text-white w-full text-base font-medium uppercase"
+              >
+                sign in
+              </button>
+            )}
+            {/* <button
               type="submit"
-              className="bg-brightRed py-2 rounded text-white w-full text-base font-medium"
+              className="bg-brightRed py-2 rounded text-white w-full text-base font-medium uppercase hover:bg-brightRedLight"
             >
-              Sign In
-            </button>
+            </button> */}
           </div>
-          <div className="or text-lightBlack text-center text-lg my-6">OR</div>
-
+          <div className="or text-lightBlack text-center text-lg my-4">Or</div>
           <div className="social-handles">
-            <div className="google-wrapper flex justify-center w-full text-lightBlack py-2  mb-6 rounded font-medium">
+            <div className="google-wrapper flex justify-center w-full text-lightBlack py-2  mb-6 rounded font-medium hover:cursor-pointer">
               <FcGoogle className="text-2xl mr-3" />
               <div className="google" onClick={handleGoogleLogin}>
                 Continue with Google
               </div>
             </div>
-            <div className="twitter-wrapper flex justify-center w-full text-lightBlack py-2  mb-6 rounded font-medium">
-              <BsTwitter className="text-2xl mr-3 text-blue" />
-              <div className="twitter">Continue with Twitter</div>
+            <div className="twitter-wrapper flex justify-center w-full text-lightBlack py-2  mb-6 rounded font-medium hover:cursor-pointer">
+              <FaUserCircle className="text-2xl mr-3 text-blue" />
+              <div className="twitter">Sign in as demo user</div>
             </div>
           </div>
-
           <div className="signUpLinkInLogin mt-8 text-center text-base text-lightBlack">
             New to Trackr?{" "}
             <Link to="/sign-up" className="text-brightRed underline">
