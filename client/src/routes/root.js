@@ -119,12 +119,8 @@ const Root = () => {
         </div> */}
 
         <div
-          className={`header
-          border-b py-1 flex ${
-            isExpanded
-              ? "justify-evenly expanded items-center"
-              : "justify-center"
-          }`}
+          className={`header border-b border-brightBlackHover py-1.5 flex lg:items-center px-4 gap-3 lg:justify-start
+            ${isExpanded ? "items-start" : "justify-center"}`}
         >
           <div
             className="hamburger-wrapper hover:bg-brightBlackHover rounded-full p-2"
@@ -138,13 +134,13 @@ const Root = () => {
               isExpanded ? "expanded" : ""
             }`}
           >
-            <div
-              className="logo-wrapper p-1 rounded-full bg-brightRed
+            {/* <div
+              className="logo-wrapper p-0.5 rounded-full bg-brightRed
              mr-1"
-            >
-              <IoLogoAmplify className="text-3xl text-brightWhite" />
-            </div>
-            <div className="brandName text-brightWhite text-2xl vlg:block vlg:font-bold">
+            > */}
+            <IoLogoAmplify className="text-3xl mr-1 text-brightRed" />
+            {/* </div> */}
+            <div className="brandName text-brightWhite text-3xl font-medium">
               trackr
             </div>
           </div>
@@ -155,10 +151,13 @@ const Root = () => {
          text-mainWhite py-8 "
         >
           <ul className="w-full">
-            <li className={`mb-8 w-full ${isExpanded ? "px-4" : "px-2"}`}>
+            <li
+              className={`mb-8 w-full lg:px-4 ${isExpanded ? "px-4" : "px-2"}`}
+            >
               <NavLink
                 to="/home"
-                className={`lg:home-link no-underline hover:rounded hover:bg-brightBlackHover flex rounded gap-3 lg:flex-row lg:w-full lg:px-2 lg:py-3 ${
+                className={`home-link no-underline hover:rounded hover:bg-brightBlackHover flex rounded gap-3 lg:flex-row 
+                lg:w-full lg:px-2 lg:py-3 lg:items-start ${
                   isExpanded
                     ? "flex-row w-full px-2 py-3"
                     : "flex-col items-center px-1 py-2"
@@ -166,16 +165,22 @@ const Root = () => {
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
                 <AiOutlineHome className="text-2xl text-inherit" />
-                <div className={`${isExpanded ? "text-xl" : "text-base"}`}>
+                <div
+                  className={`lg:text-xl ${
+                    isExpanded ? "text-xl" : "text-base"
+                  }`}
+                >
                   Home
                 </div>
               </NavLink>
             </li>
 
-            <li className={`mb-8 w-full ${isExpanded ? "px-4" : "px-2"}`}>
+            <li
+              className={`mb-8 w-full lg:px-4 ${isExpanded ? "px-4" : "px-2"}`}
+            >
               <NavLink
                 to="/feed"
-                className={`no-underline hover:rounded hover:bg-brightBlackHover flex rounded gap-3 lg:flex-row lg:w-full lg:px-2 lg:py-3  ${
+                className={`no-underline hover:rounded hover:bg-brightBlackHover flex rounded gap-3 lg:flex-row lg:w-full lg:px-2 lg:py-3 lg:items-start  ${
                   isExpanded
                     ? "flex-row w-full px-2  py-3"
                     : "flex-col items-center px-1 py-2"
@@ -183,15 +188,21 @@ const Root = () => {
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
                 <MdOutlineFeed className="text-2xl text-inherit" />
-                <div className={`${isExpanded ? "text-xl" : "text-base"}`}>
+                <div
+                  className={`lg:text-xl ${
+                    isExpanded ? "text-xl" : "text-base"
+                  }`}
+                >
                   Feed
                 </div>
               </NavLink>
             </li>
-            <li className={`mb-8 w-full ${isExpanded ? "px-4" : "px-2"}`}>
+            <li
+              className={`mb-8 w-full lg:px-4 ${isExpanded ? "px-4" : "px-2"}`}
+            >
               <NavLink
                 to="/projects"
-                className={`no-underline hover:rounded hover:bg-brightBlackHover flex px-2 py-2 rounded gap-3 lg:flex-row lg:w-full lg:px-2 lg:py-3 ${
+                className={`no-underline hover:rounded hover:bg-brightBlackHover flex px-2 py-2 rounded gap-3 lg:flex-row lg:w-full lg:px-2 lg:py-3 lg:items-start ${
                   isExpanded
                     ? "flex-row w-full px-2 py-3"
                     : "flex-col items-center px-1 py-2"
@@ -199,15 +210,21 @@ const Root = () => {
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
                 <BsListTask className="text-2xl text-inherit" />
-                <div className={`${isExpanded ? "text-xl" : "text-base"}`}>
+                <div
+                  className={`lg:text-xl ${
+                    isExpanded ? "text-xl" : "text-base"
+                  }`}
+                >
                   Projects
                 </div>
               </NavLink>
             </li>
-            <li className={`mb-8 w-full ${isExpanded ? "px-4" : "px-2"}`}>
+            <li
+              className={`mb-8 w-full lg:px-4 ${isExpanded ? "px-4" : "px-2"}`}
+            >
               <NavLink
                 to="/tickets"
-                className={`no-underline hover:rounded hover:bg-brightBlackHover flex rounded gap-3 lg:flex-row lg:w-full lg:px-2 lg:py-3 ${
+                className={`no-underline hover:rounded hover:bg-brightBlackHover flex rounded gap-3 lg:flex-row lg:w-full lg:px-2 lg:py-3 lg:items-start ${
                   isExpanded
                     ? "flex-row w-full px-2 py-3"
                     : "flex-col items-center px-1 py-2"
@@ -215,16 +232,22 @@ const Root = () => {
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
                 <IoTicketOutline className="text-2xl text-inherit" />
-                <div className={`${isExpanded ? "text-xl" : "text-base"}`}>
+                <div
+                  className={`lg:text-xl ${
+                    isExpanded ? "text-xl" : "text-base"
+                  }`}
+                >
                   Tickets
                 </div>
               </NavLink>
             </li>
 
-            <li className={`mb-8 w-full ${isExpanded ? "px-4" : "px-2"}`}>
+            <li
+              className={`mb-8 w-full lg:px-4 ${isExpanded ? "px-4" : "px-2"}`}
+            >
               <NavLink
                 to="/logout"
-                className={`no-underline hover:rounded hover:bg-brightBlackHover flex rounded gap-3 lg:flex-row lg:w-full lg:px-2 lg:py-3 ${
+                className={`no-underline hover:rounded hover:bg-brightBlackHover flex rounded gap-3 lg:flex-row lg:w-full lg:px-2 lg:py-3 lg:items-start ${
                   isExpanded
                     ? "flex-row w-full px-2 py-3"
                     : "flex-col items-center px-1 py-2 "
@@ -232,7 +255,11 @@ const Root = () => {
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
                 <FiLogOut className="text-2xl text-inherit" />
-                <div className={`${isExpanded ? "text-xl" : "text-base"} `}>
+                <div
+                  className={`lg:text-xl ${
+                    isExpanded ? "text-xl" : "text-base"
+                  } `}
+                >
                   Logout
                 </div>
               </NavLink>
