@@ -4,21 +4,20 @@ import noteContext from "../context/noteContext";
 import { useNavigate } from "react-router-dom";
 <script src="https://accounts.google.com/gsi/client" async defer></script>;
 
-const LogOut = ({ setIsLoggedIn }) => {
+const LogOut = () => {
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
   const context = useContext(noteContext);
 
   const handleLogOut = () => {
-    setIsLoggedIn(false);
     localStorage.removeItem("token");
     setSuccess(true);
     setTimeout(() => {
       setSuccess(null);
-    }, 2000);
+    }, 1500);
     setTimeout(() => {
       navigate(`/login`);
-    }, 2000);
+    }, 1500);
   };
   const handleCancelClick = () => {
     navigate(-1);
