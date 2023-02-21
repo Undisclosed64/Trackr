@@ -1,7 +1,4 @@
-import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import noteContext from "./context/noteContext";
 import NoteState from "./context/NoteState";
 import Root from "./routes/root";
 import LogIn from "./components/LogIn";
@@ -14,13 +11,9 @@ import LogOut from "./components/LogOut";
 import ProjectDetails from "./components/ProjectDetails";
 import SingleTicket from "./components/SingleTicket";
 import UserProfile from "./components/UserProfile";
-const baseURL = "http://localhost:5000";
-const token = localStorage.getItem("token");
+import SignUp from "./components/SignUp";
 
 const App = () => {
-  console.log("app rendered");
-  const context = useContext(noteContext);
-
   const router = createBrowserRouter([
     {
       path: "/",
@@ -68,6 +61,10 @@ const App = () => {
     {
       path: "/login",
       element: <LogIn />,
+    },
+    {
+      path: "/sign-up",
+      element: <SignUp />,
     },
   ]);
   return (
