@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../App.css";
 import { FcGoogle } from "react-icons/fc";
 import { FaUserCircle } from "react-icons/fa";
 import { ActionMsg } from "./ActionMsg";
+import noteContext from "../context/noteContext";
 import { TailSpin } from "react-loader-spinner";
 
 const LogIn = () => {
@@ -16,6 +17,7 @@ const LogIn = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const context = useContext(noteContext);
 
   const handleGoogleLogin = async () => {
     window.location = `${baseURL}/auth/google`;
@@ -32,7 +34,8 @@ const LogIn = () => {
       const token = res.data.accessToken;
       localStorage.removeItem("token"); // Remove old token from local storage
       localStorage.setItem("token", token);
-      navigate("/home");
+      await context.refreshToken(token);
+      await navigate("/home");
     } catch (err) {
       if (err.response) {
         setError(err.response.data.msg);
