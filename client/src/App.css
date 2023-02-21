@@ -27,7 +27,7 @@ body {
 } */
 
 .google-wrapper,
-.twitter-wrapper {
+.demoSignIn-wrapper {
   box-shadow: rgb(0 0 0 / 20%) 1px 1px 5px 0px;
 }
 body {
@@ -50,7 +50,7 @@ body {
 
 .ticketCreateContainer,
 .projectCreateContainer {
-  z-index: 10000;
+  z-index: 100000 !important;
 }
 .hideOverflow {
   overflow: hidden;
