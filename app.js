@@ -50,7 +50,7 @@ passport.use(
     {
       clientID: process.env.clientID,
       clientSecret: process.env.clientSecret,
-      callbackURL: "http://localhost:5000/auth/google/callback",
+      callbackURL: "https://trackr.cyclic.app/auth/google/callback",
     },
 
     function (accessToken, refreshToken, profile, cb) {
@@ -93,7 +93,7 @@ app.get(
     res.cookie("accessToken", accessToken);
 
     // Successful authentication, redirect home.
-    res.redirect(`http://localhost:3000/home`);
+    res.redirect(`https://trackr.cyclic.app/home`);
   }
 );
 
