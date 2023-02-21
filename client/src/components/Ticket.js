@@ -6,7 +6,7 @@ import noteContext from "../context/noteContext";
 import { Editor } from "@tinymce/tinymce-react";
 import { FiAlertTriangle } from "react-icons/fi";
 
-const Ticket = ({ showForm }) => {
+const Ticket = ({ ticketCreateForm, onCancel }) => {
   const context = useContext(noteContext);
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState(null);
@@ -94,9 +94,8 @@ const Ticket = ({ showForm }) => {
       }
   };
   const cancel = () => {
-    showForm(false);
-    const overlay = document.querySelector(".overlay");
-    overlay.classList.remove("overlay-container");
+    ticketCreateForm(false);
+    onCancel();
   };
   return (
     <div className="ticketCreateContainer py-10 bg-white overflow-y-scroll h-screen w-full sm:w-4/5 md:w-3/5 z-10 absolute right-0 top-0">
