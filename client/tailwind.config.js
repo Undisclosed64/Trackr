@@ -32,6 +32,7 @@ module.exports = {
         brightblack: "rgb(29, 21, 18)",
         brightBlackHover: "rgb(47, 37, 33)",
         mainWhite: "#FFFFFFCC",
+        primaryBlack: "#000000FF",
         brightRed: "hsl(12,88%,59%)",
         lightGray: "#808080",
         brightOrange: "#FF6400",
