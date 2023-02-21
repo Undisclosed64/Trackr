@@ -7,7 +7,9 @@ router.post("/users", userController.createUser);
 
 router.post("/log-in", userController.logUser);
 
-router.get("/getUser", verifyToken, userController.verifyUser);
+router.get("/getUser", verifyToken, userController.findUser);
+
+router.get("/verifyUser", verifyToken, userController.verifyUser);
 
 // router.delete("/delete", userController.deleteAll);
 
