@@ -11,16 +11,15 @@ export const CreateFormHandler = ({
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [showTicketForm, setShowTicketForm] = useState(false);
 
-  const addOverlayEffect = () => {
+  const addOverlayEffect = async () => {
     //select elements and add overlay effect
     const overlay = document.querySelector(".overlay");
     const overlayRoot = document.querySelector(".overlay-root");
     const sidebar = document.querySelector("#sidebar");
     const navbar = document.querySelector("#top-navbar");
     overlay.classList.add("overlay-container");
-    overlayRoot.classList.add("overlay-container");
+    // overlayRoot.classList.add("overlay-container");
     navbar.classList.add("removeZindex");
-    console.log(navbar);
     sidebar.classList.add("hideOverflow");
   };
   useEffect(() => {
@@ -36,7 +35,6 @@ export const CreateFormHandler = ({
   return (
     <>
       <div className="overlay hidden"></div>
-
       {showProjectForm ? (
         <Project projectCreateForm={setShowProjectForm} onCancel={onCancel} />
       ) : (
