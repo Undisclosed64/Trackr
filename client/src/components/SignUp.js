@@ -23,7 +23,7 @@ const SignUp = () => {
   };
 
   const handleSubmit = async (e) => {
-    console.log(formData);
+    // console.log(formData);
     e.preventDefault();
 
     const newUser = {
@@ -38,7 +38,7 @@ const SignUp = () => {
       console.log(res.data);
       navigate("/login");
     } catch (error) {
-      //console.log(error.response.data);
+      console.log(error.response.data);
       handleErrors(error.response.data);
     }
   };
