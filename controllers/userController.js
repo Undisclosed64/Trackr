@@ -8,8 +8,8 @@ exports.createUser = [
   check("firstName").not().isEmpty().withMessage("First name can not be empty"),
   check("email").isEmail().withMessage("Please enter a valid email address"),
   check("password")
-    .isLength({ min: 5 })
-    .withMessage("Password must be at least 5 characters long"),
+    .isLength({ min: 4 })
+    .withMessage("Password must be at least 4 characters long"),
 
   async (req, res) => {
     //check for errors in req data
@@ -47,7 +47,7 @@ exports.logUser = async (req, res) => {
     res.status(404).json({ msg: "Email is not registered!" });
     return;
   }
-  console.log(user);
+  console.log("user" + user);
   //check if password is correct or not
   if (await bcrypt.compare(req.body.password, user.password)) {
     //generate an access token
@@ -73,8 +73,22 @@ exports.logUser = async (req, res) => {
 //   })
 // };
 
+exports.findUser = (req, res) => {
+  const user = req.user;
+  console.log(user);
+  try {
+    User.findOne({ email: user.email }, (err, foundUser) => {
+      if (!foundUser) return res.status(404).json("User not found!");
+      res.json(foundUser);
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+//send the user back with token
 exports.verifyUser = (req, res) => {
   const user = req.user;
-  // console.log(user);
-  res.json({ user: user });
+  console.log(user);
+  res.json(user);
 };

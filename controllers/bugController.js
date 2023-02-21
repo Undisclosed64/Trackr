@@ -1,6 +1,5 @@
 const Bug = require("../models/bugs");
 const { validationResult, check } = require("express-validator");
-const { ObjectId } = require("mongodb"); // or ObjectID
 const bugs = require("../models/bugs");
 const mongoose = require("mongoose");
 const async = require("async");
