@@ -20,10 +20,39 @@ const LogIn = () => {
   const handleGoogleLogin = async () => {
     window.location = `${baseURL}/auth/google`;
   };
+  const demoUserLogin = async (e) => {
+    setLoading(true); // set loading state to true before making request
+    try {
+      const res = await axios.post(`${baseURL}/server/log-in`, data, {
+        params: {
+          demoUser: true,
+        },
+      });
+      // console.log(res.data);
+      const token = res.data.accessToken;
+      localStorage.removeItem("token"); // Remove old token from local storage
+      localStorage.setItem("token", token);
+      navigate("/home");
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data.msg);
+        setTimeout(() => {
+          setError(null);
+        }, 1500);
+        console.log(error);
+      } else {
+        setError("Oops! Something went wrong!");
+        setTimeout(() => {
+          setError(null);
+        }, 1500);
+      }
+    } finally {
+      setLoading(false); // set loading state to false after request completes
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("clicked");
     if (data.email === "" || data.password === "") {
       setError("Input field can not be empty");
       setTimeout(() => {
@@ -133,9 +162,11 @@ const LogIn = () => {
                 Continue with Google
               </div>
             </div>
-            <div className="twitter-wrapper flex justify-center w-full text-lightBlack py-2  mb-6 rounded font-medium hover:cursor-pointer">
+            <div className="flex justify-center w-full text-lightBlack py-2  mb-6 rounded font-medium hover:cursor-pointer">
               <FaUserCircle className="text-2xl mr-3 text-blue" />
-              <div className="twitter">Sign in as demo user</div>
+              <div className="twitter" onClick={demoUserLogin}>
+                Sign in as demo user
+              </div>
             </div>
           </div>
           <div className="signUpLinkInLogin mt-8 text-center text-base text-lightBlack">
