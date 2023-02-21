@@ -8,7 +8,7 @@ import { ActionMsg } from "./ActionMsg";
 import { TailSpin } from "react-loader-spinner";
 
 const LogIn = () => {
-  const baseURL = "http://localhost:5000";
+  const baseURL = "/";
   const { state } = useLocation();
   const err = state?.myProp;
   const [data, setData] = useState({
