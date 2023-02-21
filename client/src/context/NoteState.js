@@ -7,11 +7,12 @@ const NoteState = (props) => {
   const [user, setUser] = useState(null);
   // const [isSessionExpired, setIsSessionExpired] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const baseURL = "http://localhost:5000";
-  const token = localStorage.getItem("token");
 
   //get the logged in user
   useEffect(() => {
+    // console.log("updated");
     axios
       .get(`${baseURL}/server/getUser`, {
         headers: {
@@ -19,11 +20,14 @@ const NoteState = (props) => {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setUser(response.data);
       });
   }, [token]);
 
+  const refreshToken = (token) => {
+    setToken(token);
+  };
   // const checkSessionExpiration = (user) => {
   //   if (user) {
   //     const exp = user.exp;
@@ -49,18 +53,19 @@ const NoteState = (props) => {
             email: user.email,
           },
         });
-        console.log(res.data.projects);
+        // console.log(res.data.projects);
         setProjects(res.data.projects);
       } catch {
         return null;
       }
     };
     getProjects();
-  }, [user]);
+  }, [user, token]);
 
   const state = {
     user: user,
     projects: projects,
+    refreshToken: refreshToken,
   };
 
   return (
