@@ -8,9 +8,7 @@ import { ActionMsg } from "./ActionMsg";
 import { TailSpin } from "react-loader-spinner";
 
 const LogIn = () => {
-  const baseURL = "/";
-  const { state } = useLocation();
-  const err = state?.myProp;
+  const baseURL = process.env.REACT_APP_BASE_URL;
   const [data, setData] = useState({
     email: "",
     password: "",
