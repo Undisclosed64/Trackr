@@ -18,12 +18,7 @@ body {
 .brand {
   display: none;
 }
-.brand.expanded {
-  display: flex;
-}
-.isShrinked {
-  width: 72px;
-}
+
 /* .tickets-container {
   width: 100vw;
 }
@@ -191,6 +186,15 @@ input[type="date"]:focus::-webkit-datetime-edit {
     margin-left: 20%;
   }
 } */
+.brand.expanded {
+  display: flex;
+}
+@media only screen and (min-width: 976px) {
+  .brand {
+    display: flex;
+  }
+}
+
 @media only screen and (min-width: 1064px) {
   .toggler {
     margin-left: 20% !important;
