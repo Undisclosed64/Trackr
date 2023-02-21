@@ -152,7 +152,7 @@ const Tickets = () => {
   };
 
   // if (!bugs.length > 0) return <Loader />;
-  if (!bugs.length > 0) return <Empty />;
+  if (!bugs.length > 0) return <Empty name="ticket" />;
 
   return (
     <div>
@@ -170,10 +170,7 @@ const Tickets = () => {
         <Navbar sectionName="Tickets" />
       )}
       <Sidebar /> */}
-      <section
-        id="tickets"
-        className="toggler fixed py-20 top-0 left-0 right-0 "
-      >
+      <section id="tickets">
         <div
           className="filter-wrapper flex justify-center items-center msm:justify-between bg-brightWhite drop-shadow rounded-md 
           mb-6 gap-4 mx-2 py-2 px-1 md:mx-4 md:py-4"
