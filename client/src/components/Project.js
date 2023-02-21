@@ -76,8 +76,10 @@ const CreateProject = ({ projectCreateForm, onCancel }) => {
     onCancel();
   };
 
+  useEffect(() => {}, [editorRef]);
+
   return (
-    <div className="projectCreateContainer py-10 bg-white overflow-y-scroll h-screen w-full sm:w-4/5 md:w-3/5 absolute right-0 top-0 z-10000">
+    <div className="projectCreateContainer py-10 bg-white overflow-y-scroll h-screen w-full sm:w-4/5 md:w-3/5 absolute right-0 top-0">
       <div className="capitalize font-semibold text-lg bg-white2 fixed w-full mb-4 px-4 py-2 z-10 top-0">
         new project
       </div>
