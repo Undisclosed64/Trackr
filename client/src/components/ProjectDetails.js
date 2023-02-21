@@ -7,9 +7,15 @@ import { useNavigate } from "react-router-dom";
 import { BsInfoSquare } from "react-icons/bs";
 import { IoIosArrowDropup } from "react-icons/io";
 import ProjectDeleted from "./ProjectDeleted";
+import { ActionMsg } from "./ActionMsg";
+import SingleProjectTickets from "./SingleProjectTickets";
+import GetActivites from "./GetActivities";
+import Loader from "./Loader";
+import ReverseActivitiesArr from "./ReverseActivitiesArr";
 
 const ProjectDetails = () => {
   const { projectId } = useParams();
+  const [project, setProject] = useState(null);
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [createdBy, setCreatedBy] = useState("");
@@ -25,6 +31,9 @@ const ProjectDetails = () => {
   const baseURL = "http://localhost:5000";
   const token = localStorage.getItem("token");
   const [projectNotFound, setProjectNotFound] = useState(false);
+  const [tickets, setTickets] = useState(false);
+  const [details, setDetails] = useState(true);
+  const [streamActive, setStreamActive] = useState(false);
 
   //make the request
   useEffect(() => {
@@ -32,6 +41,7 @@ const ProjectDetails = () => {
       .get(`${baseURL}/server/projects/${projectId}`)
       .then((response) => {
         console.log(response.data);
+        setProject(response.data);
         setId(response.data.id);
         setTitle(response.data.title);
         setStartDate(response.data.startDate);
@@ -47,6 +57,50 @@ const ProjectDetails = () => {
       });
   }, [projectId]);
 
+  const handleTicketsClick = () => {
+    setTickets(true);
+    setDetails(false);
+  };
+  const displayTickets = () => {
+    setTickets(true);
+    setDetails(false);
+    setStreamActive(false);
+    const ticketsBtn = document.querySelector(".tickets");
+    console.log(ticketsBtn);
+    ticketsBtn.classList.add("addUnderline");
+    const detailsBtn = document.querySelector(".details");
+    detailsBtn.classList.remove("addUnderline");
+    const activityStreamBtn = document.querySelector(".activityStream");
+    activityStreamBtn.classList.remove("addUnderline");
+  };
+  const displayDetails = () => {
+    setDetails(true);
+    setTickets(false);
+    setStreamActive(false);
+
+    const detailsBtn = document.querySelector(".details");
+    detailsBtn.classList.add("addUnderline");
+    const activityStreamBtn = document.querySelector(".activityStream");
+    activityStreamBtn.classList.remove("addUnderline");
+    const ticketsBtn = document.querySelector(".tickets");
+    ticketsBtn.classList.remove("addUnderline");
+  };
+  const displayActivity = () => {
+    setStreamActive(true);
+    setDetails(false);
+    setTickets(false);
+    const activityStreamBtn = document.querySelector(".activityStream");
+    activityStreamBtn.classList.add("addUnderline");
+    const ticketsBtn = document.querySelector(".tickets");
+    ticketsBtn.classList.remove("addUnderline");
+    const detailsBtn = document.querySelector(".details");
+    detailsBtn.classList.remove("addUnderline");
+  };
+  const detailsBtn = document.querySelector(".details");
+
+  if (detailsBtn && !tickets && !streamActive) {
+    detailsBtn.classList.add("addUnderline");
+  }
   const onKeyDown = (event) => {
     if (event.key === "Enter" || event.key === "Escape") {
       event.target.blur();
@@ -90,23 +144,23 @@ const ProjectDetails = () => {
         }
       );
       if (res.data.success) {
-        setUpdatedMsg("Updated Successfully");
+        setUpdatedMsg("Updated successfully");
       }
       setTimeout(() => {
         setUpdatedMsg(null);
-      }, 3000);
+      }, 2000);
     } catch (err) {
       if (err.response) {
         console.log(err);
         setError(err.response.data.message);
         setTimeout(() => {
           setError(null);
-        }, 3000);
+        }, 2000);
       } else {
         setError("Oops! Something went wrong!");
         setTimeout(() => {
           setError(null);
-        }, 3000);
+        }, 2000);
       }
     }
   };
@@ -166,8 +220,9 @@ const ProjectDetails = () => {
   // const closeDropdown = () => {
   //   !close ? setClose(true) : setClose(false);
   // };
+  console.log(project);
   if (projectNotFound) return <ProjectDeleted />;
-  if (!title) return <div>loading...</div>;
+  if (!project) return <Loader />;
   return (
     <div onClick={closeModal}>
       {/* {deleteAlert ? (
@@ -192,15 +247,11 @@ const ProjectDetails = () => {
           </Modal.Footer>
         </Modal.Dialog>
       ) : ( */}
-      <section className="py-10 px-4 overflow-scroll h-screen lg:w-3/4 lg:mx-auto">
-        <div className="view-edit-form text-black px-2">
-          {updatedMsg ? (
-            <div className="sucess-msg font-medium py-3 px-1 text-center text-brightWhite">
-              {updatedMsg}
-            </div>
-          ) : (
-            ""
-          )}
+      <section className="py-14 overflow-scroll h-screen lg:w-3/4 toggler lg:px-10">
+        <div className="view-edit-form text-black px-2 py-6">
+          {updatedMsg ? <ActionMsg success={updatedMsg} /> : ""}
+          {error ? <ActionMsg error={error} /> : " "}
+
           {/* <h3 onClick={showBugs}>Bugs</h3>
         <button onClick={showActivites}>Activity Stream</button>
 
@@ -215,153 +266,148 @@ const ProjectDetails = () => {
         
         )} */}
 
-          {error ? (
-            <div className="font-medium text-brightWhite bg-red-500 py-3 px-1 text-center my-2">
-              {error}
+          <div className="header flex flex-col mb-10">
+            <div className="name-wrapper">
+              <input
+                className="text-xl lg:text-2xl font-medium 
+            border-none mb-3
+            capitalize"
+                type="text"
+                name="title"
+                onKeyDown={onKeyDown}
+                onBlur={onBlur}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </div>
-          ) : (
-            " "
-          )}
-
-          <input
-            className="text-xl font-medium bg-transparent w-full border-none focus:bg-brightWhite mb-2 capitalize"
-            type="text"
-            name="title"
-            onKeyDown={onKeyDown}
-            onBlur={onBlur}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <div className="createdInfo flex gap-2 pl-3 mb-6 items-center text-lg">
-            <div className=" text-lightGray border-r-2 pr-4">
-              By {createdBy.username}
-            </div>
-            <div
-              className="i-wrapper text-brightOrange hover:cursor-pointer p-2 rounded-full hover:bg-veryLightGray"
-              onClick={showMoreInfo}
-            >
-              <BsInfoSquare className="moreInfo-icon" />
-            </div>
-            {showMore ? (
+            <div className="header-info md:flex md:gap-3">
               <div
-                className="more-info shadow bg-brightWhite flex justify-center items-center flex-col h-32 rounded-md absolute z-10 mx-auto w-5/6 md:w-1/3 top-36 left-8 md:right-80"
-                onClick={(e) => e.stopPropagation()}
+                className="status-wrapper bg-blue 
+             py-0.5 text-white rounded-full flex justify-center w-24 mb-3 ml-3"
               >
-                <div className="pb-2 text-lightGray">Start date</div>
-                <div className="text-black">
-                  {new Date(startDate).toDateString()}
+                <div className="status ">{status}</div>
+              </div>
+              <span className="text-lightWhite hidden md:block">|</span>
+              <div className="createdInfo flex gap-3 ml-3 md:ml-0 text-lg text-lightGray">
+                <div className="">Owner: {createdBy.username}</div>
+                <span className="text-lightWhite">|</span>
+                <div
+                  className="i-wrapper text-sm text-brightOrange hover:cursor-pointer p-2 rounded-full"
+                  onClick={showMoreInfo}
+                >
+                  <BsInfoSquare className="moreInfo-icon" />
+                </div>
+                {showMore ? (
+                  <div
+                    className="more-info border bg-brightWhite flex justify-center items-center flex-col h-32 rounded-md absolute mx-auto w-5/6 md:w-1/3 top-36 left-8 md:right-80 mt-14 z-20"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="pb-2 text-lightGray">Start date</div>
+                    <div className="text-black">
+                      {new Date(startDate).toDateString()}
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="content-wrapper mx-3">
+            <div className="option-headers flex gap-10 border-b-[1px] mb-10 text-lg">
+              <div
+                className="pb-2 hover:cursor-pointer details"
+                onClick={displayDetails}
+              >
+                Details
+              </div>
+              <div
+                className="tickets hover:cursor-pointer"
+                onClick={displayTickets}
+              >
+                Tickets
+              </div>
+              <div
+                className="activityStream hover:cursor-pointer widget capitalize"
+                onClick={displayActivity}
+              >
+                activity stream
+              </div>
+            </div>
+            {tickets ? <SingleProjectTickets id={projectId} /> : ""}
+
+            {streamActive ? <ReverseActivitiesArr project={project} /> : ""}
+
+            {details ? (
+              <div className="details-wrapper bg-brightWhite px-2 py-4 border">
+                <div className="description-wrapper mb-4 p-1">
+                  <div className="text-lg font-medium mb-2 flex items-center">
+                    <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
+                    Description
+                  </div>
+                  {!close ? (
+                    <input
+                      className="border-none w-full pl-7 msm:px-6"
+                      type="text"
+                      name="description"
+                      onKeyDown={onKeyDown}
+                      onBlur={onBlur}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+
+                <div className="project-info-wrapper bg-brightWhite p-1">
+                  <div className="capitalize text-lg font-medium mb-3 flex items-center">
+                    <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
+                    project information
+                  </div>
+
+                  <div className="status-wrapper mb-4 p-1 pl-1 msm:mx-6 border-b pb-2 hover:border-brightOrange">
+                    <div className="pb-2 flex items-center capitalize text-lightGray">
+                      Status
+                    </div>
+
+                    <select
+                      name="status"
+                      className="border-none w-full msm:w-1/5 pl-0 p-0"
+                      onKeyDown={onKeyDown}
+                      onBlur={onBlur}
+                      value={status}
+                      onChange={(e) => setStatus(e.target.value)}
+                    >
+                      <option value="active">Active</option>
+                      <option value="in-progress">In-progress</option>
+                      <option value="to be tested">To be tested</option>
+                      <option value="delayed">Delayed</option>
+                      <option value="completed">Completed</option>
+                      <option value="cancelled">Cancelled</option>
+                    </select>
+                  </div>
+                  <div className="startDate-wrapper mb-4 pl-1 msm:mx-6 border-b pb-2 hover:border-brightOrange">
+                    <div className="capitalize pb-2 text-lightGray">
+                      start date
+                    </div>
+                    {new Date(startDate).toDateString()}
+                  </div>
+                  <div className="dueDate-wrapper mb-4 py-2 pl-1 msm:mx-6 border-b pb-2 hover:border-brightOrange">
+                    <div className="capitalize pb-2 text-lightGray">
+                      end date
+                    </div>
+                    {new Date(endDate).toDateString()}
+                  </div>
                 </div>
               </div>
             ) : (
               ""
             )}
           </div>
-          <div className="status-wrapper shadow bg-brightWhite mb-4 px-2 py-3 msm:px-6">
-            <div className="text-lg font-medium mb-2 flex items-center capitalize">
-              <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
-              Current status
-            </div>
-
-            <select
-              name="status"
-              className="border-none w-full msm:px-6"
-              onKeyDown={onKeyDown}
-              onBlur={onBlur}
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            >
-              <option value="active">Active</option>
-              <option value="in-progress">In-progress</option>
-              <option value="to be tested">To be tested</option>
-              <option value="delayed">Delayed</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
-          </div>
-
-          <div className="description-wrapper mb-4 bg-brightWhite px-2 py-3 shadow">
-            <div className="text-lg font-medium mb-2 flex items-center">
-              <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
-              Description
-            </div>
-            {!close ? (
-              <input
-                className="border-none w-full pl-1 msm:px-6"
-                type="text"
-                name="description"
-                onKeyDown={onKeyDown}
-                onBlur={onBlur}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            ) : (
-              ""
-            )}
-          </div>
-
-          <div className="project-info-wrapper bg-brightWhite px-2 py-3 mb-4">
-            <div className="capitalize text-lg font-medium mb-3 flex items-center">
-              <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
-              project information
-            </div>
-            <div className="startDate-wrapper mb-3 border-b py-2 pl-1 msm:mx-6">
-              <div className="capitalize pb-2 text-lightGray">start date</div>
-              {new Date(startDate).toDateString()}
-            </div>
-            <div className="dueDate-wrapper mb-3 border-b py-2 pl-1 msm:mx-6">
-              <div className="capitalize pb-2 text-lightGray">end date</div>
-              {new Date(endDate).toDateString()}
-            </div>
-          </div>
-          {/* <Form.Group className="mb-3">
-            <Row>
-              <Col>
-                <Form.Label>Start date</Form.Label>
-                <div>{new Date(startDate).toDateString()} </div>
-                <Form.Control
-                  type="date"
-                  name="startDate"
-                  onKeyDown={onKeyDown}
-                  onBlur={onBlur}
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                />
-              </Col>
-              <Col>
-                <Form.Label>End date</Form.Label>
-                <div>{new Date(endDate).toDateString()} </div>
-
-                <Form.Control
-                  type="date"
-                  name="endDate"
-                  onKeyDown={onKeyDown}
-                  onBlur={onBlur}
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                />
-              </Col>
-            </Row>
-          </Form.Group> */}
-
-          {/* <Form.Label>Status</Form.Label>
-          <Form.Select
-            aria-label="Default select example"
-            name="status"
-            onKeyDown={onKeyDown}
-            onBlur={onBlur}
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option value="Active">Active</option>
-            <option value="In-progress">In-progress</option>
-            <option value="To be tested">To be tested</option>
-            <option value="Delayed">Delayed</option>
-            <option value="Completed">Completed</option>
-            <option value="Cancelled">Cancelled</option>
-          </Form.Select> */}
         </div>
       </section>
-      {/* )} */}
     </div>
   );
 };
