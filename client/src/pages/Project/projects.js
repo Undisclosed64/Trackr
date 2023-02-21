@@ -77,10 +77,9 @@ const Projects = () => {
   const handleProjectCreate = () => {
     setCreateProject(true);
   };
-  console.log(createProject);
 
   // if (!projects.length > 0) return <Loader />;
-  if (!projects.length > 0) return <Empty />;
+  if (!projects.length > 0) return <Empty name="project" />;
 
   return (
     <div>
@@ -95,7 +94,7 @@ const Projects = () => {
 
       <section
         id="projects"
-        className="toggler fixed py-20 top-0 left-0 right-0"
+        className="toggler fixed py-20 top-0 left-0 right-0 z-10000"
       >
         <div
           className="filter-wrapper flex justify-center items-center msm:justify-between bg-brightWhite drop-shadow rounded-md 
