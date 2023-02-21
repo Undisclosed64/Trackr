@@ -6,6 +6,8 @@ import { IoIosArrowDropup } from "react-icons/io";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { HiOutlineTicket } from "react-icons/hi";
 import { React } from "react";
+import Loader from "../../components/Loader";
+import Empty from "../../components/Empty";
 import { CreateFormHandler } from "../../components/CreateFormHandler";
 
 const Tickets = () => {
@@ -28,11 +30,26 @@ const Tickets = () => {
 
   //get tickets of all projects
   useEffect(() => {
-    getAllTickets();
+    if (ids.length === 0) {
+      return;
+    }
+    try {
+      axios
+        .get(`${baseURL}/server/bugs`, {
+          params: {
+            ids: ids,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setBugs(response.data);
+        });
+    } catch (err) {
+      console.log(err);
+    }
   }, [ids]);
 
-  console.log(createTicket);
-
+  //all tickets
   const getAllTickets = async () => {
     try {
       await axios
@@ -133,7 +150,9 @@ const Tickets = () => {
     const navbar = document.querySelector("#top-navbar");
     navbar.classList.remove("removeZindex");
   };
-  if (!projects) return <div>Loading..</div>;
+
+  // if (!bugs.length > 0) return <Loader />;
+  if (!bugs.length > 0) return <Empty />;
 
   return (
     <div>
