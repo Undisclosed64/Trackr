@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const SingleProjectTickets = ({ id }) => {
   const [tickets, setTickets] = useState([]);
-  const baseURL = "http://localhost:5000";
+  const baseURL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
 
   //get tickets of the project
@@ -33,7 +33,7 @@ const SingleProjectTickets = ({ id }) => {
 
   return (
     <>
-      {tickets.length>0 ? (
+      {tickets.length > 0 ? (
         <div className="tickets-container whitespace-nowrap">
           <div className="ticketHeader-wrapper hidden md:grid grid-flow-col auto-cols-fr gap-12  uppercase mb-2 pb-1 border-b-2 text-lightGray">
             <div className="flex items-center">
