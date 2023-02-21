@@ -74,9 +74,6 @@ const CreateProject = ({ projectCreateForm, onCancel }) => {
   const cancel = () => {
     projectCreateForm(false);
     onCancel();
-    //remove class that hides overflow of the sidebar
-    const sidebar = document.querySelector("#sidebar");
-    sidebar.classList.remove("hideOverflow");
   };
 
   return (
