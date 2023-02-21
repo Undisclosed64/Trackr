@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { ActionMsg } from "./ActionMsg";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
@@ -19,6 +20,9 @@ const SignUp = () => {
   const handleErrors = (err) => {
     // console.log(err.errors[0]);
     setErrors((errors) => [...errors, err.errors]);
+    setTimeout(() => {
+      setErrors([]);
+    }, 1500);
     // console.log(errors);
   };
 
@@ -40,6 +44,9 @@ const SignUp = () => {
     } catch (error) {
       console.log(error.response.data);
       handleErrors(error.response.data);
+      setTimeout(() => {
+        setErrors([]);
+      }, 1500);
     }
   };
   const handleGoogleLogin = async () => {
@@ -65,11 +72,7 @@ const SignUp = () => {
 
           {errors.length !== 0
             ? errors[0].map((err) => {
-                return (
-                  <div key={err.param} className="error py-2">
-                    {err.msg}
-                  </div>
-                );
+                return <ActionMsg error={err.msg} />;
               })
             : ""}
           <div className="inputs mt-8 mb-1">
