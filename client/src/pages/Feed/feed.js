@@ -3,7 +3,9 @@ import { useContext, useState } from "react";
 import noteContext from "../../context/noteContext";
 import axios from "axios";
 import GetActivites from "../../components/GetActivities";
+import Loader from "../../components/Loader";
 import DisplayStatus from "../../components/DisplayStatus";
+import Empty from "../../components/Empty";
 
 const Feed = ({ navbar }) => {
   const context = useContext(noteContext);
@@ -15,6 +17,8 @@ const Feed = ({ navbar }) => {
   const baseURL = "http://localhost:5000";
   const [reverseArr, setReverseArr] = useState([]);
 
+  console.log(projects);
+  console.log("hasProjects:" + context.hasProjects);
   //get the selected project
   useEffect(() => {
     axios
@@ -84,13 +88,19 @@ const Feed = ({ navbar }) => {
   if (activityStreamBtn && !showStatus) {
     activityStreamBtn.classList.add("addUnderline");
   }
+  // if (context.hasProjects) {
+  //   console.log("loader..");
+  //   return <Loader />;
+  // } else if (context.hasProjects === false) {
+  //   console.log("no projects..");
+  //   return <Empty />;
+  // }
+
+  // if (!project) return <Loader />;
+  if (!project) return <Empty />;
 
   return (
     <div>
-      {/* <section
-        id="feed"
-        className="toggler py-20 px-4 md:px-20 flex justify-center flex-col fixed top-0 left-0 right-0"
-      > */}
       <section
         id="feed"
         className="toggler py-20 flex justify-center flex-col fixed top-0 left-0 right-0"
