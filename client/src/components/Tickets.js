@@ -12,7 +12,7 @@ import Navbar from "./Navbar";
 const Tickets = ({ navbar }) => {
   const [ids, setIds] = useState([]);
   const [bugs, setBugs] = useState([]);
-  const baseURL = "http://localhost:5000";
+  const baseURL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
   const context = useContext(noteContext);
   const [dropdown, setDropDown] = useState(false);

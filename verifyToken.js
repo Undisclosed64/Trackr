@@ -21,7 +21,7 @@ const verify = (req, res, next) => {
     });
   } else {
     res.status(403).json({
-      message: "You are not authorized to access this route! Please log in!",
+      message: "You are not authorized to access this route. Please log in.",
     });
   }
 };

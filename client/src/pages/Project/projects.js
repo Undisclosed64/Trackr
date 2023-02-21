@@ -8,9 +8,9 @@ import Loader from "../../components/Loader";
 import { useNavigate } from "react-router-dom";
 import Empty from "../../components/Empty";
 import { CreateFormHandler } from "../../components/CreateFormHandler";
-const baseURL = "http://localhost:5000";
+const baseURL = process.env.REACT_APP_BASE_URL;
 
-const Projects = ({ navbar }) => {
+const Projects = () => {
   const context = useContext(noteContext);
   const [projects, setProjects] = useState([]);
   const [createProject, setCreateProject] = useState(false);

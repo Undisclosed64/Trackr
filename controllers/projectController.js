@@ -2,7 +2,7 @@ const Project = require("../models/project");
 const { validationResult, check } = require("express-validator");
 const Bugs = require("../models/bugs");
 const async = require("async");
-const project = require("../models/project");
+const mongoose = require("mongoose");
 
 //handler for project creation
 exports.createProject = [
@@ -113,11 +113,20 @@ exports.getAllProjects = (req, res) => {
 exports.getBugs = (req, res) => {
   console.log(req.params.id);
   try {
-    Bugs.find({ project: req.params.id }, (err, bugs) => {
-      if (err) res.status(404).json(err);
-      res.json({ bugs: bugs });
-    });
+    Bugs.find(
+      { project: mongoose.Types.ObjectId(req.params.id) },
+      (err, tickets) => {
+        if (err) {
+          console.log(error);
+          res.status(404).json(err);
+        } else {
+          // console.log(bugs);
+          res.json(tickets);
+        }
+      }
+    );
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 };

@@ -15,9 +15,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import context from "react-bootstrap/esm/AccordionContext";
-const baseURL = "http://localhost:5000";
 
 const Root = () => {
+  const baseURL = process.env.REACT_APP_BASE_URL;
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [error, setError] = useState(null);

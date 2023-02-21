@@ -7,15 +7,15 @@ import Loader from "../../components/Loader";
 import DisplayStatus from "../../components/DisplayStatus";
 import Empty from "../../components/Empty";
 
-const Feed = ({ navbar }) => {
+const Feed = () => {
   const context = useContext(noteContext);
   const projects = context.projects;
   const [projectId, setProjectId] = useState(null);
   const [project, setProject] = useState(null);
   const [showStatus, setShowStatus] = useState(false);
   const [streamActive, setStreamActive] = useState(true);
-  const baseURL = "http://localhost:5000";
   const [reverseArr, setReverseArr] = useState([]);
+  const baseURL = process.env.REACT_APP_BASE_URL;
 
   console.log(projects);
   console.log("hasProjects:" + context.hasProjects);

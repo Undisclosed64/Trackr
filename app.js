@@ -44,6 +44,7 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
+console.log(process.env.clientID);
 //google login strategy
 passport.use(
   new GoogleStrategy(
