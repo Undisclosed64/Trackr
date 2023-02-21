@@ -4,7 +4,9 @@ import noteContext from "../../context/noteContext";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { HiOutlineTicket } from "react-icons/hi";
 import { RiProjectorLine } from "react-icons/ri";
+import Loader from "../../components/Loader";
 import { useNavigate } from "react-router-dom";
+import Empty from "../../components/Empty";
 import { CreateFormHandler } from "../../components/CreateFormHandler";
 const baseURL = "http://localhost:5000";
 
@@ -77,7 +79,8 @@ const Projects = ({ navbar }) => {
   };
   console.log(createProject);
 
-  if (!projects) return <div>Loading...</div>;
+  // if (!projects.length > 0) return <Loader />;
+  if (!projects.length > 0) return <Empty />;
 
   return (
     <div>
@@ -120,19 +123,20 @@ const Projects = ({ navbar }) => {
             </button>
           </div>
         </div>
-
+        {/* md:grid grid-flow-col auto-cols-fr uppercase 
+           mb-2 py-2 text-lightGray border-b */}
         <div className="tickets-container overflow-auto whitespace-nowrap py-2 h-96 md:h-80">
-          <div className="ticketHeader-wrapper hidden md:grid grid-flow-col auto-cols-fr gap-12 mx-8 uppercase mb-2 pb-1 border-b-2 text-lightGray">
-            <div className="flex items-center">
+          <div className="ticketHeader-wrapper hidden px-8 md:grid grid-flow-col auto-cols-fr gap-8 text-lightGray border-b uppercase mb-2  py-2">
+            <div className="flex items-center ">
               <RiProjectorLine className="text-lg mr-2" />
               Project name{" "}
             </div>
             <div className="md:grid grid-flow-col gap-10">
-              <div className="w-40">created by</div>
-              <div className="w-32 ">Status</div>
-              <div className="w-40 ">start date</div>
-              <div className="w-40 ">end date</div>
-              <div className="w-40 ">last modified</div>
+              <div className="w-40 ">created by</div>
+              <div className="w-32">Status</div>
+              <div className="w-40">start date</div>
+              <div className="w-40">end date</div>
+              <div className="w-40">last modified</div>
             </div>
           </div>
           {projects.map((project) => {
@@ -142,13 +146,13 @@ const Projects = ({ navbar }) => {
                 className="ticket-wrapper border-bottom hover:bg-red-50 hover:text-brightOrange hover:cursor-pointer py-2 px-8 md:grid grid-flow-col auto-cols-fr gap-12"
                 onClick={() => TakeToProjectDetails(project._id)}
               >
-                <div className="ticket-title flex justify-between items-center capitalize">
+                <div className="ticket-title flex justify-between items-center capitalize ">
                   {project.title}
                   <HiOutlineExternalLink className="external-link text-brightOrange text-lg hidden" />
                 </div>
 
                 <div className="ticket-details-wrapper hidden md:grid grid-flow-col gap-10">
-                  <div className="w-40 ">{project.createdBy.username}</div>
+                  <div className="w-40">{project.createdBy.username}</div>
                   <div className="w-32 first-letter:text-center text-white">
                     <span className="w-24 h-24 py-1 px-4 rounded-full bg-blue">
                       {project.status}
