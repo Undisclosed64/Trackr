@@ -71,7 +71,8 @@ const LogIn = () => {
       const token = res.data.accessToken;
       localStorage.removeItem("token"); // Remove old token from local storage
       localStorage.setItem("token", token);
-      navigate("/home");
+      await context.refreshToken(token);
+      await navigate("/home");
     } catch (err) {
       if (err.response) {
         setError(err.response.data.msg);
@@ -165,7 +166,7 @@ const LogIn = () => {
                 Continue with Google
               </div>
             </div>
-            <div className="flex justify-center w-full text-lightBlack py-2  mb-6 rounded font-medium hover:cursor-pointer">
+            <div className="demoSignIn-wrapper flex justify-center w-full text-lightBlack py-2  mb-6 rounded font-medium hover:cursor-pointer">
               <FaUserCircle className="text-2xl mr-3 text-blue" />
               <div className="twitter" onClick={demoUserLogin}>
                 Sign in as demo user
