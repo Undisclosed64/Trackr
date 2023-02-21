@@ -14,15 +14,47 @@ import ".././index.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
+import context from "react-bootstrap/esm/AccordionContext";
 const baseURL = "http://localhost:5000";
-const token = localStorage.getItem("token");
 
 const Root = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [sidebarWidth, setSidebarWidth] = useState("w-1/5");
-
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    // Check if the user is logged in
+    const checkIfUserIsLoggedIn = async () => {
+      try {
+        await axios
+          .get(`${baseURL}/server/verifyUser`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            console.log(response.data);
+            if (response.status === 200) {
+              setIsLoggedIn(true);
+            }
+          });
+      } catch (err) {
+        if (err.message === "Network Error") {
+          console.log(err);
+          redirectToLogin();
+          // setError(err.message);
+          // console.log(error);
+        } else {
+          // setError(err.response.data.message);
+          // console.log(error); // Add this line to check the state
+          redirectToLogin();
+        }
+      }
+    };
+    checkIfUserIsLoggedIn();
+  }, []);
 
   // Get the JWT token from the cookie in google login case
   const getTokenfromURL = () => {
@@ -56,35 +88,13 @@ const Root = () => {
   let activeStyle = {
     color: "#FF6400",
   };
-  console.log("isLoggedIn:" + isLoggedIn);
 
-  useEffect(() => {
-    console.log("isLoggedIn:" + isLoggedIn);
-
-    // Check if the user is logged in
-    const checkIfUserIsLoggedIn = async () => {
-      try {
-        await axios
-          .get(`${baseURL}/server/verifyUser`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then((response) => {
-            console.log(response.data);
-            if (response.status === 200) {
-              setIsLoggedIn(true);
-            }
-          });
-      } catch (err) {
-        if (err.message !== "Network Error") {
-          console.log(err);
-          navigate("/login");
-        }
-      }
-    };
-    checkIfUserIsLoggedIn();
-  }, []);
+  const redirectToLogin = async () => {
+    console.log(error);
+    if (isLoggedIn === false) {
+      navigate("/login");
+    }
+  };
 
   return (
     <>
@@ -167,7 +177,9 @@ const Root = () => {
                 <AiOutlineHome className="text-2xl text-inherit" />
                 <div
                   className={`lg:text-xl ${
-                    isExpanded ? "text-xl" : "text-base"
+                    isExpanded
+                      ? "text-xl transition-all duration-500 ease-out"
+                      : "text-base"
                   }`}
                 >
                   Home
@@ -190,7 +202,9 @@ const Root = () => {
                 <MdOutlineFeed className="text-2xl text-inherit" />
                 <div
                   className={`lg:text-xl ${
-                    isExpanded ? "text-xl" : "text-base"
+                    isExpanded
+                      ? "text-xl transition-all duration-500 ease-out"
+                      : "text-base"
                   }`}
                 >
                   Feed
@@ -212,7 +226,9 @@ const Root = () => {
                 <BsListTask className="text-2xl text-inherit" />
                 <div
                   className={`lg:text-xl ${
-                    isExpanded ? "text-xl" : "text-base"
+                    isExpanded
+                      ? "text-xl transition-all duration-500 ease-in"
+                      : "text-base"
                   }`}
                 >
                   Projects
