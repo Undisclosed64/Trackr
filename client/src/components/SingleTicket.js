@@ -1,12 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 import "../App.css";
-import Modal from "react-bootstrap/Modal";
 import TicketActivites from "./TicketActivities";
 import noteContext from "../context/noteContext";
 import { BsInfoSquare } from "react-icons/bs";
@@ -17,7 +12,7 @@ const SingleTicket = () => {
   const context = useContext(noteContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const baseURL = "http://localhost:5000";
+  const baseURL = process.env.REACT_APP_BASE_URL;
   const [error, setError] = useState(null);
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [ticket, setTicket] = useState("");
@@ -179,6 +174,7 @@ const SingleTicket = () => {
   };
 
   if (!ticket) return <div>Loading...</div>;
+
   return (
     <div onClick={closeModal}>
       {/* {deleteAlert ? (
