@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../App.css";
 import { FcGoogle } from "react-icons/fc";
 import { FaUserCircle } from "react-icons/fa";
@@ -9,6 +9,8 @@ import { TailSpin } from "react-loader-spinner";
 
 const LogIn = () => {
   const baseURL = "http://localhost:5000";
+  const { state } = useLocation();
+  const err = state?.myProp;
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -37,6 +39,7 @@ const LogIn = () => {
       const res = await axios.post(`${baseURL}/server/log-in`, data);
       console.log(res.data);
       const token = res.data.accessToken;
+      localStorage.removeItem("token"); // Remove old token from local storage
       localStorage.setItem("token", token);
       navigate("/home");
     } catch (err) {
