@@ -5,7 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
-  const baseURL = "http://localhost:5000";
+  const baseURL = process.env.REACT_APP_BASE_URL;
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
