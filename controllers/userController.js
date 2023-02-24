@@ -98,7 +98,7 @@ exports.logUser = async (req, res) => {
 
 exports.findUser = (req, res) => {
   const user = req.user;
-  console.log(user);
+  // console.log(user);
   try {
     User.findOne({ email: user.email }, (err, foundUser) => {
       if (!foundUser) return res.status(404).json("User not found!");
