@@ -22,6 +22,8 @@ const Home = () => {
 
   const projects = context.projects;
 
+  useEffect(() => {}, [context.user]);
+
   // get projects ids of the current user
   useEffect(() => {
     setTotalProjects(projects.length);
@@ -289,8 +291,8 @@ const Home = () => {
   return (
     <div className="">
       <section id="home" className="toggler my-20 fixed left-0 right-0">
-        <h1 className="text-xl msm:text-3xl font-medium text-primaryBlack px-10">
-          Welcome,{context.user.firstName}!
+        <h1 className="text-xl msm:text-3xl font-medium text-primaryBlack px-10 capitalize">
+          Welcome, {context.user.firstName}!
         </h1>
         <div className="inner-container overflow-auto h-screen py-10 pb-20 px-10">
           {/* container for boxes */}
