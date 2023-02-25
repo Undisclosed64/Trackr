@@ -6,6 +6,7 @@ import { FaUserCircle } from "react-icons/fa";
 import "../App.css";
 import UserProfile from "./UserProfile";
 import { CreateFormHandler } from "./CreateFormHandler";
+import user from "../assets/user.png";
 
 const Navbar = ({ sectionName }) => {
   const [showAddTicket, setShowAddTicket] = useState(false);
@@ -37,21 +38,26 @@ const Navbar = ({ sectionName }) => {
       )}
       <nav
         id="top-navbar"
-        className="navbar toggler flex justify-between items-center px-4 py-3.5 bg-brightWhite drop-shadow text-lightBlack3 
-        fixed top-0 right-0 left-0 z-10"
+        className="navbar toggler flex justify-between items-center px-10 py-3.5 bg-brightWhite drop-shadow
+         text-lightBlack3 
+        fixed top-0 right-0 left-0 z-10 md:py-2.5"
       >
         <div className="sectionName ml-4 font-medium lg:text-lg">
           {sectionName}
         </div>
-        <ul className="flex">
-          <li className="ml-2 msm:ml-5" onClick={displayCreateTicket}>
+        <ul className="flex gap-6">
+          <li className=" text-brightRed" onClick={displayCreateTicket}>
             <Link to="" className="text-lightBlack">
-              <IoMdAddCircle className="text-xl md:text-2xl" />
+              <IoMdAddCircle className="text-2xl md:text-3xl" />
             </Link>
           </li>
-          <li className="ml-2 msm:ml-5">
-            <Link to="/profile" className="text-lightBlack">
-              <FaUserCircle className="text-xl md:text-2xl" />
+          <li className="">
+            <Link to="/profile" className="">
+              <img
+                src={user}
+                alt="userIcon"
+                className="w-6 md:w-8 rounded-full"
+              />
             </Link>
           </li>
         </ul>
