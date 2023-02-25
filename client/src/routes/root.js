@@ -111,24 +111,6 @@ const Root = () => {
       >
         <div className="overlay-root hidden"></div>
 
-        {/* <div
-          className="header text-brightRed 
-        border-b px-2 py-1.5 md:py-2 mb-3 text-2xl flex justify-between"
-        >
-          <div className="brand items-center lg:pl-1 hidden">
-            <div className="logo-wrapper w-10 h-10 rounded-full bg-brightRed mr-2 p-1">
-              <IoLogoAmplify className="text-3xl text-brightWhite" />
-            </div>
-            <div className="brandName text-4xl hidden vlg:block vlg:font-bold">
-              trackr
-            </div>
-          </div>
-
-          <div className="hamburger-wrapper p-0.5" onClick={hideSidebar}>
-            <FiMenu className="text-veryLightGray" />
-          </div>
-        </div> */}
-
         <div
           className={`header border-b border-brightBlackHover py-1.5 flex lg:items-center px-4 gap-3 lg:justify-start
             ${isExpanded ? "items-start" : "justify-center"}`}
