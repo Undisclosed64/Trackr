@@ -17,8 +17,6 @@ const Feed = () => {
   const [reverseArr, setReverseArr] = useState([]);
   const baseURL = process.env.REACT_APP_BASE_URL;
 
-  console.log(projects);
-  console.log("hasProjects:" + context.hasProjects);
   //get the selected project
   useEffect(() => {
     axios
@@ -33,7 +31,6 @@ const Feed = () => {
 
   //get the activity stream of the first project
   useEffect(() => {
-    // console.log(projects[0].status);
     const firstProjectInfo = async () => {
       await projects;
       console.log(projects[0]._id);
@@ -44,7 +41,7 @@ const Feed = () => {
           setProject(res.data);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     };
     firstProjectInfo();
@@ -121,12 +118,7 @@ const Feed = () => {
           </select>
           ;
         </div>
-        <div className="scrollable-content overflow-auto h-screen px-4 md:px-20">
-          <input
-            type="text"
-            className="py-3 px-2 bg-brightWhite rounded-md drop-shadow w-full my-8 border text-veryLightGray tracking-tight"
-            placeholder="Share a quick thought and start a discussion"
-          />
+        <div className="scrollable-content overflow-auto h-screen px-4 md:px-20 mt-10">
           <div className="status-stream-wrapper flex gap-12 border-b-[1.5px]">
             <div
               className="activityStream pb-2 hover:cursor-pointer"
