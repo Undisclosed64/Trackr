@@ -8,11 +8,10 @@ const NoteState = (props) => {
   // const [isSessionExpired, setIsSessionExpired] = useState(false);
   const [projects, setProjects] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const baseURL = "http://localhost:5000";
+  const baseURL = process.env.REACT_APP_BASE_URL;
 
   //get the logged in user
   useEffect(() => {
-    // console.log("updated");
     axios
       .get(`${baseURL}/server/getUser`, {
         headers: {
