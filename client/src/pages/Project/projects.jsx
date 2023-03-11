@@ -8,7 +8,7 @@ import Loader from "../../components/Loader";
 import { useNavigate } from "react-router-dom";
 import Empty from "../../components/Empty";
 import { CreateFormHandler } from "../../components/CreateFormHandler";
-const baseURL = process.env.REACT_APP_BASE_URL;
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 const Projects = () => {
   const context = useContext(noteContext);

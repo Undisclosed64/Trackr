@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const SingleProjectTickets = ({ id }) => {
   const [tickets, setTickets] = useState([]);
-  const baseURL = process.env.REACT_APP_BASE_URL;
+  const baseURL = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
 
   //get tickets of the project

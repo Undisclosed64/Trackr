@@ -9,7 +9,7 @@ import noteContext from "../context/noteContext";
 import { TailSpin } from "react-loader-spinner";
 
 const LogIn = () => {
-  const baseURL = process.env.REACT_APP_BASE_URL;
+  const baseURL = import.meta.env.VITE_BASE_URL;
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -91,8 +91,8 @@ const LogIn = () => {
     }
   };
   return (
-    <section className="loginPage flex flex-row justify-between ">
-      <div className="section-left hidden lg:block lg:w-2/5  h-screen bg-loginImg bg-bottom">
+    <section className="loginPage flex flex-row justify-between bg-blue-500">
+      <div className="section-left hidden lg:block lg:w-2/5 h-screen bg-loginImg bg-bottom">
         <img
           src="https://images.unsplash.com/photo-1669279687951-0da28b1ce769?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=60"
           alt=""
@@ -158,15 +158,15 @@ const LogIn = () => {
             >
             </button> */}
           </div>
-          <div className="or text-lightBlack text-center text-lg my-4">Or</div>
+          <div className="or text-lightBlack text-center my-4">Or</div>
           <div className="social-handles">
-            <div className="google-wrapper flex justify-center w-full text-lightBlack py-2  mb-6 rounded font-medium hover:cursor-pointer">
+            <div className="google-wrapper flex justify-center w-full text-lightBlack py-2  mb-6 rounded  hover:cursor-pointer">
               <FcGoogle className="text-2xl mr-3" />
               <div className="google" onClick={handleGoogleLogin}>
                 Continue with Google
               </div>
             </div>
-            <div className="demoSignIn-wrapper flex justify-center w-full text-lightBlack py-2  mb-6 rounded font-medium hover:cursor-pointer">
+            <div className="demoSignIn-wrapper flex justify-center w-full text-lightBlack py-2  mb-6 rounded hover:cursor-pointer">
               <FaUserCircle className="text-2xl mr-3 text-blue" />
               <div className="twitter" onClick={demoUserLogin}>
                 Sign in as demo user

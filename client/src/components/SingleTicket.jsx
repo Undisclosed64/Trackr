@@ -12,7 +12,7 @@ const SingleTicket = () => {
   const context = useContext(noteContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const baseURL = process.env.REACT_APP_BASE_URL;
+  const baseURL = import.meta.env.VITE_BASE_URL;
   const [error, setError] = useState(null);
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [ticket, setTicket] = useState("");

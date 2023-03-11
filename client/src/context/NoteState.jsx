@@ -8,7 +8,7 @@ const NoteState = (props) => {
   // const [isSessionExpired, setIsSessionExpired] = useState(false);
   const [projects, setProjects] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const baseURL = process.env.REACT_APP_BASE_URL;
+  const baseURL = import.meta.env.REACT_APP_BASE_URL;
 
   //get the logged in user
   useEffect(() => {

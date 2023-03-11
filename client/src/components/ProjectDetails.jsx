@@ -28,7 +28,7 @@ const ProjectDetails = () => {
   const [close, setClose] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const baseURL = process.env.REACT_APP_BASE_URL;
+  const baseURL = import.meta.env.VITE_BASE_URL;
   const token = localStorage.getItem("token");
   const [projectNotFound, setProjectNotFound] = useState(false);
   const [tickets, setTickets] = useState(false);

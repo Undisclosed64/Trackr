@@ -1,4 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { useEffect } from "react";
 import NoteState from "./context/NoteState";
 import Root from "./routes/root";
 import LogIn from "./components/LogIn";

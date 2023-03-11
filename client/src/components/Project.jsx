@@ -19,7 +19,7 @@ const CreateProject = ({ projectCreateForm, onCancel }) => {
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const baseURL = process.env.REACT_APP_BASE_URL;
+  const baseURL = import.meta.env.VITE_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

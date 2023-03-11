@@ -2,7 +2,9 @@ import { useState, useContext } from "react";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import noteContext from "../context/noteContext";
 import { useNavigate } from "react-router-dom";
-<script src="https://accounts.google.com/gsi/client" async defer></script>;
+{
+  /* <script src="https://accounts.google.com/gsi/client" async defer></script>; */
+}
 
 const LogOut = () => {
   const [success, setSuccess] = useState(false);

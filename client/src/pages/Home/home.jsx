@@ -10,7 +10,7 @@ import "chart.js/auto";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Home = () => {
-  const baseURL = process.env.REACT_APP_BASE_URL;
+  const baseURL = import.meta.env.VITE_BASE_URL;
   const [ids, setIds] = useState([]);
   const [totalProjects, setTotalProjects] = useState(0);
   const [activeProjects, setActiveProjects] = useState(0);

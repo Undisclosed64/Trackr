@@ -15,7 +15,7 @@ const Feed = () => {
   const [showStatus, setShowStatus] = useState(false);
   const [streamActive, setStreamActive] = useState(true);
   const [reverseArr, setReverseArr] = useState([]);
-  const baseURL = process.env.REACT_APP_BASE_URL;
+  const baseURL = import.meta.env.VITE_BASE_URL;
 
   //get the selected project
   useEffect(() => {
@@ -85,13 +85,6 @@ const Feed = () => {
   if (activityStreamBtn && !showStatus) {
     activityStreamBtn.classList.add("addUnderline");
   }
-  // if (context.hasProjects) {
-  //   console.log("loader..");
-  //   return <Loader />;
-  // } else if (context.hasProjects === false) {
-  //   console.log("no projects..");
-  //   return <Empty />;
-  // }
 
   // if (!project) return <Loader />;
   if (!project) return <Empty />;

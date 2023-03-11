@@ -11,7 +11,7 @@ const Ticket = ({ ticketCreateForm, onCancel }) => {
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
-  const baseURL = process.env.REACT_APP_BASE_URL;
+  const baseURL = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     project: "",

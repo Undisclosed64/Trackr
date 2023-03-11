@@ -1,18 +1,19 @@
 import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import noteContext from "../context/noteContext";
-import Sidebar from "./Sidebar";
+import noteContext from "../../context/noteContext";
 import { IoIosArrowDropup } from "react-icons/io";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { HiOutlineTicket } from "react-icons/hi";
 import { React } from "react";
-import Navbar from "./Navbar";
+import Loader from "../../components/Loader";
+import Empty from "../../components/Empty";
+import { CreateFormHandler } from "../../components/CreateFormHandler";
 
-const Tickets = ({ navbar }) => {
+const Tickets = () => {
   const [ids, setIds] = useState([]);
   const [bugs, setBugs] = useState([]);
-  const baseURL = process.env.REACT_APP_BASE_URL;
+  const baseURL = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
   const context = useContext(noteContext);
   const [dropdown, setDropDown] = useState(false);
@@ -29,13 +30,26 @@ const Tickets = ({ navbar }) => {
 
   //get tickets of all projects
   useEffect(() => {
-    getAllTickets();
+    if (ids.length === 0) {
+      return;
+    }
+    try {
+      axios
+        .get(`${baseURL}/server/bugs`, {
+          params: {
+            ids: ids,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setBugs(response.data);
+        });
+    } catch (err) {
+      console.log(err);
+    }
   }, [ids]);
 
-  useEffect(() => {
-    setCreateTicket(false);
-  }, [createTicket]);
-
+  //all tickets
   const getAllTickets = async () => {
     try {
       await axios
@@ -126,20 +140,37 @@ const Tickets = ({ navbar }) => {
   const closeDropDown = () => {
     !dropdown ? setDropDown(true) : setDropDown(false);
   };
-  if (!projects) return <div>Loading..</div>;
+  const handleCancel = () => {
+    setCreateTicket(false);
+    //remove overflow effects
+    const overlayRoot = document.querySelector(".overlay-root");
+    overlayRoot.classList.remove("overlay-container");
+    const sidebar = document.querySelector("#sidebar");
+    sidebar.classList.remove("hideOverflow");
+    const navbar = document.querySelector("#top-navbar");
+    navbar.classList.remove("removeZindex");
+  };
+
+  // if (!bugs.length > 0) return <Loader />;
+  if (!bugs.length > 0) return <Empty name="ticket" />;
 
   return (
     <div>
       {createTicket ? (
+        <CreateFormHandler
+          ticketCreateForm={createTicket}
+          onCancel={handleCancel}
+        />
+      ) : (
+        ""
+      )}
+      {/* {createTicket ? (
         <Navbar sectionName="Tickets" isDisplayed={createTicket} />
       ) : (
         <Navbar sectionName="Tickets" />
       )}
-      <Sidebar />
-      <section
-        id="tickets"
-        className="toggler fixed py-20 top-0 left-0 right-0 "
-      >
+      <Sidebar /> */}
+      <section id="tickets">
         <div
           className="filter-wrapper flex justify-center items-center msm:justify-between bg-brightWhite drop-shadow rounded-md 
           mb-6 gap-4 mx-2 py-2 px-1 md:mx-4 md:py-4"
