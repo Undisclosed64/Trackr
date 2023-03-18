@@ -1,14 +1,13 @@
 import NoteContext from "./noteContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const NoteState = (props) => {
   const [user, setUser] = useState(null);
   // const [isSessionExpired, setIsSessionExpired] = useState(false);
   const [projects, setProjects] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const baseURL = import.meta.env.REACT_APP_BASE_URL;
+  const baseURL = import.meta.env.VITE_BASE_URL;
 
   //get the logged in user
   useEffect(() => {
