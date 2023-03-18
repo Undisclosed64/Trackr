@@ -74,7 +74,7 @@ exports.findBugsByProjects = (req, res) => {
         //filter tickets by open status and project ids of the ids array
         {
           $match: {
-            $and: [{ project: { $in: objectIdArray } }, { status: "Open" }],
+            $and: [{ project: { $in: objectIdArray } }, { status: "open" }],
           },
         },
 
