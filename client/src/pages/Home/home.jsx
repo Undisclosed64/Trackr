@@ -103,7 +103,7 @@ const Home = () => {
           },
         })
         .then((response) => {
-          //console.log(response.data);
+          console.log(response.data);
           let count = 0;
           for (let i = 0; i < response.data.length; i++) {
             count = count + response.data[i].count;
@@ -292,12 +292,12 @@ const Home = () => {
     <div className="">
       <section id="home" className="toggler my-20 fixed left-0 right-0">
         <h1 className="text-xl msm:text-3xl font-medium text-primaryBlack px-10 capitalize">
-          Welcome, {context.user.firstName}!
+          Welcome, {context.user.firstName} {context.user.lastName}!
         </h1>
         <div className="inner-container overflow-auto h-screen py-10 pb-20 px-10">
           {/* container for boxes */}
           <div className="information-boxes my-4 grid gap-8 msm:grid-cols-2 vlg:grid-cols-4 mb-6">
-            <div className="box-wrapper bg-[url('svg.png')] bg-cover bg-sky-500/30 bg-no-repeat bg-center px-2 py-8 flex flex-col items-center rounded text-white ">
+            <div className="box-wrapper bg-green-500 px-2 py-8 flex flex-col items-center rounded text-white ">
               <div className="text-3xl font-bold pb-2">{activeProjects}</div>
               <span className="text-lg">Active Projects</span>
             </div>
@@ -317,20 +317,6 @@ const Home = () => {
               <span className="text-lg">Unassigned Tickets</span>
             </div>
           </div>
-
-          {/* <div className="chart-container my-14 msm:px-6 flex flex-col msm:flex-row msm:w-1/2 msm:gap-8">
-            <Doughnut
-              data={ticketData}
-              className="bg-brightWhite  rounded shadow-md p-2 msm:w-1/5 mb-4 msm:mb-0"
-            />
-            <Pie
-              data={projectData}
-              className="bg-brightWhite rounded shadow-md msm:w-1/5 p-2 "
-            />
-          </div> */}
-          {/* <div className="chart-wrapper rounded shadow-md p-2 msm:p-4 ">
-              <Pie data={projectData} className="" options={options2} />
-            </div> */}
           <div className="chart-container my-16 grid gap-8 msm:grid-cols-2 justify-center">
             <div
               className="chart-wrapper  p-2 msm:p-4 bg-gradient-to-b from-white to-gray-200 shadow-md rounded-lg border"
