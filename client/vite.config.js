@@ -9,5 +9,5 @@ module.exports = defineConfig({
       postcss: require("./postcss.config.js"),
     },
   },
-  base: "./",
+  base: "/",
 });
