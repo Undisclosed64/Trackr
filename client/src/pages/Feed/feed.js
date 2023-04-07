@@ -94,7 +94,7 @@ const Feed = () => {
   // }
 
   // if (!project) return <Loader />;
-  if (!project) return <Empty />;
+  if (!project) return <Empty name="project" />;
 
   return (
     <div>
