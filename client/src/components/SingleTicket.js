@@ -217,7 +217,7 @@ const SingleTicket = () => {
           {error ? <ActionMsg error={error} /> : " "}
           <div className="name-wrapper">
             <input
-              className="text-xl font-medium bg-transparent w-full border-none focus:bg-brightWhite mb-2"
+              className="text-xl font-medium bg-transparent w-full border-none mb-2"
               type="text"
               name="title"
               onKeyDown={onKeyDown}
@@ -249,124 +249,125 @@ const SingleTicket = () => {
                 ""
               )}
             </div>
-
-            <div className="status-wrapper shadow bg-brightWhite mb-4 px-3 py-3">
-              <div className="text-lg font-medium mb-2 flex items-center capitalize">
-                <IoIosArrowDropup
-                  className="text-xl text-brightOrange mr-2"
-                  onClick={closeDropdown}
-                />
-                Current status
-              </div>
-              <select
-                name="status"
-                className="border-none w-full mb-2 msm:px-6"
-                onKeyDown={onKeyDown}
-                onBlur={onBlur}
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-              >
-                <option value="open">Open</option>
-                <option value="in-progress">In-progress</option>
-                <option value="to be tested">To be tested</option>
-                <option value="closed">Closed</option>
-              </select>
-            </div>
-            <div className="description-wrapper mb-4 bg-brightWhite px-3 py-3 shadow">
-              <div className="text-lg font-medium mb-2 flex items-center">
-                <IoIosArrowDropup
-                  className="text-xl text-brightOrange mr-2"
-                  onClick={closeDropdown}
-                />
-                Description
-              </div>
-              {!close ? (
-                <input
+            <div className="details-wrapper bg-brightWhite px-2 py-4 border">
+              <div className="status-wrapper border-b-[1px]  bg-brightWhite mb-4 px-3 py-3">
+                <div className="text-lg font-medium mb-2 flex items-center capitalize">
+                  <IoIosArrowDropup
+                    className="text-xl text-brightOrange mr-2"
+                    onClick={closeDropdown}
+                  />
+                  Current status
+                </div>
+                <select
+                  name="status"
                   className="border-none w-full pl-0 msm:px-6"
-                  type="text"
-                  name="description"
                   onKeyDown={onKeyDown}
                   onBlur={onBlur}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              ) : (
-                ""
-              )}
-            </div>
-            <div className="bug-info-wrapper bg-brightWhite px-3 py-2 mb-4">
-              <div className="capitalize text-lg font-medium mb-3 flex items-center">
-                <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
-                ticket information
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                >
+                  <option value="open">Open</option>
+                  <option value="in-progress">In-progress</option>
+                  <option value="to be tested">To be tested</option>
+                  <option value="closed">Closed</option>
+                </select>
               </div>
-              <div className="assigned-warpper mb-3 border-b msm:mx-6">
-                <div className="pb-2 text-lightGray">Assigned to </div>
-                <div className="assigned-wrapper flex items-center">
-                  <FaUserCircle className="text-2xl text-brightOrange" />
+              <div className="description-wrapper mb-4 bg-brightWhite px-3 py-3  border-b-[1px]">
+                <div className="text-lg font-medium mb-2 flex items-center">
+                  <IoIosArrowDropup
+                    className="text-xl text-brightOrange mr-2"
+                    onClick={closeDropdown}
+                  />
+                  Description
+                </div>
+                {!close ? (
                   <input
+                    className="border-none w-full pl-0 msm:px-6"
                     type="text"
-                    className="border-none font-medium"
-                    name="assignedDev"
+                    name="description"
                     onKeyDown={onKeyDown}
                     onBlur={onBlur}
-                    value={assignedDev}
-                    onChange={(e) => setAssignedDev(e.target.value)}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                   />
+                ) : (
+                  ""
+                )}
+              </div>
+              <div className="bug-info-wrapper bg-brightWhite px-3 py-2 mb-4">
+                <div className="capitalize text-lg font-medium mb-3 flex items-center">
+                  <IoIosArrowDropup className="text-xl text-brightOrange mr-2" />
+                  ticket information
                 </div>
-              </div>
-              <div className="dueDate-wrapper mb-3 border-b py-2 msm:mx-6">
-                <div className="capitalize pb-2 text-lightGray">due date</div>
-                {new Date(dueDate).toDateString()}{" "}
-              </div>
-              <div className="severity-wrapper border-b mb-3 msm:mx-6">
-                <div className="pb-2 text-lightGray">Severity</div>
-                <select
-                  name="severity"
-                  className="border-none w-full font-medium pl-0"
-                  onKeyDown={onKeyDown}
-                  onBlur={onBlur}
-                  value={severity}
-                  onChange={(e) => setSeverity(e.target.value)}
-                >
-                  <option value="critical">Critical</option>
-                  <option value="major">Major</option>
-                  <option value="minor">Minor</option>
-                </select>
-              </div>
-              <div className="type-wrapper border-b mb-3 msm:mx-6">
-                <div className="pb-2 text-lightGray capitalize">
-                  ticket type
+                <div className="assigned-warpper mb-3 border-b msm:mx-6">
+                  <div className="pb-2 text-lightGray">Assigned to </div>
+                  <div className="assigned-wrapper flex items-center">
+                    <FaUserCircle className="text-2xl text-brightOrange" />
+                    <input
+                      type="text"
+                      className="border-none font-medium"
+                      name="assignedDev"
+                      onKeyDown={onKeyDown}
+                      onBlur={onBlur}
+                      value={assignedDev}
+                      onChange={(e) => setAssignedDev(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="dueDate-wrapper mb-3 border-b py-2 msm:mx-6">
+                  <div className="capitalize pb-2 text-lightGray">due date</div>
+                  {new Date(dueDate).toDateString()}{" "}
+                </div>
+                <div className="severity-wrapper border-b mb-3 msm:mx-6">
+                  <div className="pb-2 text-lightGray">Severity</div>
+                  <select
+                    name="severity"
+                    className="border-none w-full font-medium pl-0"
+                    onKeyDown={onKeyDown}
+                    onBlur={onBlur}
+                    value={severity}
+                    onChange={(e) => setSeverity(e.target.value)}
+                  >
+                    <option value="critical">Critical</option>
+                    <option value="major">Major</option>
+                    <option value="minor">Minor</option>
+                  </select>
+                </div>
+                <div className="type-wrapper border-b mb-3 msm:mx-6">
+                  <div className="pb-2 text-lightGray capitalize">
+                    ticket type
+                  </div>
+
+                  <select
+                    className="border-none w-full font-medium pl-0"
+                    name="bugType"
+                    onKeyDown={onKeyDown}
+                    onBlur={onBlur}
+                    value={bugType}
+                    onChange={(e) => setBugType(e.target.value)}
+                  >
+                    <option value="ui">UI</option>
+                    <option value="maintenance">Maintenance</option>
+                    <option value="runtime">Runtime</option>
+                    <option value="new feature">New Development</option>
+                  </select>
                 </div>
 
-                <select
-                  className="border-none w-full font-medium pl-0"
-                  name="bugType"
-                  onKeyDown={onKeyDown}
-                  onBlur={onBlur}
-                  value={bugType}
-                  onChange={(e) => setBugType(e.target.value)}
-                >
-                  <option value="ui">UI</option>
-                  <option value="maintenance">Maintenance</option>
-                  <option value="runtime">Runtime</option>
-                  <option value="new feature">New Development</option>
-                </select>
-              </div>
+                <div className="flag-wrapper border-b mb-3 msm:mx-6">
+                  <div className="pb-2 text-lightGray capitalize">Flag</div>
 
-              <div className="flag-wrapper border-b mb-3 msm:mx-6">
-                <div className="pb-2 text-lightGray capitalize">Flag</div>
-
-                <select
-                  name="flag"
-                  className="border-none w-full font-medium pl-0"
-                  onKeyDown={onKeyDown}
-                  onBlur={onBlur}
-                  value={flag}
-                  onChange={(e) => setFlag(e.target.value)}
-                >
-                  <option value="internal">Internal</option>
-                  <option value="external">External</option>
-                </select>
+                  <select
+                    name="flag"
+                    className="border-none w-full font-medium pl-0"
+                    onKeyDown={onKeyDown}
+                    onBlur={onBlur}
+                    value={flag}
+                    onChange={(e) => setFlag(e.target.value)}
+                  >
+                    <option value="internal">Internal</option>
+                    <option value="external">External</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
