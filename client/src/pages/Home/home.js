@@ -292,12 +292,12 @@ const Home = () => {
     <div className="">
       <section id="home" className="toggler my-20 fixed left-0 right-0">
         <h1 className="text-xl msm:text-3xl font-medium text-primaryBlack px-10 capitalize">
-          Welcome, {context.user.firstName}!
+          Welcome, {context.user.firstName} {context.user.lastName}!
         </h1>
         <div className="inner-container overflow-auto h-screen py-10 pb-20 px-10">
           {/* container for boxes */}
           <div className="information-boxes my-4 grid gap-8 msm:grid-cols-2 vlg:grid-cols-4 mb-6">
-            <div className="box-wrapper bg-[url('svg.png')] bg-cover bg-sky-500/30 bg-no-repeat bg-center px-2 py-8 flex flex-col items-center rounded text-white ">
+            <div className="box-wrapper  bg-green-500 px-2 py-8 flex flex-col items-center rounded text-white ">
               <div className="text-3xl font-bold pb-2">{activeProjects}</div>
               <span className="text-lg">Active Projects</span>
             </div>
