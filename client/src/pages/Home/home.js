@@ -6,6 +6,7 @@ import Loader from "../../components/Loader";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut, Pie, Bar } from "react-chartjs-2";
 import "chart.js/auto";
+import Cookies from "js-cookie";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -20,7 +21,21 @@ const Home = () => {
   const [unassignedTickets, setUnassignedTickets] = useState(0);
   const context = useContext(noteContext);
 
+  // Get the value of the "accessToken" cookie
+  const accessToken = Cookies.get("token");
+  // console.log("google auth token:" + accessToken);
   const projects = context.projects;
+
+  const saveToken = async () => {
+    const token = accessToken;
+    localStorage.removeItem("token"); // Remove old token from local storage
+    localStorage.setItem("token", token);
+  };
+
+  if (accessToken) {
+    console.log("call savetoken");
+    saveToken();
+  }
 
   useEffect(() => {}, [context.user]);
 
