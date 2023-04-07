@@ -23,7 +23,7 @@ const Home = () => {
 
   // Get the value of the "accessToken" cookie
   const accessToken = Cookies.get("token");
-  // console.log("google auth token:" + accessToken);
+  console.log("google auth token:" + accessToken);
   const projects = context.projects;
 
   const saveToken = async () => {
@@ -33,7 +33,7 @@ const Home = () => {
   };
 
   if (accessToken) {
-    console.log("call savetoken");
+    console.log("save the token");
     saveToken();
   }
 
