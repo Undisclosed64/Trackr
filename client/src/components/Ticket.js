@@ -25,27 +25,15 @@ const Ticket = ({ ticketCreateForm, onCancel }) => {
     severity: undefined,
     createdOn: "",
   });
-  const [ticket, setTicket] = useState();
   const projects = context.projects;
   const editorRef = useRef(null);
+  const [ticket, setTicket] = useState();
 
-  // useEffect(() => {
-
-  //   axios
-  //     .get(`${baseURL}/server/projects`, {
-  //       params: {
-  //         email: email,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       setProjects(response.data.projects);
-  //     });
-  // }, []);
+  useEffect(() => {}, [ticket]);
 
   const handleSubmit = async (e) => {
+    // console.log("submit called");
     e.preventDefault();
-    console.log(formData);
 
     if (!formData.project) {
       setError(`Please select a project`);
@@ -57,7 +45,9 @@ const Ticket = ({ ticketCreateForm, onCancel }) => {
       setTimeout(() => {
         setError(null);
       }, 2000);
-    } else
+    } else {
+      // console.log("proceeding to make post request");
+      //no error, proceed to post request
       try {
         const res = await axios.post(`${baseURL}/server/bugs`, formData, {
           headers: {
@@ -66,11 +56,15 @@ const Ticket = ({ ticketCreateForm, onCancel }) => {
         });
         console.log(res.data);
         setTicket(res.data);
-        // console.log(ticket._id);
-        navigate(`/tickets/${ticket._id}`, {
-          state: { ticketId: `${ticket._id}` },
+        // navigate(`/tickets/${ticket._id}`, {
+        //   state: { ticketId: `${ticket._id}` },
+        // });
+        navigate(`/tickets/${res.data._id}`, {
+          state: { ticketId: `${res.data._id}` },
         });
+        cancel(); //to remove the form and the layout effects
       } catch (err) {
+        console.log(err);
         // console.log(err.response.data.message);
         if (err.response) {
           // console.log(err.response.data);
@@ -92,6 +86,7 @@ const Ticket = ({ ticketCreateForm, onCancel }) => {
           }, 2000);
         }
       }
+    }
   };
   const cancel = () => {
     ticketCreateForm(false);
@@ -123,7 +118,7 @@ const Ticket = ({ ticketCreateForm, onCancel }) => {
       ) : (
         " "
       )}
-      <form className="" onSubmit={handleSubmit}>
+      <form className="">
         <div className="formContent px-4">
           <div className="projects-wrapper my-4">
             <label className="font-medium mb-2" htmlFor="project">
@@ -305,6 +300,7 @@ const Ticket = ({ ticketCreateForm, onCancel }) => {
             className="bg-brightOrange text-brightWhite rounded-full border-t
         py-1 px-8 hover:bg-orange-400 mr-6"
             type="submit"
+            onClick={handleSubmit}
           >
             Add
           </button>
