@@ -18,7 +18,6 @@ const Tickets = () => {
   const context = useContext(noteContext);
   const [dropdown, setDropDown] = useState(false);
   const [createTicket, setCreateTicket] = useState(false);
-  const projects = context.projects;
 
   //get projects id
   useEffect(() => {
@@ -41,13 +40,13 @@ const Tickets = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           setBugs(response.data);
         });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
-  }, [ids]);
+  }, [ids, baseURL]);
 
   //all tickets
   const getAllTickets = async () => {
@@ -59,11 +58,11 @@ const Tickets = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           setBugs(response.data);
         });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
   //get open tickets
@@ -77,7 +76,7 @@ const Tickets = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           setBugs(response.data);
         });
     } catch (err) {
@@ -95,7 +94,7 @@ const Tickets = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           setBugs(response.data);
         });
     } catch (err) {
@@ -164,13 +163,11 @@ const Tickets = () => {
       ) : (
         ""
       )}
-      {/* {createTicket ? (
-        <Navbar sectionName="Tickets" isDisplayed={createTicket} />
-      ) : (
-        <Navbar sectionName="Tickets" />
-      )}
-      <Sidebar /> */}
-      <section id="tickets">
+
+      <section
+        id="tickets"
+        className="toggler fixed py-20 top-0 left-0 right-0 z-10000"
+      >
         <div
           className="filter-wrapper flex justify-center items-center msm:justify-between bg-brightWhite drop-shadow rounded-md 
           mb-6 gap-4 mx-2 py-2 px-1 md:mx-4 md:py-4"
