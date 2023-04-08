@@ -90,7 +90,10 @@ app.get(
     });
 
     // res.cookie("accessToken", accessToken, { httpOnly: true });
-    res.cookie("token", accessToken);
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: true,
+    });
 
     // Successful authentication, redirect home.
     res.redirect(`https://trackr.cyclic.app/home`);
